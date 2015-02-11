@@ -11,6 +11,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
+import javax.swing.JLabel;
 
 public class Menu extends JFrame {
 
@@ -28,7 +29,8 @@ public class Menu extends JFrame {
 					Menu frame = new Menu();
 					frame.setVisible(true);
 					frame.setLocationRelativeTo(null);
-				} catch (Exception e) {
+					frame.setTitle("Map Generator");
+					} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
@@ -47,22 +49,32 @@ public class Menu extends JFrame {
 		contentPane.setLayout(null);
 		
 		JButton newRandom = new JButton("New Random");
-		newRandom.setBounds(6, 243, 117, 29);
+		newRandom.setBounds(173, 243, 117, 29);
 		contentPane.add(newRandom);
 		
 		
 		txtWidth = new JTextField();
-		txtWidth.setText("Width");
-		txtWidth.setBounds(135, 203, 134, 28);
+		txtWidth.setText("600");
+		txtWidth.setBounds(50, 203, 134, 28);
 		contentPane.add(txtWidth);
 		txtWidth.setColumns(10);
 		
 		
 		txtHeight = new JTextField();
-		txtHeight.setText("Height");
-		txtHeight.setBounds(281, 203, 134, 28);
+		txtHeight.setText("600");
+		txtHeight.setBounds(270, 203, 134, 28);
 		contentPane.add(txtHeight);
 		txtHeight.setColumns(10);
+		
+		JLabel lblWidth = new JLabel("Width:");
+		lblWidth.setBounds(50, 175, 61, 16);
+		contentPane.add(lblWidth);
+		
+		JLabel lblHeight = new JLabel("Height:");
+		lblHeight.setBounds(270, 175, 61, 16);
+		contentPane.add(lblHeight);
+		
+		
 		newRandom.addActionListener(new ActionListener() {
 
 			@Override
