@@ -1,6 +1,6 @@
 package Agent;
 
-public class SurveillanceAgent {
+public class SurveillanceAgent extends Agent{
 	public SurveillanceAgent(){
 		
 	}

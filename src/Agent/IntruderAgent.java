@@ -1,6 +1,6 @@
 package Agent;
 
-public class IntruderAgent {
+public class IntruderAgent extends Agent{
 	
 	private int sprintspeed;
 	private int maxSprintTurn;
