@@ -31,6 +31,7 @@ public class Map extends JFrame {
 	 * Create the frame.
 	 */
 	public Map(int width, int height) {
+		
 		JFrame frame = new JFrame("Multi-Agent Surveillance");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setBounds(100, 100, width, height);
