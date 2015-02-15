@@ -1,6 +1,10 @@
 package GameObjects;
+import java.awt.Point;
+import java.awt.geom.Point2D;
+
+
 
 public class InanimateObjects {
-	double x;
-	double y;
+	Point2D x;
+	Point2D y;
 }

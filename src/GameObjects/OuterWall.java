@@ -1,10 +1,11 @@
 package GameObjects;
 
+import java.awt.Point;
+
 public class OuterWall extends InanimateObjects{
 
-	public OuterWall(double topLeft, double bottomRight) {
+	public OuterWall(Point topLeft, Point bottomRight) {
 		x = topLeft;
 		y = bottomRight;
 	}
-
 }

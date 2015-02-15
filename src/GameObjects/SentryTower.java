@@ -1,9 +1,11 @@
 package GameObjects;
 
+import java.awt.Point;
+
 
 public class SentryTower extends InanimateObjects{
 
-	public SentryTower(double topLeft, double bottomRight) {
+	public SentryTower(Point topLeft, Point bottomRight) {
 		x = topLeft;
 		y = bottomRight;
 	}

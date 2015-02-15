@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.Shape;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -13,8 +14,6 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
-import GameObjects.Drawable;
 import GameObjects.GoalZone;
 import GameObjects.SentryTower;
 
@@ -23,13 +22,12 @@ public class Map extends JFrame {
 	private JPanel contentPane;
 	private JFrame frame;
 	
-	List<Drawable> gameObjects;
 	
-	private Point2D.Double gzx = new Point2D.Double(250, 5);
-	private Point2D.Double gzy = new Point2D.Double(350, 50);
+	private Point gzx = new Point(250, 5);
+	private Point gzy = new Point(350, 50);
 	
-	private Point2D.Double stx = new Point2D.Double(100, 100);
-	private Point2D.Double sty = new Point2D.Double(130, 130);
+	private Point stx = new Point(100, 100);
+	private Point sty = new Point(130, 130);
 
 	/**
 	 * Create the frame.
@@ -37,7 +35,7 @@ public class Map extends JFrame {
 	public Map(int width, int height) {
 	
 		
-		gameObjects = new ArrayList<Drawable>();
+		
 		
 		
 		frame = new JFrame("Multi-Agent Surveillance");
@@ -51,14 +49,8 @@ public class Map extends JFrame {
 		frame.setVisible(true);
 		
 		
-		GoalZone gz = new GoalZone(gzx, gzy);
-		SentryTower st = new SentryTower(stx, sty);
-		
-		gameObjects.add(gz);
-		gameObjects.add(st);
-		
-		frame.add(st);
-		frame.add(gz);
+		//frame.add();
+
 		
 		repaint();
 	
