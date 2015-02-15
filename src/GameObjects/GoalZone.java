@@ -4,9 +4,9 @@ import java.awt.Point;
 
 public class GoalZone extends InanimateObjects{
 
-	public GoalZone(Point topLeft, Point bottomRight) {
-		x = topLeft;
-		y = bottomRight;
+	public GoalZone(Point x, Point y) {
+		topLeft = x;
+		bottomRight = y;
 	}
 
 }

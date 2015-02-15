@@ -5,6 +5,6 @@ import java.awt.geom.Point2D;
 
 
 public class InanimateObjects {
-	Point2D x;
-	Point2D y;
+	Point2D topLeft;
+	Point2D bottomRight;
 }

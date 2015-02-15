@@ -4,11 +4,14 @@ import java.awt.geom.Point2D;
 
 public class Structure extends InanimateObjects{
 
-	public Structure(Point2D topLeft, Point2D bottomRight) {
-		x = topLeft;
-		y = bottomRight;
+	public Structure(Point2D x, Point2D y) {
+		topLeft = x;
+		bottomRight = y;
 	}
 	public boolean isInside(Point2D n){
-		return n.getX() < x.getX() && n.getX() > y.getX() && n.getY() < x.getY() && n.getY() > y.getY();
+		return n.getX() < topLeft.getX() && n.getX() > bottomRight.getX() && n.getY() < topLeft.getY() && n.getY() > bottomRight.getY();
+	}
+	public Point2D getTopLeft(){
+		return topLeft;
 	}
 }

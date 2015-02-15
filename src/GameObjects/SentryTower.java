@@ -5,9 +5,9 @@ import java.awt.Point;
 
 public class SentryTower extends InanimateObjects{
 
-	public SentryTower(Point topLeft, Point bottomRight) {
-		x = topLeft;
-		y = bottomRight;
+	public SentryTower(Point x, Point y) {
+		topLeft = x;
+		bottomRight = y;
 	}
 
 
