@@ -7,10 +7,12 @@ import java.util.ArrayList;
 
 
 
+
+import GameObjects.InanimateObjects;
 import GameObjects.Structure;
 
 public class mapGenerator {
-	ArrayList<Structure> map = new ArrayList<Structure>();
+	ArrayList<InanimateObjects> map = new ArrayList<InanimateObjects>();
 	int structureAmount = 10;
 	int height;
 	int width;
@@ -53,7 +55,7 @@ public class mapGenerator {
 		}
 		return answer;
 	}
-	public ArrayList<Structure> getMap(){
+	public ArrayList<InanimateObjects> getMap(){
 		return map;
 	}
 }
