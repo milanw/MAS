@@ -15,9 +15,11 @@ import GameObjects.SentryTower;
 
 
 class GUI extends JComponent {
-	private static final int FRAME_WIDTH = 800; 
-	private static final int FRAME_HEIGHT = 600; 
+	private static final int FRAME_WIDTH = 1024; 
+	private static final int FRAME_HEIGHT = 768; 
 	private static final Color COLOR_GRASS = new Color(5, 128, 60);
+	private static final Color COLOR_GOALZONE = Color.RED; 
+	private static final Color COLOR_SENTRY = Color.BLACK; 
 	
 	private int mapWidth; 
 	private int mapHeight;
@@ -30,19 +32,16 @@ class GUI extends JComponent {
 		
 	}
 
-	public void paint(Graphics g) {
+	public void paintComponent(Graphics g) {
 		g.setColor(COLOR_GRASS);
-        g.fillRect (10, 10, mapWidth, mapHeight);    
+        g.fillRect (0, 0, mapWidth, mapHeight);    
         
         for (InanimateObjects s : map) {
-        	if (s instanceof GoalZone) {
-        		g.setColor(Color.RED);    		
-        		
-        	}
-        	if (s instanceof SentryTower) {
-        		g.setColor(Color.BLACK);    		
-        		
-        	}
+        	if (s instanceof GoalZone) 
+        		g.setColor(COLOR_GOALZONE); 
+        	
+        	if (s instanceof SentryTower) 
+        		g.setColor(COLOR_SENTRY);  
         	
         	double width = s.getBottomRight().getY() - s.getTopLeft().getY(); 
         	double height = s.getBottomRight().getX() - s.getTopLeft().getX();         	
@@ -57,11 +56,14 @@ class GUI extends JComponent {
     	gameObjects.add(new GoalZone(new Point(100, 100), new Point(150, 150))); 
     	gameObjects.add(new SentryTower(new Point(200, 300), new Point(400, 500))); 
     	
+    	//probably shouldnt be hardcoded
+    	int mapWidth = 600; 
+    	int mapHeight = 600; 
     	
         JFrame window = new JFrame();
         window.setSize(FRAME_WIDTH, FRAME_HEIGHT);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.getContentPane().add(new GUI(600,600, gameObjects));
+        window.getContentPane().add(new GUI(mapWidth, mapHeight, gameObjects));
         window.setVisible(true);
     }
 }
