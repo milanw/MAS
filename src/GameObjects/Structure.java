@@ -9,9 +9,12 @@ public class Structure extends InanimateObjects{
 		bottomRight = y;
 	}
 	public boolean isInside(Point2D n){
-		return n.getX() < topLeft.getX() && n.getX() > bottomRight.getX() && n.getY() < topLeft.getY() && n.getY() > bottomRight.getY();
+		return n.getX() > topLeft.getX() && n.getX() < bottomRight.getX() && n.getY() > topLeft.getY() && n.getY() < bottomRight.getY();
 	}
 	public Point2D getTopLeft(){
 		return topLeft;
+	}
+	public Point2D getBottomRight(){
+		return bottomRight;
 	}
 }
