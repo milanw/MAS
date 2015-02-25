@@ -15,6 +15,10 @@ import GameObjects.SentryTower;
 
 
 class GUI extends JComponent {
+	private static final int FRAME_WIDTH = 800; 
+	private static final int FRAME_HEIGHT = 600; 
+	private static final Color COLOR_GRASS = new Color(5, 128, 60);
+	
 	private int mapWidth; 
 	private int mapHeight;
 	private ArrayList<InanimateObjects> map = new ArrayList<InanimateObjects>();
@@ -27,8 +31,8 @@ class GUI extends JComponent {
 	}
 
 	public void paint(Graphics g) {
-		g.setColor(Color.GREEN);
-        g.fillRect (0, 0, mapWidth, mapHeight);    
+		g.setColor(COLOR_GRASS);
+        g.fillRect (10, 10, mapWidth, mapHeight);    
         
         for (InanimateObjects s : map) {
         	if (s instanceof GoalZone) {
@@ -39,6 +43,7 @@ class GUI extends JComponent {
         		g.setColor(Color.BLACK);    		
         		
         	}
+        	
         	double width = s.getBottomRight().getY() - s.getTopLeft().getY(); 
         	double height = s.getBottomRight().getX() - s.getTopLeft().getX();         	
             g.fillRect((int)s.getTopLeft().getX(), (int)s.getTopLeft().getY(), (int)width, (int)height);
@@ -54,7 +59,7 @@ class GUI extends JComponent {
     	
     	
         JFrame window = new JFrame();
-        window.setSize(840,560);
+        window.setSize(FRAME_WIDTH, FRAME_HEIGHT);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.getContentPane().add(new GUI(600,600, gameObjects));
         window.setVisible(true);
