@@ -2,13 +2,17 @@ package Map;
 
 import java.awt.Point;
 import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 
 
 
 
 
+
+
 import GameObjects.InanimateObjects;
+import GameObjects.OuterWall;
 import GameObjects.Structure;
 
 public class mapGenerator {
@@ -20,7 +24,21 @@ public class mapGenerator {
 	public mapGenerator(int height, int width){
 		this.height = height;
 		this.width= width;
+		addOuterWalls();
 		addStructures();
+	}
+
+	public boolean emptySpot(Point2D n){
+		boolean answer = true;
+		for(int i=0;i<map.size();i++){
+			if(map.get(i).isInside(n)){
+				answer = false;
+			}
+		}
+		return answer;
+	}
+	public ArrayList<InanimateObjects> getMap(){
+		return map;
 	}
 	public void addStructures(){
 		while(map.size() < structureAmount){
@@ -45,17 +63,23 @@ public class mapGenerator {
 	
 		}
 	}
-	
-	public boolean emptySpot(Point2D n){
-		boolean answer = true;
-		for(int i=0;i<map.size();i++){
-			if(map.get(i).isInside(n)){
-				answer = false;
-			}
-		}
-		return answer;
-	}
-	public ArrayList<InanimateObjects> getMap(){
-		return map;
+	public void addOuterWalls(){
+		Point2D.Double x = new Point2D.Double(0, 0);
+		Point2D.Double y = new Point2D.Double(height, 2);
+		OuterWall d = new OuterWall(x, y);
+		Point2D.Double x1 = new Point2D.Double(2, 0);
+		Point2D.Double y1 = new Point2D.Double(2, width);
+		OuterWall d1 = new OuterWall(x1, y1);
+		Point2D.Double x2 = new Point2D.Double(2, width-2);
+		Point2D.Double y2 = new Point2D.Double(height, width);
+		OuterWall d2 = new OuterWall(x2, y2);
+		Point2D.Double x3 = new Point2D.Double(height-2, 2);
+		Point2D.Double y3 = new Point2D.Double(height, width-2);
+		OuterWall d3 = new OuterWall(x3, y3);
+		map.add(d);
+		map.add(d1);
+		map.add(d2);
+		map.add(d3);
 	}
 }
+
