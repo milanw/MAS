@@ -1,8 +1,8 @@
 package Agent;
 
 public class Agent {
-	
-	private int speed;
+
+    private double speed = 1.4;
 	private int maxTurn;
 	private int visionRange;
 	
@@ -12,7 +12,16 @@ public class Agent {
 	public void move(){
 		
 	}
-	public void turn(){
-		
+	public void turn() {
+
 	}
+
+    public double getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(double speed) {
+        this.speed = speed;
+    }
+
 }
