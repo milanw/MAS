@@ -1,9 +1,12 @@
-package Map;
+package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -12,6 +15,14 @@ import javax.swing.JButton;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+
+import GameObjects.GoalZone;
+import GameObjects.InanimateObjects;
+import GameObjects.SentryTower;
+import Map.Map;
+import Map.MapExporter;
+import Map.MapImporter;
+import Map.mapGenerator;
 
 public class Menu extends JFrame {
 
@@ -82,8 +93,12 @@ public class Menu extends JFrame {
 				setVisible(false);
 				int width = Integer.parseInt(txtWidth.getText());
 				int height = Integer.parseInt(txtHeight.getText());
-
-				Map map = new Map(width, height);
+				//ArrayList<InanimateObjects> gameObjects = new mapGenerator(width, height).getMap(); 
+				ArrayList<InanimateObjects> gameObjects = new ArrayList<InanimateObjects>(); 
+				gameObjects.add(new GoalZone(new Point(100, 100), new Point(150, 150))); 
+		    	gameObjects.add(new SentryTower(new Point(200, 300), new Point(400, 500))); 
+				
+				MainFrame frame = new MainFrame(width, height, gameObjects);
 			}
 			
 		});
