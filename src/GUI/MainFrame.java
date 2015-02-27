@@ -5,15 +5,13 @@ package GUI;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -22,6 +20,7 @@ import javax.swing.JPanel;
 
 import GameObjects.InanimateObjects;
 import Map.Map;
+import Map.MapExporter;
 import Map.mapGenerator;
 
 public class MainFrame extends JFrame {
@@ -109,7 +108,23 @@ public class MainFrame extends JFrame {
                         repaint();
         }});
         
+        JMenuItem impMapItem = new JMenuItem("Import Map");
+        JMenuItem expMapItem = new JMenuItem("Export Map");
+        expMapItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+               MapExporter mExp = new MapExporter("test", map); 
+               try {
+				mExp.export();
+               } catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+               }
+        }});
+        
         mapMenu.add(genRndMapItem);
+        mapMenu.add(impMapItem);
+        mapMenu.add(expMapItem);
+        
         menu.add(mapMenu);    
         this.setJMenuBar(menu);
        

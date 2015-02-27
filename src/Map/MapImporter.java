@@ -12,8 +12,7 @@ import GameObjects.OuterWall;
 import GameObjects.SentryTower;
  
 public class MapImporter {
-	private static final String DIR = "src/savedMaps/"; 
-	public enum ObjectType {SENTRY, GOAL, OUTERWALL, EMPTY}; 
+	private static final String DIR = "src/savedMaps/"; 	
 	private String mapName;
 	
 	public MapImporter(String name) {
@@ -24,7 +23,7 @@ public class MapImporter {
 		int width = 0;
 		int height = 0; 
 		ArrayList<InanimateObjects> gameObjects = new ArrayList<InanimateObjects>(); 
-		
+		GoalZone goalZone = null; 
 		BufferedReader br = null;		
 		boolean firstLine = true; 
 		
@@ -46,13 +45,13 @@ public class MapImporter {
 					Point topLeft = new Point(Integer.parseInt(gameObject[1]), Integer.parseInt(gameObject[2])); 
 					Point bottomRight = new Point(Integer.parseInt(gameObject[3]), Integer.parseInt(gameObject[4])); 
 					
-					if (Integer.parseInt(gameObject[0]) == ObjectType.SENTRY.ordinal()) {
+					if (Integer.parseInt(gameObject[0]) == InanimateObjects.SENTRY_TYPE) {
 						gameObjects.add(new SentryTower(topLeft, bottomRight)); 
 					}
-					else if (Integer.parseInt(gameObject[0]) == ObjectType.GOAL.ordinal()) {
-						gameObjects.add(new GoalZone(topLeft, bottomRight)); 
+					else if (Integer.parseInt(gameObject[0]) == InanimateObjects.GOAL_TYPE) {
+						goalZone = new GoalZone(topLeft, bottomRight); 
 					}
-					else if (Integer.parseInt(gameObject[0]) == ObjectType.OUTERWALL.ordinal()) {
+					else if (Integer.parseInt(gameObject[0]) == InanimateObjects.OUTERWALL_TYPE) {
 						gameObjects.add(new OuterWall(topLeft, bottomRight)); 
 					}
 				}
@@ -68,7 +67,10 @@ public class MapImporter {
 				ex.printStackTrace();
 			}
 		}
+		Map map = new Map(width, height, gameObjects);
+		if (goalZone != null) 
+			map.setGoalZone(goalZone); 
  
-		return new Map(width, height, gameObjects);
+		return map;
 	}
 }

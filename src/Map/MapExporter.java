@@ -15,9 +15,6 @@ import GameObjects.SentryTower;
 
 public class MapExporter {
 	private static final String DIR = "src/savedMaps/"; 
-	public enum ObjectType {SENTRY, GOAL, OUTERWALL, EMPTY}; 
-	
-	
 	private String fileName; 
 	private Map map; 
 		
@@ -31,8 +28,14 @@ public class MapExporter {
 		FileOutputStream fos = new FileOutputStream(DIR + file);
 	 
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
+		//write width and height
 		bw.write(map.getWidth() + " " + map.getHeight() + "\n");
 		
+		//write goal zone
+		GoalZone g = map.getGoalZone(); 
+		bw.write(InanimateObjects.GOAL_TYPE + " " + (int)g.getTopLeft().getX() + " " + (int)g.getTopLeft().getY() + " " + (int)g.getBottomRight().getX() + " " + (int)g.getBottomRight().getY() + "\n");
+		
+		//write arraylist
 		for (InanimateObjects o : map.getGameObjects()) {
 			bw.write(getType(o) + " " + (int)o.getTopLeft().getX() + " " + (int)o.getTopLeft().getY() + " " + (int)o.getBottomRight().getX() + " " + (int)o.getBottomRight().getY());
 			bw.newLine();
@@ -43,13 +46,13 @@ public class MapExporter {
 	
 	public int getType(InanimateObjects object) {
 		if (object instanceof SentryTower) 
-			return ObjectType.SENTRY.ordinal(); 
+			return InanimateObjects.SENTRY_TYPE; 
 		if (object instanceof GoalZone) 
-			return ObjectType.GOAL.ordinal(); 
+			return InanimateObjects.GOAL_TYPE; 
 		if (object instanceof OuterWall) 
-			return ObjectType.OUTERWALL.ordinal(); 
+			return InanimateObjects.OUTERWALL_TYPE; 
 		else 
-			return ObjectType.EMPTY.ordinal(); 
+			return InanimateObjects.EMPTY_TYPE;
 	}
 	
 	public static void main(String[] args) throws IOException {
