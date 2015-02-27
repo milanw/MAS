@@ -1,10 +1,13 @@
 package Map;
 
 import java.util.ArrayList;
+
+import GameObjects.GoalZone;
 import GameObjects.InanimateObjects;
 
 public class Map {
 	private ArrayList<InanimateObjects> gameObjects; 
+	private GoalZone goalZone; 	 
 	private int width; 
 	private int height; 
 	
@@ -24,6 +27,18 @@ public class Map {
 	
 	public int getHeight() {
 		return height; 
+	}
+	
+	public void setGoalZone(GoalZone g) {
+		goalZone = g; 
+	}
+	
+	public GoalZone getGoalZone() {
+		return goalZone; 
+	}
+	
+	public void addObject(InanimateObjects o) {
+		gameObjects.add(o); 
 	}
 }
 
