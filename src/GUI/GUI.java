@@ -30,12 +30,16 @@ class GUI extends JComponent{
 	private Map map;
 	private int selectedObject; 
 	BindMouseMove movingAdapt = new BindMouseMove();
+	private int currentMouseX;
+	private int currentMouseY;
+	
     
 	public GUI(Map map) {
 		
 		this.map = map;
 		this.setDoubleBuffered(true);
 		this.addMouseListener(movingAdapt);
+		this.addMouseMotionListener(movingAdapt);
 	}
 
 	public void paintComponent(Graphics g) {
@@ -67,6 +71,9 @@ class GUI extends JComponent{
 	    	double height = goalZone.getBottomRight().getX() - goalZone.getTopLeft().getX();         	
 	        g2d.fillRect((int)goalZone.getTopLeft().getX(), (int)goalZone.getTopLeft().getY(), (int)width, (int)height);
         }
+        
+        g2d.setColor(Color.WHITE); 
+        g2d.drawRect(currentMouseX, currentMouseY, 30, 30);
 
        
     }
@@ -88,6 +95,15 @@ class GUI extends JComponent{
 			
 			repaint(); 
 		}
+		
+		@Override
+		public void mouseMoved(MouseEvent event) {
+			currentMouseX = event.getX();
+			currentMouseY = event.getY();
+			repaint();
+			
+		}
+		
 
 		
 	}
