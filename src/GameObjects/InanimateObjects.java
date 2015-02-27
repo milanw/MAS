@@ -5,6 +5,12 @@ import java.awt.geom.Point2D;
 
 
 public class InanimateObjects {
+	public static final int SENTRY_TYPE = 1;
+	public static final int GOAL_TYPE = 2; 
+	public static final int OUTERWALL_TYPE = 3; 
+	public static final int STRUCTURE_TYPE = 4; 
+	public static final int EMPTY_TYPE = 0; 
+	
 	Point2D topLeft;
 	Point2D bottomRight;
 	
