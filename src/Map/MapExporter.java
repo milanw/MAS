@@ -33,7 +33,8 @@ public class MapExporter {
 		
 		//write goal zone
 		GoalZone g = map.getGoalZone(); 
-		bw.write(InanimateObjects.GOAL_TYPE + " " + (int)g.getTopLeft().getX() + " " + (int)g.getTopLeft().getY() + " " + (int)g.getBottomRight().getX() + " " + (int)g.getBottomRight().getY() + "\n");
+		if (g != null) 
+			bw.write(InanimateObjects.GOAL_TYPE + " " + (int)g.getTopLeft().getX() + " " + (int)g.getTopLeft().getY() + " " + (int)g.getBottomRight().getX() + " " + (int)g.getBottomRight().getY() + "\n");
 		
 		//write arraylist
 		for (InanimateObjects o : map.getGameObjects()) {
