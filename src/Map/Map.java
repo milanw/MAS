@@ -1,5 +1,6 @@
 package Map;
 
+import java.awt.Rectangle;
 import java.util.ArrayList;
 
 import GameObjects.GoalZone;
@@ -38,7 +39,27 @@ public class Map {
 	}
 	
 	public void addObject(InanimateObjects o) {
-		gameObjects.add(o); 
+		if (checkCollisions(o))
+			gameObjects.add(o); 
+	}
+	
+	public boolean checkCollisions(InanimateObjects o) {
+		Rectangle objectRectangle = getObjectRectangle(o);
+		
+		for (InanimateObjects i : gameObjects) {
+			Rectangle r = getObjectRectangle(i);
+			if (r.intersects(objectRectangle)) 
+				return false;
+		}
+		
+		return true; 
+	}
+	
+	public Rectangle getObjectRectangle(InanimateObjects o) {
+		int objectWidth = (int)(o.getBottomRight().getX() - o.getTopLeft().getX()); 
+		int objectHeight = (int)(o.getBottomRight().getY() - o.getTopLeft().getY()); 
+		
+		return new Rectangle((int)o.getTopLeft().getX(), (int)o.getTopLeft().getY(), objectWidth, objectHeight);		
 	}
 }
 
