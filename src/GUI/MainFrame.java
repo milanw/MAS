@@ -5,6 +5,7 @@ package GUI;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,7 +17,9 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 
 import GameObjects.InanimateObjects;
 import Map.Map;
@@ -24,7 +27,7 @@ import Map.MapExporter;
 import Map.mapGenerator;
 
 public class MainFrame extends JFrame {
-	private static final int RIGHTMENU_WIDTH = 200; 
+	private static final int RIGHTMENU_WIDTH = 300; 
 	private int width;
 	private int height;
 	private Map map;	
@@ -47,15 +50,19 @@ public class MainFrame extends JFrame {
         panel.setLayout(new BorderLayout());
         mapView = new GUI(map);
         
+        //right Menu
+        JTabbedPane tabbedPane = new JTabbedPane(); 
+        
         ///////////////////
-        //right Menu for choosing gameObjects     
-        JPanel rightMenu = new JPanel();
-        rightMenu.setLayout(new GridLayout(0, 1));
+        //map editing menu
+        JPanel editingMenu = new JPanel();
+        editingMenu.setLayout(new FlowLayout());
         JButton sentryButton = new JButton("Sentry Tower"); 
         sentryButton.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         System.out.println("sentry");                         
                         selectObject(InanimateObjects.SENTRY_TYPE);}});
+       // sentryButton.setPreferredSize(new Dimension(100, 40));
         
         JButton goalZoneButton = new JButton("Goal Zone"); 
         goalZoneButton.addActionListener(new ActionListener() {
@@ -69,20 +76,27 @@ public class MainFrame extends JFrame {
                         System.out.println("structure");                         
                         selectObject(InanimateObjects.STRUCTURE_TYPE);}});
         
-        rightMenu.add(sentryButton); 
-        rightMenu.add(goalZoneButton); 
-        rightMenu.add(structureButton);
+        editingMenu.add(sentryButton); 
+        editingMenu.add(goalZoneButton); 
+        editingMenu.add(structureButton);
+        
+        // simulation menu
         //////////
+        JPanel simulationMenu = new JPanel(); 
+        
+        tabbedPane.addTab("Map Editing", editingMenu);
+        tabbedPane.addTab("Simulation", simulationMenu);
+        //////
         
         
         panel.add(mapView,BorderLayout.WEST);
-        panel.add(rightMenu,BorderLayout.EAST); 
+        panel.add(tabbedPane,BorderLayout.EAST); 
         container.add(panel); 
         
         Dimension d = new Dimension(width,height);
         mapView.setPreferredSize(d);
         Dimension d2 = new Dimension(RIGHTMENU_WIDTH,height);
-        rightMenu.setPreferredSize(d2);
+        tabbedPane.setPreferredSize(d2);
         
         ////////////////
         // menu bar
@@ -96,23 +110,29 @@ public class MainFrame extends JFrame {
         genRndMapItem.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         map = new Map(width, height, new mapGenerator(width, height).getMap());
-                        mapView.setVisible(false);
+                        //mapView.setVisible(false);
                         mapView = new GUI(map);
                         mapView.revalidate();
                         mapView.repaint();
-                        mapView.setVisible(true);
+                        //mapView.setVisible(true);
                         panel.revalidate();
                         panel.repaint();
                         
                         revalidate();
                         repaint();
+                        getContentPane().repaint(); 
         }});
         
         JMenuItem impMapItem = new JMenuItem("Import Map");
         JMenuItem expMapItem = new JMenuItem("Export Map");
         expMapItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-               MapExporter mExp = new MapExporter("test", map); 
+               String mapName = JOptionPane.showInputDialog(null,
+                        "How do you want to call the map?",
+                        "Enter map name",
+                        JOptionPane.QUESTION_MESSAGE);
+               
+               MapExporter mExp = new MapExporter(mapName, map); 
                try {
 				mExp.export();
                } catch (IOException e1) {
