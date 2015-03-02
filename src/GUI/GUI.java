@@ -1,15 +1,19 @@
 package GUI; 
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+
+import com.sun.media.sound.Toolkit;
 
 import GameObjects.GoalZone;
 import GameObjects.InanimateObjects;
@@ -32,6 +36,7 @@ class GUI extends JComponent{
 	BindMouseMove movingAdapt = new BindMouseMove();
 	private int currentMouseX;
 	private int currentMouseY;
+	private boolean showRectangle;
 	
     
 	public GUI(Map map) {
@@ -72,8 +77,10 @@ class GUI extends JComponent{
 	        g2d.fillRect((int)goalZone.getTopLeft().getX(), (int)goalZone.getTopLeft().getY(), (int)width, (int)height);
         }
         
+        
         g2d.setColor(Color.WHITE); 
-        g2d.drawRect(currentMouseX, currentMouseY, 30, 30);
+        if (showRectangle)
+        	g2d.drawRect(currentMouseX, currentMouseY, 30, 30);
 
        
     }
@@ -100,6 +107,24 @@ class GUI extends JComponent{
 		public void mouseMoved(MouseEvent event) {
 			currentMouseX = event.getX();
 			currentMouseY = event.getY();
+			repaint();
+			
+		}
+		
+		@Override
+		public void mouseEntered(MouseEvent event) {
+			//hide cursor and show white rectangle instead
+			showRectangle = true;
+			setCursor(getToolkit().createCustomCursor(
+		            new BufferedImage(3, 3, BufferedImage.TYPE_INT_ARGB), new Point(0, 0),
+		            "null"));
+			repaint();
+			
+		}
+		
+		@Override
+		public void mouseExited(MouseEvent event) {
+			showRectangle = false;
 			repaint();
 			
 		}

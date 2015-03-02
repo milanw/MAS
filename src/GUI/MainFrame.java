@@ -40,6 +40,7 @@ public class MainFrame extends JFrame {
 		this.height = h; 
 		this.map = new Map(w, h, gameObjects);
 		
+		this.setTitle("Multi-Agent Surveillance");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(width+RIGHTMENU_WIDTH, height);
        
