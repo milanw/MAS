@@ -12,10 +12,22 @@ public class Map {
 	private int width; 
 	private int height; 
 	
+	public Map(int width, int height, ArrayList<InanimateObjects> gameObjects, GoalZone goalZone) {
+		this.width = width; 
+		this.height = height; 
+		this.gameObjects = gameObjects; 
+		this.goalZone = goalZone; 
+	}
+	
 	public Map(int width, int height, ArrayList<InanimateObjects> gameObjects) {
 		this.width = width; 
 		this.height = height; 
 		this.gameObjects = gameObjects; 
+	}
+	
+	//copy constructor
+	public Map(Map map) {
+		this(map.getWidth(), map.getHeight(), new ArrayList<InanimateObjects>(map.getGameObjects()), map.getGoalZone());
 	}
 	
 	public ArrayList<InanimateObjects> getGameObjects() {
@@ -38,9 +50,13 @@ public class Map {
 		return goalZone; 
 	}
 	
-	public void addObject(InanimateObjects o) {
-		if (checkCollisions(o))
+	public boolean addObject(InanimateObjects o) {
+		if (checkCollisions(o)) {
 			gameObjects.add(o); 
+			return true;
+		}
+		
+		return false; 
 	}
 	
 	public boolean checkCollisions(InanimateObjects o) {

@@ -9,6 +9,7 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -20,6 +21,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.KeyStroke;
 
 import GameObjects.InanimateObjects;
 import Map.Map;
@@ -42,8 +44,9 @@ public class MainFrame extends JFrame {
 		
 		this.setTitle("Multi-Agent Surveillance");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
         this.setSize(width+RIGHTMENU_WIDTH, height);
-       
+        this.setLocationRelativeTo(null);
         
 
         Container container = this.getContentPane(); 
@@ -123,8 +126,11 @@ public class MainFrame extends JFrame {
                         repaint();
                         getContentPane().repaint(); 
         }});
+        genRndMapItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
         
         JMenuItem impMapItem = new JMenuItem("Import Map");
+        impMapItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I, ActionEvent.CTRL_MASK));
+        
         JMenuItem expMapItem = new JMenuItem("Export Map");
         expMapItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -141,10 +147,19 @@ public class MainFrame extends JFrame {
 				e1.printStackTrace();
                }
         }});
+        expMapItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, ActionEvent.CTRL_MASK));
+        
+        JMenuItem undoMapItem = new JMenuItem("undo");
+        undoMapItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+               mapView.undo();
+        }});
+        undoMapItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, ActionEvent.CTRL_MASK));
         
         mapMenu.add(genRndMapItem);
         mapMenu.add(impMapItem);
         mapMenu.add(expMapItem);
+        mapMenu.add(undoMapItem);
         
         menu.add(mapMenu);    
         this.setJMenuBar(menu);

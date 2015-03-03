@@ -8,7 +8,9 @@ import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -33,10 +35,11 @@ class GUI extends JComponent{
 	
 	private Map map;
 	private int selectedObject; 
-	BindMouseMove movingAdapt = new BindMouseMove();
+	private BindMouseMove movingAdapt = new BindMouseMove();
 	private int currentMouseX;
 	private int currentMouseY;
 	private boolean showRectangle;
+	private Deque<Map> undoStack = new ArrayDeque<Map>(); 
 	
     
 	public GUI(Map map) {
@@ -53,6 +56,7 @@ class GUI extends JComponent{
 		g2d.setColor(COLOR_GRASS);
         g2d.fillRect (0, 0, map.getWidth(), map.getHeight());    
         
+        //paint game objects
         for (InanimateObjects s : map.getGameObjects()) {
         	if (s instanceof OuterWall) 
         		g2d.setColor(COLOR_OUTERWALL); 
@@ -69,6 +73,7 @@ class GUI extends JComponent{
             g2d.fillRect((int)s.getTopLeft().getX(), (int)s.getTopLeft().getY(), (int)width, (int)height);
         }
         
+        //paint goalzone
         if (map.getGoalZone() != null) {
 	        GoalZone goalZone = map.getGoalZone(); 
 	        g2d.setColor(COLOR_GOALZONE); 
@@ -77,7 +82,7 @@ class GUI extends JComponent{
 	        g2d.fillRect((int)goalZone.getTopLeft().getX(), (int)goalZone.getTopLeft().getY(), (int)width, (int)height);
         }
         
-        
+        //show white rectangle for inserting
         g2d.setColor(Color.WHITE); 
         if (showRectangle)
         	g2d.drawRect(currentMouseX, currentMouseY, 30, 30);
@@ -93,13 +98,20 @@ class GUI extends JComponent{
 		public void mousePressed(MouseEvent event) {
 			x = event.getX();
 			y = event.getY();
+			InanimateObjects o = null;
 			if (selectedObject == InanimateObjects.SENTRY_TYPE)
-				map.addObject(new SentryTower(new Point(x,y), new Point(x+30, y+30)));
+				o = new SentryTower(new Point(x,y), new Point(x+30, y+30));
 			else if (selectedObject == InanimateObjects.GOAL_TYPE)
 				map.setGoalZone(new GoalZone(new Point(x,y), new Point(x+30, y+30)));
 			else if (selectedObject == InanimateObjects.STRUCTURE_TYPE)
-				map.addObject(new Structure(new Point(x,y), new Point(x+30, y+30)));
+				o = new Structure(new Point(x,y), new Point(x+30, y+30));
 			
+			//if possible, insert game object
+			if (o != null) {
+				if (map.checkCollisions(o))
+					undoStack.push(new Map(map));
+				map.addObject(o);
+			}
 			repaint(); 
 		}
 		
@@ -132,6 +144,15 @@ class GUI extends JComponent{
 
 		
 	}
+    
+    public void undo() {    	
+    	if (!undoStack.isEmpty()) {
+    		GoalZone g = map.getGoalZone(); 
+    		map = new Map(undoStack.pop());
+    		map.setGoalZone(g);
+    	}
+    	repaint();    	
+    }
     
     public void selectObject(int type) {
     	selectedObject = type; 
