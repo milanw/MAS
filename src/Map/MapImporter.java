@@ -10,16 +10,12 @@ import GameObjects.GoalZone;
 import GameObjects.InanimateObjects;
 import GameObjects.OuterWall;
 import GameObjects.SentryTower;
+import GameObjects.Structure;
  
 public class MapImporter {
-	private static final String DIR = "src/savedMaps/"; 	
-	private String mapName;
+	private static final String DIR = "src/savedMaps/"; 
 	
-	public MapImporter(String name) {
-		this.mapName = name; 
-	}
- 
-	public Map importMap() {
+	public Map importMap(String mapName) {
 		int width = 0;
 		int height = 0; 
 		ArrayList<InanimateObjects> gameObjects = new ArrayList<InanimateObjects>(); 
@@ -53,6 +49,9 @@ public class MapImporter {
 					}
 					else if (Integer.parseInt(gameObject[0]) == InanimateObjects.OUTERWALL_TYPE) {
 						gameObjects.add(new OuterWall(topLeft, bottomRight)); 
+					}
+					else if (Integer.parseInt(gameObject[0]) == InanimateObjects.STRUCTURE_TYPE) {
+						gameObjects.add(new Structure(topLeft, bottomRight)); 
 					}
 				}
 				

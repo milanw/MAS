@@ -42,8 +42,7 @@ class GUI extends JComponent{
 	private Deque<Map> undoStack = new ArrayDeque<Map>(); 
 	
     
-	public GUI(Map map) {
-		
+	public GUI(Map map) {		
 		this.map = map;
 		this.setDoubleBuffered(true);
 		this.addMouseListener(movingAdapt);
@@ -140,10 +139,13 @@ class GUI extends JComponent{
 			repaint();
 			
 		}
-		
-
-		
 	}
+    
+    public void setMap(Map m) {
+    	map = new Map(m); 
+    	undoStack = new ArrayDeque<Map>();
+    	repaint();
+    }
     
     public void undo() {    	
     	if (!undoStack.isEmpty()) {

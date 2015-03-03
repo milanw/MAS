@@ -12,6 +12,7 @@ import GameObjects.GoalZone;
 import GameObjects.InanimateObjects;
 import GameObjects.OuterWall;
 import GameObjects.SentryTower;
+import GameObjects.Structure;
 
 public class MapExporter {
 	private static final String DIR = "src/savedMaps/"; 
@@ -48,10 +49,12 @@ public class MapExporter {
 	public int getType(InanimateObjects object) {
 		if (object instanceof SentryTower) 
 			return InanimateObjects.SENTRY_TYPE; 
-		if (object instanceof GoalZone) 
+		else if (object instanceof GoalZone) 
 			return InanimateObjects.GOAL_TYPE; 
-		if (object instanceof OuterWall) 
+		else if (object instanceof OuterWall) 
 			return InanimateObjects.OUTERWALL_TYPE; 
+		else if (object instanceof Structure) 
+			return InanimateObjects.STRUCTURE_TYPE; 
 		else 
 			return InanimateObjects.EMPTY_TYPE;
 	}

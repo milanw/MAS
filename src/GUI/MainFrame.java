@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -22,10 +23,14 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.KeyStroke;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+import java.io.File;
 
 import GameObjects.InanimateObjects;
 import Map.Map;
 import Map.MapExporter;
+import Map.MapImporter;
 import Map.mapGenerator;
 
 public class MainFrame extends JFrame {
@@ -109,26 +114,37 @@ public class MainFrame extends JFrame {
         // build the map menu
         JMenu mapMenu = new JMenu("Map");
         
-        //doesnt work yet
+        
         JMenuItem genRndMapItem = new JMenuItem("Generate new random Map");
         genRndMapItem.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
-                        map = new Map(width, height, new mapGenerator(width, height).getMap());
-                        //mapView.setVisible(false);
-                        mapView = new GUI(map);
-                        mapView.revalidate();
-                        mapView.repaint();
-                        //mapView.setVisible(true);
-                        panel.revalidate();
-                        panel.repaint();
-                        
-                        revalidate();
-                        repaint();
-                        getContentPane().repaint(); 
+                        map = new Map(width, height, new mapGenerator(width, height).getMap());                        
+                        mapView.setMap(map);                        
         }});
         genRndMapItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
         
         JMenuItem impMapItem = new JMenuItem("Import Map");
+        impMapItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	String fileName = ""; 
+            	JFileChooser fc = new JFileChooser("src/savedMaps/"); 
+            	
+            	FileNameExtensionFilter filter = new FileNameExtensionFilter(
+            		    "Map Files", "map");
+            	fc.setFileFilter(filter);
+            	
+                int returnVal = fc.showOpenDialog(MainFrame.this);
+
+                if (returnVal == JFileChooser.APPROVE_OPTION) {
+                    File file = fc.getSelectedFile();
+                    fileName = file.getName();
+                    System.out.println("Opening: " + file.getName() + ".");
+                    MapImporter mapImporter = new MapImporter();    
+                    Map map = mapImporter.importMap(fileName); 
+                    mapView.setMap(map);     
+                }
+                               
+        }});
         impMapItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I, ActionEvent.CTRL_MASK));
         
         JMenuItem expMapItem = new JMenuItem("Export Map");
