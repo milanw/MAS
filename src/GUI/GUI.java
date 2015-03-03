@@ -40,6 +40,7 @@ class GUI extends JComponent{
 	private int currentMouseY;
 	private boolean showRectangle;
 	private Deque<Map> undoStack = new ArrayDeque<Map>(); 
+	private Deque<Map> redoStack = new ArrayDeque<Map>(); 
 	
     
 	public GUI(Map map) {		
@@ -150,7 +151,18 @@ class GUI extends JComponent{
     public void undo() {    	
     	if (!undoStack.isEmpty()) {
     		GoalZone g = map.getGoalZone(); 
+    		redoStack.push(map);
     		map = new Map(undoStack.pop());
+    		map.setGoalZone(g);
+    	}
+    	repaint();    	
+    }
+    
+    public void redo() {    	
+    	if (!redoStack.isEmpty()) {
+    		GoalZone g = map.getGoalZone(); 
+    		undoStack.push(map);
+    		map = new Map(redoStack.pop());
     		map.setGoalZone(g);
     	}
     	repaint();    	

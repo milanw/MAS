@@ -165,17 +165,25 @@ public class MainFrame extends JFrame {
         }});
         expMapItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, ActionEvent.CTRL_MASK));
         
-        JMenuItem undoMapItem = new JMenuItem("undo");
+        JMenuItem undoMapItem = new JMenuItem("Undo");
         undoMapItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                mapView.undo();
         }});
         undoMapItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, ActionEvent.CTRL_MASK));
         
+        JMenuItem redoMapItem = new JMenuItem("Redo");
+        redoMapItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+               mapView.redo();
+        }});
+        redoMapItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y, ActionEvent.CTRL_MASK));
+        
         mapMenu.add(genRndMapItem);
         mapMenu.add(impMapItem);
         mapMenu.add(expMapItem);
         mapMenu.add(undoMapItem);
+        mapMenu.add(redoMapItem);
         
         menu.add(mapMenu);    
         this.setJMenuBar(menu);
