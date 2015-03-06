@@ -42,79 +42,54 @@ public class MainFrame extends JFrame {
 	private JPanel panel;
 	public int objectSelected = 0;
 	
-	public MainFrame(int w, int h, ArrayList<InanimateObjects> gameObjects) {
-		this.width = w;
-		this.height = h; 
-		this.map = new Map(w, h, gameObjects);
+	public MainFrame(int mapWidth, int mapHeight, ArrayList<InanimateObjects> gameObjects) {
+		this.width = mapWidth;
+		this.height = mapHeight; 
+		this.map = new Map(mapWidth, mapHeight, gameObjects);
 		
 		this.setTitle("Multi-Agent Surveillance");
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		
         this.setSize(width+RIGHTMENU_WIDTH, height);
         this.setLocationRelativeTo(null);
         
-
-        Container container = this.getContentPane(); 
+        //map view
         panel = new JPanel();
         panel.setLayout(new BorderLayout());
-        mapView = new GUI(map);
+        mapView = new GUI(map);       
+        mapView.setPreferredSize(new Dimension(width,height));
+        panel.add(mapView,BorderLayout.WEST);
+        
         
         //right Menu
         JTabbedPane tabbedPane = new JTabbedPane(); 
-        
-        ///////////////////
-        //map editing menu
-        JPanel editingMenu = new JPanel();
-        editingMenu.setLayout(new FlowLayout());
-        JButton sentryButton = new JButton("Sentry Tower"); 
-        sentryButton.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        System.out.println("sentry");                         
-                        selectObject(InanimateObjects.SENTRY_TYPE);}});
-       // sentryButton.setPreferredSize(new Dimension(100, 40));
-        
-        JButton goalZoneButton = new JButton("Goal Zone"); 
-        goalZoneButton.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        System.out.println("goal zone");                        
-                        selectObject(InanimateObjects.GOAL_TYPE);}});
-        
-        JButton structureButton = new JButton("Structure"); 
-        structureButton.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        System.out.println("structure");                         
-                        selectObject(InanimateObjects.STRUCTURE_TYPE);}});
-        
-        editingMenu.add(sentryButton); 
-        editingMenu.add(goalZoneButton); 
-        editingMenu.add(structureButton);
-        
-        // simulation menu
-        //////////
-        JPanel simulationMenu = new JPanel(); 
-        
-        tabbedPane.addTab("Map Editing", editingMenu);
-        tabbedPane.addTab("Simulation", simulationMenu);
-        //////
-        
-        
-        panel.add(mapView,BorderLayout.WEST);
+        tabbedPane.addTab("Map Editing", createEditingMenu());
+        tabbedPane.addTab("Simulation", createSimulationMenu());
+        tabbedPane.setPreferredSize(new Dimension(RIGHTMENU_WIDTH,height));
         panel.add(tabbedPane,BorderLayout.EAST); 
-        container.add(panel); 
         
-        Dimension d = new Dimension(width,height);
-        mapView.setPreferredSize(d);
-        Dimension d2 = new Dimension(RIGHTMENU_WIDTH,height);
-        tabbedPane.setPreferredSize(d2);
+        //set menu bar
+        this.setJMenuBar(createMenuBar());
         
-        ////////////////
-        // menu bar
-        JMenuBar menu = new JMenuBar();
+        this.getContentPane().add(panel); 
+        this.setVisible(true);
+	}
+	
+	/*
+	 * creates the top menu bar
+	 */
+	public JMenuBar createMenuBar() {
+		JMenuBar menu = new JMenuBar();
+        menu.add(createMapMenu()); 
         
-        // build the map menu
-        JMenu mapMenu = new JMenu("Map");
-        
-        
+        return menu;
+	}
+	
+	/*
+	 * creates the map menu located in the top menu bar
+	 */
+	public JMenu createMapMenu() {
+		JMenu mapMenu = new JMenu("Map");
+		
         JMenuItem genRndMapItem = new JMenuItem("Generate new random Map");
         genRndMapItem.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
@@ -129,19 +104,15 @@ public class MainFrame extends JFrame {
             	String fileName = ""; 
             	JFileChooser fc = new JFileChooser("src/savedMaps/"); 
             	
-            	FileNameExtensionFilter filter = new FileNameExtensionFilter(
-            		    "Map Files", "map");
+            	//only look for .map files
+            	FileNameExtensionFilter filter = new FileNameExtensionFilter("Map Files", "map");
             	fc.setFileFilter(filter);
             	
                 int returnVal = fc.showOpenDialog(MainFrame.this);
-
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
-                    File file = fc.getSelectedFile();
-                    fileName = file.getName();
-                    System.out.println("Opening: " + file.getName() + ".");
-                    MapImporter mapImporter = new MapImporter();    
-                    Map map = mapImporter.importMap(fileName); 
-                    mapView.setMap(map);     
+                    fileName = fc.getSelectedFile().getName();
+                    MapImporter mapImporter = new MapImporter();                       
+                    mapView.setMap(mapImporter.importMap(fileName));     
                 }
                                
         }});
@@ -185,15 +156,59 @@ public class MainFrame extends JFrame {
         mapMenu.add(undoMapItem);
         mapMenu.add(redoMapItem);
         
-        menu.add(mapMenu);    
-        this.setJMenuBar(menu);
+        return mapMenu;
+	}
+	
+	/*
+	 * creates the map editing menu on the right
+	 */
+	public JPanel createEditingMenu() {
+		JPanel editingMenu = new JPanel();
+        editingMenu.setLayout(new FlowLayout());
+        JButton sentryButton = new JButton("Sentry Tower"); 
+        sentryButton.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {            
+                        selectObject(InanimateObjects.SENTRY_TYPE);
+        }});
        
         
-        this.setVisible(true);
+        JButton goalZoneButton = new JButton("Goal Zone"); 
+        goalZoneButton.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {             
+                        selectObject(InanimateObjects.GOAL_TYPE);
+        }});
+        
+        JButton structureButton = new JButton("Structure"); 
+        structureButton.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {               
+                        selectObject(InanimateObjects.STRUCTURE_TYPE);
+        }});
+        
+        editingMenu.add(sentryButton); 
+        editingMenu.add(goalZoneButton); 
+        editingMenu.add(structureButton);
+        
+        return editingMenu; 
+	}
+	
+	/*
+	 * creates the simulation menu on the right
+	 */
+	public JPanel createSimulationMenu() {
+		  JPanel simulationMenu = new JPanel(); 
+		  
+		  return simulationMenu;
 	}
 	
 	public void selectObject(int type) {
 		mapView.selectObject(type); 
+	}
+	
+	public static void main(String[] args) {
+		int width = 600;
+		int height = 600;
+		ArrayList<InanimateObjects> gameObjects = new mapGenerator(width, height).getMap();
+		MainFrame frame = new MainFrame(width, height, gameObjects);
 	}
 	
 	
