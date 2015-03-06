@@ -53,42 +53,60 @@ class GUI extends JComponent{
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
+		
 		g2d.setColor(COLOR_GRASS);
-        g2d.fillRect (0, 0, map.getWidth(), map.getHeight());    
+        g2d.fillRect (0, 0, map.getWidth(), map.getHeight());  
         
-        //paint game objects
-        for (InanimateObjects s : map.getGameObjects()) {
-        	if (s instanceof OuterWall) 
-        		g2d.setColor(COLOR_OUTERWALL); 
-        	
-        	if (s instanceof SentryTower) 
-        		g2d.setColor(COLOR_SENTRY); 
-        	
-        	if (s instanceof Structure) 
-        		g2d.setColor(Color.CYAN);
-        		
-        	
-        	double width = s.getBottomRight().getY() - s.getTopLeft().getY(); 
-        	double height = s.getBottomRight().getX() - s.getTopLeft().getX();         	
-            g2d.fillRect((int)s.getTopLeft().getX(), (int)s.getTopLeft().getY(), (int)width, (int)height);
+        for (InanimateObjects o : map.getGameObjects()) {
+        	paintObject(o, g2d);   
         }
         
-        //paint goalzone
-        if (map.getGoalZone() != null) {
-	        GoalZone goalZone = map.getGoalZone(); 
-	        g2d.setColor(COLOR_GOALZONE); 
+        paintGoalZone(g2d);
+        paintCursorRectangle(g2d);
+    }
+	
+	/* 
+	 * paint an inanimate object
+	 */
+	public void paintObject(InanimateObjects o, Graphics2D g) {
+		g.setColor(getColor(o));
+		double width = o.getBottomRight().getY() - o.getTopLeft().getY(); 
+    	double height = o.getBottomRight().getX() - o.getTopLeft().getX();         	
+        g.fillRect((int)o.getTopLeft().getX(), (int)o.getTopLeft().getY(), (int)width, (int)height);
+	}
+	
+	/* 
+	 * return color corresponding to inanimate object
+	 */
+	public Color getColor(InanimateObjects o) {
+		if (o instanceof OuterWall) 
+    		return COLOR_OUTERWALL;
+    	
+		else if (o instanceof SentryTower) 
+    		return COLOR_SENTRY; 
+    	
+		else if (o instanceof Structure) 
+    		return Color.CYAN;
+		
+		else 
+			return COLOR_GRASS;
+	}
+	
+	public void paintCursorRectangle(Graphics2D g) {
+		g.setColor(Color.WHITE); 
+        if (showRectangle)
+        	g.drawRect(currentMouseX, currentMouseY, 30, 30);
+	}
+	
+	public void paintGoalZone(Graphics2D g) {
+		if (map.getGoalZone() != null) {
+	        GoalZone goalZone = map.getGoalZone(); 	        
 	        double width = goalZone.getBottomRight().getY() - goalZone.getTopLeft().getY(); 
 	    	double height = goalZone.getBottomRight().getX() - goalZone.getTopLeft().getX();         	
-	        g2d.fillRect((int)goalZone.getTopLeft().getX(), (int)goalZone.getTopLeft().getY(), (int)width, (int)height);
+	    	g.setColor(COLOR_GOALZONE); 
+	    	g.fillRect((int)goalZone.getTopLeft().getX(), (int)goalZone.getTopLeft().getY(), (int)width, (int)height);
         }
-        
-        //show white rectangle for inserting
-        g2d.setColor(Color.WHITE); 
-        if (showRectangle)
-        	g2d.drawRect(currentMouseX, currentMouseY, 30, 30);
-
-       
-    }
+	}
     
     class BindMouseMove extends MouseAdapter {
 		private int x;
