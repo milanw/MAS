@@ -10,6 +10,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -27,6 +28,10 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import java.io.File;
 
+import Agent.Agent;
+import Agent.IntruderAgent;
+import Agent.SurveillanceAgent;
+import Algorithm.SimpleAlgorithm;
 import GameObjects.InanimateObjects;
 import Map.Map;
 import Map.MapExporter;
@@ -42,10 +47,10 @@ public class MainFrame extends JFrame {
 	private JPanel panel;
 	public int objectSelected = 0;
 	
-	public MainFrame(int mapWidth, int mapHeight, ArrayList<InanimateObjects> gameObjects) {
-		this.width = mapWidth;
-		this.height = mapHeight; 
-		this.map = new Map(mapWidth, mapHeight, gameObjects);
+	public MainFrame(Map map, ArrayList<Agent> agents) {
+		this.width = map.getWidth();
+		this.height = map.getHeight(); 
+		this.map = map;
 		
 		this.setTitle("Multi-Agent Surveillance");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		
@@ -55,7 +60,7 @@ public class MainFrame extends JFrame {
         //map view
         panel = new JPanel();
         panel.setLayout(new BorderLayout());
-        mapView = new GUI(map);       
+        mapView = new GUI(map, agents);       
         mapView.setPreferredSize(new Dimension(width,height));
         panel.add(mapView,BorderLayout.WEST);
         
@@ -93,7 +98,7 @@ public class MainFrame extends JFrame {
         JMenuItem genRndMapItem = new JMenuItem("Generate new random Map");
         genRndMapItem.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
-                        map = new Map(width, height, new mapGenerator(width, height).getMap());                        
+                        map = new Map(new mapGenerator(width, height).getMap());                        
                         mapView.setMap(map);                        
         }});
         genRndMapItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
@@ -207,8 +212,12 @@ public class MainFrame extends JFrame {
 	public static void main(String[] args) {
 		int width = 600;
 		int height = 600;
-		ArrayList<InanimateObjects> gameObjects = new mapGenerator(width, height).getMap();
-		MainFrame frame = new MainFrame(width, height, gameObjects);
+		Map m = new mapGenerator(width, height).getMap();
+		//ArrayList<Agent> agents = new SimpleAlgorithm(m).getAgents();
+		ArrayList<Agent> agents = new ArrayList<Agent>();
+		agents.add(new IntruderAgent(new Point2D.Double(100, 100), new Point2D.Double(105, 105)));
+		agents.add(new SurveillanceAgent(new Point2D.Double(200, 200), new Point2D.Double(205, 205)));
+		MainFrame frame = new MainFrame(m, agents);
 	}
 	
 	

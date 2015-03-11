@@ -37,7 +37,11 @@ public class mapGenerator {
 		}
 		return answer;
 	}
-	public ArrayList<InanimateObjects> getMap(){
+	public Map getMap(){
+		return new Map(width, height, map);
+	}
+	
+	public ArrayList<InanimateObjects> getObjects() {
 		return map;
 	}
 	public void addStructures(){

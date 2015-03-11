@@ -11,12 +11,16 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
+import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
 import com.sun.media.sound.Toolkit;
 
+import Agent.Agent;
+import Agent.IntruderAgent;
+import Agent.SurveillanceAgent;
 import GameObjects.GoalZone;
 import GameObjects.InanimateObjects;
 import GameObjects.OuterWall;
@@ -33,7 +37,11 @@ class GUI extends JComponent{
 	private static final Color COLOR_SENTRY = Color.MAGENTA; 
 	private static final Color COLOR_OUTERWALL = Color.BLACK; 
 	
+	private static final Color COLOR_INTRUDER = Color.RED;
+	private static final Color COLOR_SURVEILLANCE = Color.GREEN;
+	
 	private Map map;
+	private List<Agent> agents;
 	private int selectedObject; 
 	private BindMouseMove movingAdapt = new BindMouseMove();
 	private int currentMouseX;
@@ -43,8 +51,9 @@ class GUI extends JComponent{
 	private Deque<Map> redoStack = new ArrayDeque<Map>(); 
 	
     
-	public GUI(Map map) {		
+	public GUI(Map map, ArrayList<Agent> agents) {		
 		this.map = map;
+		this.agents = agents; 
 		this.setDoubleBuffered(true);
 		this.addMouseListener(movingAdapt);
 		this.addMouseMotionListener(movingAdapt);
@@ -61,9 +70,25 @@ class GUI extends JComponent{
         	paintObject(o, g2d);   
         }
         
+        for (Agent a : agents) {
+        	paintAgent(a, g2d); 
+        }
+        
         paintGoalZone(g2d);
         paintCursorRectangle(g2d);
     }
+	
+	public void paintAgent(Agent a, Graphics2D g) {
+		if (a instanceof IntruderAgent) 
+    		g.setColor(COLOR_INTRUDER);
+		else if (a instanceof SurveillanceAgent) 
+			g.setColor(COLOR_SURVEILLANCE); 
+		
+		double width = a.getBottomRight().getY() - a.getTopLeft().getY(); 
+    	double height = a.getBottomRight().getX() - a.getTopLeft().getX();         	
+        g.fillRect((int)a.getTopLeft().getX(), (int)a.getTopLeft().getY(), (int)width, (int)height);
+	}
+	
 	
 	/* 
 	 * paint an inanimate object
