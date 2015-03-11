@@ -20,16 +20,47 @@ public class SimpleAlgorithm {
 
     public SimpleAlgorithm(Map map){
         this.map = map;
-        sAgent = new SurveillanceAgent();
-        iAgent = new IntruderAgent();
         gameObjects = map.getGameObjects();
 
 
     }
 
-    public void algorithm(){
+    public ArrayList<Agent> algorithm(){
+        ArrayList<Agent> updatedAgents = new ArrayList<Agent>();
+
+        for(int i = 0; i < agents.size(); i++) {
+
+            int c = 0;
+            while( c != 1){
+
+                sAgent = (SurveillanceAgent) agents.get(i);
 
 
+                boolean add = false;
+
+                int random = (int) Math.random() * 4;
+                sAgent.move(random);
+
+                Point2D currentTop = sAgent.getTopLeft();
+                Point2D currentBottom = sAgent.getBottomRight();
+
+                if (emptySpot(currentBottom) && emptySpot(currentTop)) {
+                    boolean m = false;
+                    for (int j = 0; j < gameObjects.size(); j++) {
+                        if (sAgent.isInside(gameObjects.get(j).getTopLeft()) == true) {
+                            m = true;
+                        }
+                    }
+                    if (m == false) {
+                        updatedAgents.add(sAgent);
+                        add = true;
+                        c++;
+
+                    }
+                }
+            }
+        }
+        return updatedAgents;
 
     }
 
@@ -87,7 +118,6 @@ public class SimpleAlgorithm {
 
     public ArrayList<Agent> getAgents(){
         return agents;
-        // change for upload
     }
 
 

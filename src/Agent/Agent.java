@@ -17,43 +17,59 @@ public class Agent {
 	public void move(int direction){
         // moving up
         if(direction == 0){
-            double currenty = topLeft.getY();
-            double currentx =  topLeft.getX();
-            currenty--;
+            double topy = topLeft.getY();
+            double topx =  topLeft.getX();
+            double bottomy = bottomRight.getY();
+            double bottomx = bottomRight.getX();
+            topy--;
+            bottomy--;
 
-            topLeft.setLocation(currentx, currenty);
+            topLeft.setLocation(topx, topy);
+            bottomRight.setLocation(bottomx, bottomy);
         }
 
         // moving left
         if(direction == 1){
 
-            double currenty = topLeft.getY();
-            double currentx =  topLeft.getX();
-            currentx--;
+            double topy = topLeft.getY();
+            double topx =  topLeft.getX();
+            double bottomy = bottomRight.getY();
+            double bottomx = bottomRight.getX();
+            topx--;
+            bottomx--;
 
-            topLeft.setLocation(currentx, currenty);
+            topLeft.setLocation(topx, topy);
+            bottomRight.setLocation(bottomx, bottomy);
 
         }
 
         // moving right
         if(direction == 2){
 
-            double currenty = topLeft.getY();
-            double currentx =  topLeft.getX();
-            currentx++;
+            double topy = topLeft.getY();
+            double topx =  topLeft.getX();
+            double bottomy = bottomRight.getY();
+            double bottomx = bottomRight.getX();
+            topx++;
+            bottomx++;
 
-            topLeft.setLocation(currentx, currenty);
+            topLeft.setLocation(topx, topy);
+            bottomRight.setLocation(bottomx, bottomy);
 
         }
 
         // moving down
         if(direction == 3){
 
-            double currenty = topLeft.getY();
-            double currentx =  topLeft.getX();
-            currenty++;
+            double topy = topLeft.getY();
+            double topx =  topLeft.getX();
+            double bottomy = bottomRight.getY();
+            double bottomx = bottomRight.getX();
+            topy++;
+            bottomy++;
 
-            topLeft.setLocation(currentx, currenty);
+            topLeft.setLocation(topx, topy);
+            bottomRight.setLocation(bottomx, bottomy);
 
         }
 	}
