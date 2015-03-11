@@ -84,8 +84,8 @@ class GUI extends JComponent{
 		else if (a instanceof SurveillanceAgent) 
 			g.setColor(COLOR_SURVEILLANCE); 
 		
-		double width = a.getBottomRight().getY() - a.getTopLeft().getY(); 
-    	double height = a.getBottomRight().getX() - a.getTopLeft().getX();         	
+		double width = a.getBottomRight().getX() - a.getTopLeft().getX(); 
+    	double height = a.getBottomRight().getY() - a.getTopLeft().getY();         	
         g.fillRect((int)a.getTopLeft().getX(), (int)a.getTopLeft().getY(), (int)width, (int)height);
 	}
 	
@@ -95,8 +95,8 @@ class GUI extends JComponent{
 	 */
 	public void paintObject(InanimateObjects o, Graphics2D g) {
 		g.setColor(getColor(o));
-		double width = o.getBottomRight().getY() - o.getTopLeft().getY(); 
-    	double height = o.getBottomRight().getX() - o.getTopLeft().getX();         	
+		double width = o.getBottomRight().getX() - o.getTopLeft().getX(); 
+    	double height = o.getBottomRight().getY() - o.getTopLeft().getY();         	
         g.fillRect((int)o.getTopLeft().getX(), (int)o.getTopLeft().getY(), (int)width, (int)height);
 	}
 	
