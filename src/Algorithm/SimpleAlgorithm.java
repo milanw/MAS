@@ -33,30 +33,59 @@ public class SimpleAlgorithm {
             int c = 0;
             while( c != 1){
 
-                sAgent = (SurveillanceAgent) agents.get(i);
+                if (agents.get(i) == sAgent) {
+                    sAgent = (SurveillanceAgent) agents.get(i);
 
 
-                boolean add = false;
+                    boolean add = false;
 
-                int random = (int) Math.random() * 4;
-                sAgent.move(random);
+                    int random = (int) Math.random() * 4;
+                    sAgent.move(random);
 
-                Point2D currentTop = sAgent.getTopLeft();
-                Point2D currentBottom = sAgent.getBottomRight();
+                    Point2D currentTop = sAgent.getTopLeft();
+                    Point2D currentBottom = sAgent.getBottomRight();
 
-                if (emptySpot(currentBottom) && emptySpot(currentTop)) {
-                    boolean m = false;
-                    for (int j = 0; j < gameObjects.size(); j++) {
-                        if (sAgent.isInside(gameObjects.get(j).getTopLeft()) == true) {
-                            m = true;
+                    if (emptySpot(currentBottom) && emptySpot(currentTop)) {
+                        boolean m = false;
+                        for (int j = 0; j < gameObjects.size(); j++) {
+                            if (sAgent.isInside(gameObjects.get(j).getTopLeft()) == true) {
+                                m = true;
+                            }
+                        }
+                        if (m == false) {
+                            updatedAgents.add(sAgent);
+                            add = true;
+                            c++;
+
                         }
                     }
-                    if (m == false) {
-                        updatedAgents.add(sAgent);
-                        add = true;
-                        c++;
+                }
+                else{
+                        iAgent = (IntruderAgent) agents.get(i);
 
-                    }
+
+                        boolean add = false;
+
+                        int random = (int) Math.random() * 4;
+                        iAgent.move(random);
+
+                        Point2D currentTop = iAgent.getTopLeft();
+                        Point2D currentBottom = iAgent.getBottomRight();
+
+                        if (emptySpot(currentBottom) && emptySpot(currentTop)) {
+                            boolean m = false;
+                            for (int j = 0; j < gameObjects.size(); j++) {
+                                if (iAgent.isInside(gameObjects.get(j).getTopLeft()) == true) {
+                                    m = true;
+                                }
+                            }
+                            if (m == false) {
+                                updatedAgents.add(iAgent);
+                                add = true;
+                                c++;
+
+                            }
+                        }
                 }
             }
         }
