@@ -10,6 +10,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -28,6 +29,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
 
 import Agent.Agent;
+import Agent.IntruderAgent;
+import Agent.SurveillanceAgent;
 import Algorithm.SimpleAlgorithm;
 import GameObjects.InanimateObjects;
 import Map.Map;
@@ -210,7 +213,10 @@ public class MainFrame extends JFrame {
 		int width = 600;
 		int height = 600;
 		Map m = new mapGenerator(width, height).getMap();
-		ArrayList<Agent> agents = new SimpleAlgorithm(m).getAgents();
+		//ArrayList<Agent> agents = new SimpleAlgorithm(m).getAgents();
+		ArrayList<Agent> agents = new ArrayList<Agent>();
+		agents.add(new IntruderAgent(new Point2D.Double(100, 100), new Point2D.Double(105, 105)));
+		agents.add(new SurveillanceAgent(new Point2D.Double(200, 200), new Point2D.Double(205, 205)));
 		MainFrame frame = new MainFrame(m, agents);
 	}
 	
