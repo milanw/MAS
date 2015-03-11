@@ -15,6 +15,7 @@ import javax.swing.border.EmptyBorder;
 import Agent.Agent;
 import GameObjects.InanimateObjects;
 import Map.mapGenerator;
+import Map.Map;
 
 public class Menu extends JFrame {
 
@@ -85,13 +86,13 @@ public class Menu extends JFrame {
 				setVisible(false);
 				int width = Integer.parseInt(txtWidth.getText());
 				int height = Integer.parseInt(txtHeight.getText());
-				ArrayList<InanimateObjects> gameObjects = new mapGenerator(width, height).getMap(); 
+				Map map = new mapGenerator(width, height).getMap();
 				/*ArrayList<InanimateObjects> gameObjects = new ArrayList<InanimateObjects>(); 
 				gameObjects.add(new GoalZone(new Point(100, 100), new Point(150, 150))); 
 		    	gameObjects.add(new SentryTower(new Point(200, 300), new Point(400, 500))); 
 				*/
 				ArrayList<Agent> agents = new ArrayList<Agent>();
-				MainFrame frame = new MainFrame(width, height, gameObjects, agents);
+				MainFrame frame = new MainFrame(map, agents);
 			}
 			
 		});

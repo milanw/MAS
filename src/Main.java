@@ -4,8 +4,8 @@ import Map.mapGenerator;
 public class Main {
 	public static void main(String[] args){
 		mapGenerator h = new mapGenerator(200, 200);
-		for(int i=0;i<h.getMap().size();i++){
-			System.out.println(h.getMap().get(i).getClass() + " " + h.getMap().get(i).getTopLeft() + " " + h.getMap().get(i).getBottomRight());
+		for(int i=0;i<h.getObjects().size();i++){
+			System.out.println(h.getObjects().get(i).getClass() + " " + h.getObjects().get(i).getTopLeft() + " " + h.getObjects().get(i).getBottomRight());
 		}
 	
 	}

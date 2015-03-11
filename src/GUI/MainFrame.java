@@ -28,6 +28,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
 
 import Agent.Agent;
+import Algorithm.SimpleAlgorithm;
 import GameObjects.InanimateObjects;
 import Map.Map;
 import Map.MapExporter;
@@ -43,10 +44,10 @@ public class MainFrame extends JFrame {
 	private JPanel panel;
 	public int objectSelected = 0;
 	
-	public MainFrame(int mapWidth, int mapHeight, ArrayList<InanimateObjects> gameObjects, ArrayList<Agent> agents) {
-		this.width = mapWidth;
-		this.height = mapHeight; 
-		this.map = new Map(mapWidth, mapHeight, gameObjects);
+	public MainFrame(Map map, ArrayList<Agent> agents) {
+		this.width = map.getWidth();
+		this.height = map.getHeight(); 
+		this.map = map;
 		
 		this.setTitle("Multi-Agent Surveillance");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		
@@ -94,7 +95,7 @@ public class MainFrame extends JFrame {
         JMenuItem genRndMapItem = new JMenuItem("Generate new random Map");
         genRndMapItem.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
-                        map = new Map(width, height, new mapGenerator(width, height).getMap());                        
+                        map = new Map(new mapGenerator(width, height).getMap());                        
                         mapView.setMap(map);                        
         }});
         genRndMapItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
@@ -208,9 +209,9 @@ public class MainFrame extends JFrame {
 	public static void main(String[] args) {
 		int width = 600;
 		int height = 600;
-		ArrayList<InanimateObjects> gameObjects = new mapGenerator(width, height).getMap();
-		ArrayList<Agent> agents = new ArrayList<Agent>();
-		MainFrame frame = new MainFrame(width, height, gameObjects, agents);
+		Map m = new mapGenerator(width, height).getMap();
+		ArrayList<Agent> agents = new SimpleAlgorithm(m).getAgents();
+		MainFrame frame = new MainFrame(m, agents);
 	}
 	
 	
