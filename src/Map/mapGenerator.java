@@ -11,13 +11,14 @@ import java.util.ArrayList;
 
 
 
+
 import GameObjects.InanimateObjects;
 import GameObjects.OuterWall;
 import GameObjects.Structure;
 
 public class mapGenerator {
 	ArrayList<InanimateObjects> map = new ArrayList<InanimateObjects>();
-	int structureAmount = 10;
+	int structureAmount = 14;
 	int height;
 	int width;
 	
@@ -26,6 +27,9 @@ public class mapGenerator {
 		this.width= width;
 		addOuterWalls();
 		addStructures();
+		for(int i=0;i<map.size();i++){
+			System.out.println(map.get(i).getClass() + " " + map.get(i).getTopLeft() + " " + map.get(i).getBottomRight());
+		}
 	}
 
 	public boolean emptySpot(Point2D n){
@@ -49,8 +53,8 @@ public class mapGenerator {
 			double x = Math.random()*width;
 			double y = Math.random()*height;
 			Point2D.Double topleft = new Point2D.Double(x, y);
-			double nx = x + (Math.random()*width)/(structureAmount*2);
-			double ny = y + (Math.random()*height)/(structureAmount*2);
+			double nx = x + (width/structureAmount)+(Math.random()*width)/(structureAmount);
+			double ny = y + (height/structureAmount)+(Math.random()*height)/(structureAmount);
 			Point2D.Double bottomright = new Point2D.Double(nx, ny);
 			if(emptySpot(topleft) && emptySpot(bottomright)){
 				Structure s = new Structure(topleft, bottomright);
