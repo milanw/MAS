@@ -201,6 +201,17 @@ public class MainFrame extends JFrame {
 	 */
 	public JPanel createSimulationMenu() {
 		  JPanel simulationMenu = new JPanel(); 
+		  simulationMenu.setLayout(new FlowLayout());
+		  
+		  String startStop = "Start/Stop"; 
+		  JButton startStopButton = new JButton(startStop); 		 
+	      startStopButton.addActionListener(new ActionListener() {
+	                    public void actionPerformed(ActionEvent e) {            
+	                        //do shit
+	                    	
+	      }});
+	      
+	      simulationMenu.add(startStopButton); 
 		  
 		  return simulationMenu;
 	}
