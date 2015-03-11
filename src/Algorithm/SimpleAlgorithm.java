@@ -87,6 +87,7 @@ public class SimpleAlgorithm {
 
     public ArrayList<Agent> getAgents(){
         return agents;
+        // change for upload
     }
 
 
