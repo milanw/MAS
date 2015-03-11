@@ -11,6 +11,11 @@ public class Agent {
     Point2D bottomRight;
 
 	
+	public Agent(Point2D topLeft, Point2D bottomRight){
+		this.topLeft = topLeft; 
+		this.bottomRight = bottomRight; 
+	}
+	
 	public Agent(){
 		
 	}

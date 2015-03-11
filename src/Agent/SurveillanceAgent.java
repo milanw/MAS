@@ -1,5 +1,7 @@
 package Agent;
 
+import java.awt.geom.Point2D;
+
 public class SurveillanceAgent extends Agent{
 
     public double visionRange = 6.0;
@@ -8,6 +10,10 @@ public class SurveillanceAgent extends Agent{
 
 	public SurveillanceAgent(){
 		
+	}
+	
+	public SurveillanceAgent(Point2D topLeft, Point2D bottomRight){
+		super(topLeft, bottomRight);
 	}
 
     public double getVisionRange() {
