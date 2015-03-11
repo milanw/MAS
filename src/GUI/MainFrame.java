@@ -27,6 +27,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import java.io.File;
 
+import Agent.Agent;
 import GameObjects.InanimateObjects;
 import Map.Map;
 import Map.MapExporter;
@@ -42,7 +43,7 @@ public class MainFrame extends JFrame {
 	private JPanel panel;
 	public int objectSelected = 0;
 	
-	public MainFrame(int mapWidth, int mapHeight, ArrayList<InanimateObjects> gameObjects) {
+	public MainFrame(int mapWidth, int mapHeight, ArrayList<InanimateObjects> gameObjects, ArrayList<Agent> agents) {
 		this.width = mapWidth;
 		this.height = mapHeight; 
 		this.map = new Map(mapWidth, mapHeight, gameObjects);
@@ -55,7 +56,7 @@ public class MainFrame extends JFrame {
         //map view
         panel = new JPanel();
         panel.setLayout(new BorderLayout());
-        mapView = new GUI(map);       
+        mapView = new GUI(map, agents);       
         mapView.setPreferredSize(new Dimension(width,height));
         panel.add(mapView,BorderLayout.WEST);
         
@@ -208,7 +209,8 @@ public class MainFrame extends JFrame {
 		int width = 600;
 		int height = 600;
 		ArrayList<InanimateObjects> gameObjects = new mapGenerator(width, height).getMap();
-		MainFrame frame = new MainFrame(width, height, gameObjects);
+		ArrayList<Agent> agents = new ArrayList<Agent>();
+		MainFrame frame = new MainFrame(width, height, gameObjects, agents);
 	}
 	
 	

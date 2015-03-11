@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import Agent.Agent;
 import GameObjects.InanimateObjects;
 import Map.mapGenerator;
 
@@ -89,7 +90,8 @@ public class Menu extends JFrame {
 				gameObjects.add(new GoalZone(new Point(100, 100), new Point(150, 150))); 
 		    	gameObjects.add(new SentryTower(new Point(200, 300), new Point(400, 500))); 
 				*/
-				MainFrame frame = new MainFrame(width, height, gameObjects);
+				ArrayList<Agent> agents = new ArrayList<Agent>();
+				MainFrame frame = new MainFrame(width, height, gameObjects, agents);
 			}
 			
 		});
