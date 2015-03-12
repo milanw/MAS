@@ -67,19 +67,28 @@ public class mapGenerator {
 	
 		}
 	}
-	public void addOuterWalls(){
+	public void addOuterWalls(){	
+		
+		//left
 		Point2D.Double x = new Point2D.Double(0, 0);
-		Point2D.Double y = new Point2D.Double(height, 2);
+		Point2D.Double y = new Point2D.Double(2, height);
 		OuterWall d = new OuterWall(x, y);
-		Point2D.Double x1 = new Point2D.Double(2, 0);
-		Point2D.Double y1 = new Point2D.Double(2, width);
+		
+		//top
+		Point2D.Double x1 = new Point2D.Double(0, 0);
+		Point2D.Double y1 = new Point2D.Double(width, 2);
 		OuterWall d1 = new OuterWall(x1, y1);
-		Point2D.Double x2 = new Point2D.Double(2, width-2);
-		Point2D.Double y2 = new Point2D.Double(height, width);
+		
+		//right
+		Point2D.Double x2 = new Point2D.Double(width-2, 0);
+		Point2D.Double y2 = new Point2D.Double(width, height);
 		OuterWall d2 = new OuterWall(x2, y2);
-		Point2D.Double x3 = new Point2D.Double(height-2, 2);
-		Point2D.Double y3 = new Point2D.Double(height, width-2);
+		
+		//bottom
+		Point2D.Double x3 = new Point2D.Double(0, height-2);
+		Point2D.Double y3 = new Point2D.Double(width, height);
 		OuterWall d3 = new OuterWall(x3, y3);
+		
 		map.add(d);
 		map.add(d1);
 		map.add(d2);
