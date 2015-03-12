@@ -3,6 +3,7 @@ package GUI;
 
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -14,6 +15,7 @@ import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -24,6 +26,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.KeyStroke;
+import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import java.io.File;
@@ -54,7 +57,7 @@ public class MainFrame extends JFrame {
 		
 		this.setTitle("Multi-Agent Surveillance");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		
-        this.setSize(width+RIGHTMENU_WIDTH, height);
+        this.setSize(width+RIGHTMENU_WIDTH, height+100);
         this.setLocationRelativeTo(null);
         
         //map view
@@ -62,6 +65,7 @@ public class MainFrame extends JFrame {
         panel.setLayout(new BorderLayout());
         mapView = new GUI(map, agents);       
         mapView.setPreferredSize(new Dimension(width,height));
+       // mapView.setBorder(BorderFactory.createLineBorder(Color.GRAY,25));
         panel.add(mapView,BorderLayout.WEST);
         
         
