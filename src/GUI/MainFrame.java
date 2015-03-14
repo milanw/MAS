@@ -36,6 +36,7 @@ import Agent.IntruderAgent;
 import Agent.SurveillanceAgent;
 import Algorithm.SimpleAlgorithm;
 import GameObjects.InanimateObjects;
+import Main.Main;
 import Map.Map;
 import Map.MapExporter;
 import Map.MapImporter;
@@ -51,6 +52,7 @@ public class MainFrame extends JFrame {
 	public int objectSelected = 0;
 	
 	public MainFrame(Map map, ArrayList<Agent> agents) {
+		
 		this.width = map.getWidth();
 		this.height = map.getHeight(); 
 		this.map = map;
@@ -211,7 +213,7 @@ public class MainFrame extends JFrame {
 		  JButton startStopButton = new JButton(startStop); 		 
 	      startStopButton.addActionListener(new ActionListener() {
 	                    public void actionPerformed(ActionEvent e) {            
-	                        //do shit
+	                        //Main.simulationRunning = true;
 	                    	
 	      }});
 	      
