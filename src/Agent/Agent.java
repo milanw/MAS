@@ -1,6 +1,7 @@
 package Agent;
 
 import java.awt.geom.Point2D;
+import java.util.Random;
 
 public class Agent {
 
@@ -19,65 +20,42 @@ public class Agent {
 	public Agent(){
 		
 	}
+	
+	public void moveRandomly() {
+		Random rnd = new Random(); 
+		move(rnd.nextInt(4)); 
+	}
+	
 	public void move(int direction){
+		 double topy = topLeft.getY();
+         double topx =  topLeft.getX();
+         double bottomy = bottomRight.getY();
+         double bottomx = bottomRight.getX();
         // moving up
         if(direction == 0){
-            double topy = topLeft.getY();
-            double topx =  topLeft.getX();
-            double bottomy = bottomRight.getY();
-            double bottomx = bottomRight.getX();
-            topy--;
-            bottomy--;
-
-            topLeft.setLocation(topx, topy);
-            bottomRight.setLocation(bottomx, bottomy);
+        	topLeft.setLocation(topx, --topy);
+            bottomRight.setLocation(bottomx, --bottomy);
         }
 
         // moving left
-        if(direction == 1){
-
-            double topy = topLeft.getY();
-            double topx =  topLeft.getX();
-            double bottomy = bottomRight.getY();
-            double bottomx = bottomRight.getX();
-            topx--;
-            bottomx--;
-
-            topLeft.setLocation(topx, topy);
-            bottomRight.setLocation(bottomx, bottomy);
-
+        else if(direction == 1){
+        	topLeft.setLocation(--topx, topy);
+            bottomRight.setLocation(--bottomx, bottomy);
         }
 
         // moving right
-        if(direction == 2){
-
-            double topy = topLeft.getY();
-            double topx =  topLeft.getX();
-            double bottomy = bottomRight.getY();
-            double bottomx = bottomRight.getX();
-            topx++;
-            bottomx++;
-
-            topLeft.setLocation(topx, topy);
-            bottomRight.setLocation(bottomx, bottomy);
-
+        else if(direction == 2){
+        	topLeft.setLocation(++topx, topy);
+            bottomRight.setLocation(++bottomx, bottomy);
         }
 
         // moving down
-        if(direction == 3){
-
-            double topy = topLeft.getY();
-            double topx =  topLeft.getX();
-            double bottomy = bottomRight.getY();
-            double bottomx = bottomRight.getX();
-            topy++;
-            bottomy++;
-
-            topLeft.setLocation(topx, topy);
-            bottomRight.setLocation(bottomx, bottomy);
-
+        else if(direction == 3){
+        	topLeft.setLocation(topx, ++topy);
+            bottomRight.setLocation(bottomx, ++bottomy);
         }
 	}
+	
 	public void turn() {
 
 	}
