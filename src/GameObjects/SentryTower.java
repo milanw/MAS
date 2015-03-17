@@ -1,13 +1,14 @@
 package GameObjects;
 
 import java.awt.Point;
+import java.awt.geom.Point2D;
 
 
 public class SentryTower extends InanimateObjects{
 
     public int visionRange = 18;
 
-	public SentryTower(Point x, Point y) {
+	public SentryTower(Point2D x, Point2D y) {
 		topLeft = x;
 		bottomRight = y;
 	}

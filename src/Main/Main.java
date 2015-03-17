@@ -8,6 +8,7 @@ import Agent.Agent;
 import Agent.IntruderAgent;
 import Agent.SurveillanceAgent;
 import GUI.MainFrame;
+import GUI.Menu;
 import Map.Map;
 import Map.mapGenerator;
 
@@ -33,7 +34,7 @@ public class Main {
 			s2 = new Point2D.Double(Math.random()*map.getHeight(), Math.random()*map.getWidth());
 		}
 		agents.add(new IntruderAgent(new Point2D.Double(100, 100), new Point2D.Double(105, 105)));
-		agents.add(new SurveillanceAgent(new Point2D.Double(200, 200), new Point2D.Double(205, 205)));
+		agents.add(new SurveillanceAgent(new Point2D.Double(200, 200), new Point2D.Double(205, 205))); 
 		frame = new MainFrame(map, agents);
 		startGameLoop();
 	}

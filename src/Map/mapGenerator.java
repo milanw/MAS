@@ -4,21 +4,15 @@ import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
-
-
-
-
-
-
-
-
 import GameObjects.InanimateObjects;
 import GameObjects.OuterWall;
+import GameObjects.SentryTower;
 import GameObjects.Structure;
 
 public class mapGenerator {
 	ArrayList<InanimateObjects> map = new ArrayList<InanimateObjects>();
-	int structureAmount = 24;
+	int structureAmount = 15;
+	int sentrytowerAmount = 4;
 	int height;
 	int width;
 	
@@ -27,6 +21,7 @@ public class mapGenerator {
 		this.width= width;
 		addOuterWalls();
 		addStructures();
+		addSentryTowers();
 		for(int i=0;i<map.size();i++){
 			System.out.println(map.get(i).getClass() + " " + map.get(i).getTopLeft() + " " + map.get(i).getBottomRight());
 		}
@@ -49,7 +44,8 @@ public class mapGenerator {
 		return map;
 	}
 	public void addStructures(){
-		while(map.size() < structureAmount){
+		int samount = structureAmount;
+		while(0<samount){
 			double x = 2+Math.random()*width-2;
 			double y = 2+Math.random()*height-2;
 			Point2D.Double topleft = new Point2D.Double(x, y);
@@ -78,10 +74,49 @@ public class mapGenerator {
 				}
 				if(m == false){
 					map.add(s);
+					samount--;
+					System.out.println("structureamount = "+ samount);
 				}
 			}
 	
 		}
+	}
+	public void addSentryTowers(){
+		int samount = sentrytowerAmount;
+		System.out.println("sentryamount = "+ samount);
+		while(0<samount){
+		double x = 2+Math.random()*width-2;
+		double y = 2+Math.random()*height-2;
+		double nx = x + (width/50);
+		double ny = y + (height/50);
+		while(nx>width || ny>height){
+			x = 2+Math.random()*width-2;
+			y = 2+Math.random()*height-2;
+			nx = x + (width/50);
+			ny = y + (height/50);
+		}
+
+		Point2D.Double topleft = new Point2D.Double(x, y);
+		Point2D.Double bottomright = new Point2D.Double(nx, ny);
+		Point2D.Double topright = new Point2D.Double(nx, y);
+		Point2D.Double bottomleft = new Point2D.Double(x, ny);
+		Point2D.Double middlePoint = new Point2D.Double(nx-x,ny-y);
+		if(emptySpot(topleft) && emptySpot(bottomright) && emptySpot(topright)&&emptySpot(bottomleft)&&emptySpot(middlePoint)){
+			SentryTower s = new SentryTower(topleft, bottomright);
+			boolean m = false;
+			for(int j = 0;j<map.size();j++){
+				if(s.isInside(map.get(j).getTopLeft()) == true){
+					m = true;
+				}
+			}
+			if(m == false){
+				map.add(s);
+				samount--;
+				System.out.println("sentyamount = " + samount);
+			}
+		}
+		}
+
 	}
 	public void addOuterWalls(){	
 		
