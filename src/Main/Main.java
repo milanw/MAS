@@ -1,4 +1,5 @@
 package Main;
+import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
@@ -16,17 +17,18 @@ public class Main {
 	private int fps = 60;
 	private int frameCount = 0;
 	private MainFrame frame;
+	private Map map; 
 	private ArrayList<Agent> agents;
 
 
 	public Main() {
 		int width = 600;
 		int height = 600;
-		Map m = new mapGenerator(width, height).getMap();		
+		map = new mapGenerator(width, height).getMap();		
 		agents = new ArrayList<Agent>();
 		agents.add(new IntruderAgent(new Point2D.Double(100, 100), new Point2D.Double(105, 105)));
 		agents.add(new SurveillanceAgent(new Point2D.Double(200, 200), new Point2D.Double(205, 205)));
-		frame = new MainFrame(m, agents);
+		frame = new MainFrame(map, agents);
 		startGameLoop();
 	}
 	public static void main(String[] args){
@@ -111,9 +113,24 @@ public class Main {
 
 	public void updateSimulation() {
 		for (Agent a : agents) {
-			a.moveRandomly(); 
+			
+			Point2D[] move = a.getNextMove(); 
+			if (isMoveValid(move)) {
+				a.setTopLeft(move[0]);
+				a.setBottomRight(move[1]);
+			}
+			
 		}
 
+	}
+	
+	
+	public boolean isMoveValid(Point2D[] move) {
+		int width = (int)(move[1].getX()-move[0].getX());
+		int height = (int)(move[1].getY()-move[0].getY());
+		Rectangle collisionRectangle = new Rectangle((int)move[0].getX(), (int)move[0].getY(), width, height);
+		
+		return map.checkCollisions(collisionRectangle);
 	}
 
 	public void drawSimulation() {

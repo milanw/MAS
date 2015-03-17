@@ -151,7 +151,7 @@ class GUI extends JComponent{
 			
 			//if possible, insert game object
 			if (o != null) {
-				if (map.checkCollisions(o))
+				if (map.checkCollisions(map.getObjectRectangle(o)))
 					undoStack.push(new Map(map));
 				map.addObject(o);
 			}

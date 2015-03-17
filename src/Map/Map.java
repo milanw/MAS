@@ -51,7 +51,7 @@ public class Map {
 	}
 	
 	public boolean addObject(InanimateObjects o) {
-		if (checkCollisions(o)) {
+		if (checkCollisions(getObjectRectangle(o))) {
 			gameObjects.add(o); 
 			return true;
 		}
@@ -59,8 +59,7 @@ public class Map {
 		return false; 
 	}
 	
-	public boolean checkCollisions(InanimateObjects o) {
-		Rectangle objectRectangle = getObjectRectangle(o);
+	public boolean checkCollisions(Rectangle objectRectangle) {
 		
 		for (InanimateObjects i : gameObjects) {
 			Rectangle r = getObjectRectangle(i);

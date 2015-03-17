@@ -21,39 +21,46 @@ public class Agent {
 		
 	}
 	
-	public void moveRandomly() {
+	public Point2D[] getNextMove() {
 		Random rnd = new Random(); 
-		move(rnd.nextInt(4)); 
+		if (rnd.nextBoolean()) 
+			return move(rnd.nextInt(4)); 
+		else
+			return move(1);
 	}
 	
-	public void move(int direction){
+	public Point2D[] move(int direction){
+		Point2D newTopLeft = new Point2D.Double();
+		Point2D newBottomRight = new Point2D.Double();
 		 double topy = topLeft.getY();
          double topx =  topLeft.getX();
          double bottomy = bottomRight.getY();
          double bottomx = bottomRight.getX();
         // moving up
         if(direction == 0){
-        	topLeft.setLocation(topx, --topy);
-            bottomRight.setLocation(bottomx, --bottomy);
+        	newTopLeft.setLocation(topx, --topy);
+            newBottomRight.setLocation(bottomx, --bottomy);
         }
 
         // moving left
         else if(direction == 1){
-        	topLeft.setLocation(--topx, topy);
-            bottomRight.setLocation(--bottomx, bottomy);
+        	newTopLeft.setLocation(--topx, topy);
+        	newBottomRight.setLocation(--bottomx, bottomy);
         }
 
         // moving right
         else if(direction == 2){
-        	topLeft.setLocation(++topx, topy);
-            bottomRight.setLocation(++bottomx, bottomy);
+        	newTopLeft.setLocation(++topx, topy);
+        	newBottomRight.setLocation(++bottomx, bottomy);
         }
 
         // moving down
         else if(direction == 3){
-        	topLeft.setLocation(topx, ++topy);
-            bottomRight.setLocation(bottomx, ++bottomy);
+        	newTopLeft.setLocation(topx, ++topy);
+        	newBottomRight.setLocation(bottomx, ++bottomy);
         }
+        
+        return new Point2D[] {newTopLeft, newBottomRight}; 
 	}
 	
 	public void turn() {
