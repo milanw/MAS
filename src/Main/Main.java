@@ -1,6 +1,7 @@
 package Main;
 import java.awt.Rectangle;
 import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 
 import Agent.Agent;
@@ -21,18 +22,20 @@ public class Main {
 	private ArrayList<Agent> agents;
 
 
-	public Main() {
-		int width = 600;
-		int height = 600;
-		map = new mapGenerator(width, height).getMap();		
+	public Main(Map nmap) {
+
+		map = nmap;	
 		agents = new ArrayList<Agent>();
+		Point2D.Double s1 = new Point2D.Double(Math.random()*map.getHeight(), Math.random()*map.getWidth());
+		Point2D.Double s2 = new Point2D.Double(Math.random()*map.getHeight(), Math.random()*map.getWidth());
+		while(!map.emptySpot(s1)||!map.emptySpot(s2)){
+			s1 = new Point2D.Double(Math.random()*map.getHeight(), Math.random()*map.getWidth());
+			s2 = new Point2D.Double(Math.random()*map.getHeight(), Math.random()*map.getWidth());
+		}
 		agents.add(new IntruderAgent(new Point2D.Double(100, 100), new Point2D.Double(105, 105)));
 		agents.add(new SurveillanceAgent(new Point2D.Double(200, 200), new Point2D.Double(205, 205)));
 		frame = new MainFrame(map, agents);
 		startGameLoop();
-	}
-	public static void main(String[] args){
-		new Main();
 	}
 
 	public void startGameLoop() {
@@ -112,6 +115,7 @@ public class Main {
 	}
 
 	public void updateSimulation() {
+		System.out.println("update");
 		for (Agent a : agents) {
 			
 			Point2D[] move = a.getNextMove(); 

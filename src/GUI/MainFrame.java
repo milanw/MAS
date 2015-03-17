@@ -213,8 +213,7 @@ public class MainFrame extends JFrame {
 		  JButton startStopButton = new JButton(startStop); 		 
 	      startStopButton.addActionListener(new ActionListener() {
 	                    public void actionPerformed(ActionEvent e) {            
-	                        //Main.simulationRunning = true;
-	                    	
+	                        Main v = new Main(map);
 	      }});
 	      
 	      simulationMenu.add(startStopButton); 
@@ -236,6 +235,4 @@ public class MainFrame extends JFrame {
 		agents.add(new SurveillanceAgent(new Point2D.Double(200, 200), new Point2D.Double(205, 205)));
 		MainFrame frame = new MainFrame(m, agents);
 	}
-	
-	
 }
