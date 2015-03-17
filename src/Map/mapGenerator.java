@@ -18,7 +18,7 @@ import GameObjects.Structure;
 
 public class mapGenerator {
 	ArrayList<InanimateObjects> map = new ArrayList<InanimateObjects>();
-	int structureAmount = 14;
+	int structureAmount = 24;
 	int height;
 	int width;
 	
@@ -50,13 +50,25 @@ public class mapGenerator {
 	}
 	public void addStructures(){
 		while(map.size() < structureAmount){
-			double x = Math.random()*width;
-			double y = Math.random()*height;
+			double x = 2+Math.random()*width-2;
+			double y = 2+Math.random()*height-2;
 			Point2D.Double topleft = new Point2D.Double(x, y);
-			double nx = x + (width/structureAmount)+(Math.random()*width)/(structureAmount);
-			double ny = y + (height/structureAmount)+(Math.random()*height)/(structureAmount);
+
+			double nx = x + (width/structureAmount*1.5)+(Math.random()*width)/(structureAmount);
+			double ny = y + (height/structureAmount*1.5)+(Math.random()*height)/(structureAmount);
+			while(nx>width || ny>height){
+				x = 2+Math.random()*width-2;
+				y = 2+Math.random()*height-2;
+				topleft = new Point2D.Double(x, y);
+
+				nx = x + (width/structureAmount)+(Math.random()*width)/(structureAmount);
+				ny = y + (height/structureAmount)+(Math.random()*height)/(structureAmount);
+			}
 			Point2D.Double bottomright = new Point2D.Double(nx, ny);
-			if(emptySpot(topleft) && emptySpot(bottomright)){
+			Point2D.Double topright = new Point2D.Double(nx, y);
+			Point2D.Double bottomleft = new Point2D.Double(x, ny);
+			Point2D.Double middlePoint = new Point2D.Double(nx-x,ny-y);
+			if(emptySpot(topleft) && emptySpot(bottomright) && emptySpot(topright)&&emptySpot(bottomleft)&&emptySpot(middlePoint)){
 				Structure s = new Structure(topleft, bottomright);
 				boolean m = false;
 				for(int j = 0;j<map.size();j++){

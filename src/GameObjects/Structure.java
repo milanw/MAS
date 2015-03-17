@@ -13,7 +13,23 @@ public class Structure extends InanimateObjects{
 		bottomRight = y;
 	}
 	public boolean isInside(Point2D n){
-		return n.getX() < topLeft.getX() && n.getX() > bottomRight.getX() && n.getY() < topLeft.getY() && n.getY() > bottomRight.getY();
+		boolean xanswer = false;
+		boolean yanswer = false;
+//		System.out.println("point n: x = " + n.getX() + " y = "+ n.getY());
+//		System.out.println("topleft: x = "+ topLeft.getX()+ " y = " + topLeft.getY());
+//		System.out.println("bottomright: x = "+bottomRight.getX() + " y = "+bottomRight.getY());
+		if(n.getX() > topLeft.getX() && n.getX() < bottomRight.getX()){
+			xanswer = true;
+		}
+		if(n.getY() > topLeft.getY() && n.getY() < bottomRight.getY()){
+			yanswer = true;
+		}
+		boolean answer = false;
+		if(xanswer&&yanswer){
+			answer = true;
+		}
+		return answer;
+
 	}
 	public Point2D getTopLeft(){
 		return topLeft;
