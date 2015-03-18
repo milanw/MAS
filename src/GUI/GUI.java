@@ -9,11 +9,14 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 
 import com.sun.media.sound.Toolkit;
@@ -48,8 +51,12 @@ class GUI extends JComponent{
 	private int currentMouseY;
 	private boolean showRectangle;
 	private boolean showVisionCircle = true; 
+	private boolean showImages = true; 								//rectangles or images?
 	private Deque<Map> undoStack = new ArrayDeque<Map>(); 
 	private Deque<Map> redoStack = new ArrayDeque<Map>(); 
+	BufferedImage sentryImg = null;
+	BufferedImage structureImg = null;
+	BufferedImage outerWallImg = null;
 	
     
 	public GUI(Map map, ArrayList<Agent> agents) {		
@@ -58,6 +65,13 @@ class GUI extends JComponent{
 		this.setDoubleBuffered(true);
 		this.addMouseListener(movingAdapt);
 		this.addMouseMotionListener(movingAdapt);
+		
+		try {
+		    sentryImg = ImageIO.read(new File("src/Images/sentry.jpg"));
+		    outerWallImg = ImageIO.read(new File("src/Images/outerwall.jpg"));
+		    structureImg = ImageIO.read(new File("src/Images/structure.jpg"));
+		} catch (IOException e) {}
+		
 	}
 
 	public void paintComponent(Graphics g) {
@@ -68,7 +82,7 @@ class GUI extends JComponent{
         g2d.fillRect (0, 0, map.getWidth(), map.getHeight());  
         
         for (InanimateObjects o : map.getGameObjects()) {
-        	paintObject(o, g2d);   
+        	paintObject(o, g2d);          	
         }
         
         for (Agent a : agents) {
@@ -78,6 +92,7 @@ class GUI extends JComponent{
         paintGoalZone(g2d);
         paintCursorRectangle(g2d);
     }
+	
 	
 	public void paintAgent(Agent a, Graphics2D g) {
 		if (a instanceof IntruderAgent) 
@@ -106,9 +121,15 @@ class GUI extends JComponent{
 	 */
 	public void paintObject(InanimateObjects o, Graphics2D g) {
 		g.setColor(getColor(o));
-		double width = o.getBottomRight().getX() - o.getTopLeft().getX(); 
-    	double height = o.getBottomRight().getY() - o.getTopLeft().getY();         	
-        g.fillRect((int)o.getTopLeft().getX(), (int)o.getTopLeft().getY(), (int)width, (int)height);
+		int width = (int)(o.getBottomRight().getX() - o.getTopLeft().getX()); 
+    	int height = (int)(o.getBottomRight().getY() - o.getTopLeft().getY());         	
+    	g.fillRect((int)o.getTopLeft().getX(), (int)o.getTopLeft().getY(), width, height);        		
+		
+    	if (showImages) 
+    		g.drawImage(getImage(o), (int)o.getTopLeft().getX(), (int)o.getTopLeft().getY(), width, height, getColor(o), null);
+    	else {} //once there are images for everything this should contain g.fillRect..
+    	
+        
 	}
 	
 	/* 
@@ -126,6 +147,23 @@ class GUI extends JComponent{
 		
 		else 
 			return COLOR_GRASS;
+	}
+	
+	/* 
+	 * return image corresponding to inanimate object
+	 */
+	public BufferedImage getImage(InanimateObjects o) {
+		if (o instanceof OuterWall) 
+    		return outerWallImg;
+    	
+		else if (o instanceof SentryTower) 
+    		return sentryImg; 
+    	
+		else if (o instanceof Structure) 
+    		return structureImg;
+		
+		else 
+			return null;
 	}
 	
 	public void paintCursorRectangle(Graphics2D g) {
