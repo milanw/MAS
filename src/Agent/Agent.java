@@ -24,11 +24,13 @@ public class Agent {
 	
 	public Point2D[] getNextMove() {
 		Random rnd = new Random(); 
-		if (rnd.nextBoolean()) 
-			return move(rnd.nextInt(4)); 
-		else
-			return move(1);
-	}
+//		if (rnd.nextBoolean())
+//			return move(rnd.nextInt(4));
+//		else
+//			return move(1);
+
+        return move(rnd.nextInt(4));
+    }
 	
 	public Point2D[] move(int direction){
 		Point2D newTopLeft = new Point2D.Double();

@@ -16,16 +16,16 @@ public class SimpleAlgorithm {
     private IntruderAgent iAgent;
     private Map map;
     private ArrayList<InanimateObjects> gameObjects;
-    private ArrayList<Agent> agents;
 
     public SimpleAlgorithm(Map map){
         this.map = map;
         gameObjects = map.getGameObjects();
+        sAgent = new SurveillanceAgent();
 
 
     }
 
-    public ArrayList<Agent> algorithm(){
+    public ArrayList<Agent> algorithm(ArrayList<Agent> agents){
         ArrayList<Agent> updatedAgents = new ArrayList<Agent>();
 
         for(int i = 0; i < agents.size(); i++) {
@@ -33,7 +33,7 @@ public class SimpleAlgorithm {
             int c = 0;
             while( c != 1){
 
-                if (agents.get(i) == sAgent) {
+                if (agents.get(i).getClass().equals(sAgent.getClass()) ) {
                     sAgent = (SurveillanceAgent) agents.get(i);
 
 
@@ -93,7 +93,7 @@ public class SimpleAlgorithm {
 
     }
 
-    public void addSAgents(SurveillanceAgent agent){
+    public void addSAgents(SurveillanceAgent agent, ArrayList<Agent> agents){
             double x = Math.random()*map.getWidth();
             double y = Math.random()*map.getHeight();
             Point2D.Double topleft = new Point2D.Double(x, y);
@@ -114,7 +114,7 @@ public class SimpleAlgorithm {
                 }
             }
     }
-    public void addIAgent(IntruderAgent agent){
+    public void addIAgent(IntruderAgent agent, ArrayList<Agent> agents){
         double x = Math.random()*map.getWidth();
         double y = Math.random()*map.getHeight();
         Point2D.Double topleft = new Point2D.Double(x, y);
@@ -145,9 +145,9 @@ public class SimpleAlgorithm {
         return answer;
     }
 
-    public ArrayList<Agent> getAgents(){
-        return agents;
-    }
+    //public ArrayList<Agent> getAgents(){
+//        return agents;
+//    }
 
 
 }

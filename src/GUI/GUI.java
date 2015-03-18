@@ -38,7 +38,7 @@ class GUI extends JComponent{
 	private static final Color COLOR_GRASS = new Color(5, 128, 60);			// dark green
 	private static final Color COLOR_GOALZONE = new Color(255, 0, 0, 128);  //transparent red
 	private static final Color COLOR_SENTRY = Color.MAGENTA; 
-	private static final Color COLOR_OUTERWALL = Color.BLACK; 
+	private static final Color COLOR_OUTERWALL = Color.BLACK;
 	
 	private static final Color COLOR_INTRUDER = Color.RED;
 	private static final Color COLOR_SURVEILLANCE = Color.GREEN;
@@ -79,7 +79,7 @@ class GUI extends JComponent{
 		Graphics2D g2d = (Graphics2D) g;
 		
 		g2d.setColor(COLOR_GRASS);
-        g2d.fillRect (0, 0, map.getWidth(), map.getHeight());  
+        g2d.fillRect (0, 0, map.getWidth(), map.getHeight());
         
         for (InanimateObjects o : map.getGameObjects()) {
         	paintObject(o, g2d);          	
