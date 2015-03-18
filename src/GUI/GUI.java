@@ -267,5 +267,9 @@ class GUI extends JComponent{
     public void toggleVisionCircle() {
     	showVisionCircle = !showVisionCircle; 
     }
+    
+    public void toggleShowImages() {
+    	showImages = !showImages; 
+    }
 }
 

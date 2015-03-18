@@ -223,8 +223,15 @@ public class MainFrame extends JFrame {
                   mapView.toggleVisionCircle();
           }});
 	      
+	      JCheckBox imagesCheckBox = new JCheckBox("Show images", true);
+	      imagesCheckBox.addActionListener(new ActionListener() {
+              public void actionPerformed(ActionEvent e) {            
+                  mapView.toggleShowImages();
+          }});
+	      
 	      simulationMenu.add(startStopButton); 
 	      simulationMenu.add(visionCheckBox); 
+	      simulationMenu.add(imagesCheckBox); 
 		  
 		  return simulationMenu;
 	}
