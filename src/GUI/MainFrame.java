@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -212,11 +213,18 @@ public class MainFrame extends JFrame {
 		  String startStop = "Start/Stop"; 
 		  JButton startStopButton = new JButton(startStop); 		 
 	      startStopButton.addActionListener(new ActionListener() {
-	                    public void actionPerformed(ActionEvent e) {            
-	                        Main v = new Main(map);
+	    	  public void actionPerformed(ActionEvent e) {            
+	    		  Main v = new Main(map);
 	      }});
 	      
+	      JCheckBox visionCheckBox = new JCheckBox("Show vision range");
+	      visionCheckBox.addActionListener(new ActionListener() {
+              public void actionPerformed(ActionEvent e) {            
+                  mapView.toggleVisionCircle();
+          }});
+	      
 	      simulationMenu.add(startStopButton); 
+	      simulationMenu.add(visionCheckBox); 
 		  
 		  return simulationMenu;
 	}

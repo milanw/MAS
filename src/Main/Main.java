@@ -116,7 +116,6 @@ public class Main {
 	}
 
 	public void updateSimulation() {
-		System.out.println("update");
 		for (Agent a : agents) {
 			
 			Point2D[] move = a.getNextMove(); 

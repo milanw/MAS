@@ -7,7 +7,8 @@ public class Agent {
 
     private double speed = 1.4;
 	private int maxTurn;
-	private int visionRange;
+	protected double visionRange;
+	private int viewingAngle; 
     Point2D topLeft;
     Point2D bottomRight;
 
@@ -93,6 +94,22 @@ public class Agent {
 
     public void setBottomRight(Point2D point) {
         bottomRight = point;
+    }
+    
+    public double getVisionRange() {
+    	return visionRange; 
+    }
+    
+    public void setVisionRange(double visionRange) {
+        this.visionRange = visionRange;
+    }
+    
+    public int getViewingAngle() {
+        return viewingAngle;
+    }
+
+    public void setViewingAngle(int viewingAngle) {
+        this.viewingAngle = viewingAngle;
     }
 
 

@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -14,7 +15,6 @@ import java.util.Deque;
 import java.util.List;
 
 import javax.swing.JComponent;
-
 
 import com.sun.media.sound.Toolkit;
 
@@ -47,6 +47,7 @@ class GUI extends JComponent{
 	private int currentMouseX;
 	private int currentMouseY;
 	private boolean showRectangle;
+	private boolean showVisionCircle = true; 
 	private Deque<Map> undoStack = new ArrayDeque<Map>(); 
 	private Deque<Map> redoStack = new ArrayDeque<Map>(); 
 	
@@ -87,6 +88,16 @@ class GUI extends JComponent{
 		double width = a.getBottomRight().getX() - a.getTopLeft().getX(); 
     	double height = a.getBottomRight().getY() - a.getTopLeft().getY();         	
         g.fillRect((int)a.getTopLeft().getX(), (int)a.getTopLeft().getY(), (int)width, (int)height);
+        if (showVisionCircle) 
+        	paintVisionRange(a, g);         
+	}
+	
+	public void paintVisionRange(Agent a, Graphics2D g) {
+		double range = a.getVisionRange();
+		double middleX = (a.getTopLeft().getX() + a.getBottomRight().getX()) / 2;
+		double middleY = (a.getTopLeft().getY() + a.getBottomRight().getY()) / 2;
+		g.setColor(Color.BLACK);
+		g.drawOval((int)(middleX-range), (int)(middleY-range), (int)(2*range), (int)(2*range));		
 	}
 	
 	
@@ -213,6 +224,10 @@ class GUI extends JComponent{
     
     public void selectObject(int type) {
     	selectedObject = type; 
+    }
+    
+    public void toggleVisionCircle() {
+    	showVisionCircle = !showVisionCircle; 
     }
 }
 
