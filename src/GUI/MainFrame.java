@@ -50,7 +50,6 @@ public class MainFrame extends JFrame {
 	private Map map;	
 	private GUI mapView; 
 	private JPanel panel;
-    private ImagePanel ipanel;
 	public int objectSelected = 0;
 	
 	public MainFrame(Map map, ArrayList<Agent> agents) {
@@ -65,15 +64,14 @@ public class MainFrame extends JFrame {
         this.setLocationRelativeTo(null);
         
         //map view
-        //panel = new JPanel();
-        ipanel = new ImagePanel();
-        //panel.setLayout(new BorderLayout());
-        ipanel.setLayout(new BorderLayout());
+        panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+        //ipanel.setLayout(new BorderLayout());
         mapView = new GUI(map, agents);       
         mapView.setPreferredSize(new Dimension(width,height));
        // mapView.setBorder(BorderFactory.createLineBorder(Color.GRAY,25));
-        //panel.add(mapView,BorderLayout.WEST);
-        ipanel.add(mapView,BorderLayout.WEST);
+        panel.add(mapView,BorderLayout.WEST);
+        //ipanel.add(mapView,BorderLayout.WEST);
         
         
         //right Menu
@@ -81,13 +79,13 @@ public class MainFrame extends JFrame {
         tabbedPane.addTab("Map Editing", createEditingMenu());
         tabbedPane.addTab("Simulation", createSimulationMenu());
         tabbedPane.setPreferredSize(new Dimension(RIGHTMENU_WIDTH,height));
-//        panel.add(tabbedPane,BorderLayout.EAST);
-        ipanel.add(tabbedPane,BorderLayout.EAST);
+        panel.add(tabbedPane,BorderLayout.EAST);
+        //ipanel.add(tabbedPane,BorderLayout.EAST);
         
         //set menu bar
         this.setJMenuBar(createMenuBar());
         
-        this.getContentPane().add(ipanel);
+        this.getContentPane().add(panel);
         this.setVisible(true);
 	}
 	

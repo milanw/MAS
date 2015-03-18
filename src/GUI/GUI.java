@@ -1,10 +1,6 @@
 package GUI; 
 
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
@@ -42,6 +38,7 @@ class GUI extends JComponent{
 	
 	private static final Color COLOR_INTRUDER = Color.RED;
 	private static final Color COLOR_SURVEILLANCE = Color.GREEN;
+    private static final Color TRANSPARENT_COLOR =new Color(5, 200 , 10, 10 );
 	
 	private Map map;
 	private List<Agent> agents;
@@ -57,7 +54,14 @@ class GUI extends JComponent{
 	BufferedImage sentryImg = null;
 	BufferedImage structureImg = null;
 	BufferedImage outerWallImg = null;
-	
+    BufferedImage goalZoneImg = null;
+
+    BufferedImage iAgent = null;
+    BufferedImage sAgent = null;
+
+    BufferedImage image = null;
+
+    BufferedImage current = null;
     
 	public GUI(Map map, ArrayList<Agent> agents) {		
 		this.map = map;
@@ -67,10 +71,15 @@ class GUI extends JComponent{
 		this.addMouseMotionListener(movingAdapt);
 		
 		try {
-		    sentryImg = ImageIO.read(new File("src/Images/sentry.jpg"));
-		    outerWallImg = ImageIO.read(new File("src/Images/outerwall.jpg"));
-		    structureImg = ImageIO.read(new File("src/Images/structure.jpg"));
+		    sentryImg = ImageIO.read(new File("src/Resources/fortress.png"));
+		    outerWallImg = ImageIO.read(new File("src/Resources/brick.jpg"));
+		    structureImg = ImageIO.read(new File("src/Resources/bush.png"));
+            goalZoneImg = ImageIO.read(new File("src/Resources/goalZone.jpg"));
+            iAgent = ImageIO.read(new File("src/Resources/iAgent.jpg"));
+            sAgent = ImageIO.read(new File("src/Resources/sAgent.jpg"));
+            image = ImageIO.read(new File("src/Resources/grassBackground.jpg"));
 		} catch (IOException e) {}
+
 		
 	}
 
@@ -78,11 +87,13 @@ class GUI extends JComponent{
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
 		
-		g2d.setColor(COLOR_GRASS);
+		//g2d.setColor(COLOR_GRASS);
         g2d.fillRect (0, 0, map.getWidth(), map.getHeight());
-        
+
+        g.drawImage(image, 0,0, map.getWidth(),map.getHeight(),this);
+
         for (InanimateObjects o : map.getGameObjects()) {
-        	paintObject(o, g2d);          	
+        	paintObject(o, g2d);
         }
         
         for (Agent a : agents) {
@@ -96,13 +107,16 @@ class GUI extends JComponent{
 	
 	public void paintAgent(Agent a, Graphics2D g) {
 		if (a instanceof IntruderAgent) 
-    		g.setColor(COLOR_INTRUDER);
+    		//g.setColor(COLOR_INTRUDER);
+            current = iAgent;
 		else if (a instanceof SurveillanceAgent) 
-			g.setColor(COLOR_SURVEILLANCE); 
+			//g.setColor(COLOR_SURVEILLANCE);
+            current = sAgent;
 		
 		double width = a.getBottomRight().getX() - a.getTopLeft().getX(); 
     	double height = a.getBottomRight().getY() - a.getTopLeft().getY();         	
-        g.fillRect((int)a.getTopLeft().getX(), (int)a.getTopLeft().getY(), (int)width, (int)height);
+        //g.fillRect((int)a.getTopLeft().getX(), (int)a.getTopLeft().getY(), (int)width, (int)height);
+        g.drawImage(current, (int)a.getTopLeft().getX(), (int)a.getTopLeft().getY(), (int)width, (int)height, COLOR_SURVEILLANCE, null);
         if (showVisionCircle) 
         	paintVisionRange(a, g);         
 	}
@@ -114,6 +128,7 @@ class GUI extends JComponent{
 		g.setColor(Color.BLACK);
 		g.drawOval((int)(middleX-range), (int)(middleY-range), (int)(2*range), (int)(2*range));		
 	}
+
 	
 	
 	/* 
@@ -123,8 +138,7 @@ class GUI extends JComponent{
 		g.setColor(getColor(o));
 		int width = (int)(o.getBottomRight().getX() - o.getTopLeft().getX()); 
     	int height = (int)(o.getBottomRight().getY() - o.getTopLeft().getY());         	
-    	g.fillRect((int)o.getTopLeft().getX(), (int)o.getTopLeft().getY(), width, height);        		
-		
+    	g.fillRect((int)o.getTopLeft().getX(), (int)o.getTopLeft().getY(), width, height);
     	if (showImages) 
     		g.drawImage(getImage(o), (int)o.getTopLeft().getX(), (int)o.getTopLeft().getY(), width, height, getColor(o), null);
     	else {} //once there are images for everything this should contain g.fillRect..
@@ -143,7 +157,7 @@ class GUI extends JComponent{
     		return COLOR_SENTRY; 
     	
 		else if (o instanceof Structure) 
-    		return Color.CYAN;
+    		return TRANSPARENT_COLOR;
 		
 		else 
 			return COLOR_GRASS;
@@ -177,8 +191,11 @@ class GUI extends JComponent{
 	        GoalZone goalZone = map.getGoalZone(); 	        
 	        double width = goalZone.getBottomRight().getY() - goalZone.getTopLeft().getY(); 
 	    	double height = goalZone.getBottomRight().getX() - goalZone.getTopLeft().getX();         	
-	    	g.setColor(COLOR_GOALZONE); 
-	    	g.fillRect((int)goalZone.getTopLeft().getX(), (int)goalZone.getTopLeft().getY(), (int)width, (int)height);
+	    	//g.setColor(COLOR_GOALZONE);
+	    	//g.fillRect((int)goalZone.getTopLeft().getX(), (int)goalZone.getTopLeft().getY(), (int)width, (int)height);
+            if (showImages)
+                g.drawImage(goalZoneImg , (int)goalZone.getTopLeft().getX(), (int)goalZone.getTopLeft().getY(), (int)width, (int)height, COLOR_GOALZONE , null);
+            else {} //once there are images for everything this should contain g.fillRect..
         }
 	}
     

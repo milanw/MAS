@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import Agent.Agent;
 import Agent.IntruderAgent;
 import Agent.SurveillanceAgent;
+import Algorithm.SimpleAlgorithm;
 import GUI.MainFrame;
 import GUI.Menu;
 import Map.Map;
@@ -21,6 +22,8 @@ public class Main {
 	private MainFrame frame;
 	private Map map; 
 	private ArrayList<Agent> agents;
+    private Point2D[] currentMove;
+    private SimpleAlgorithm alg;
 
 
 	public Main(Map nmap) {
@@ -37,6 +40,7 @@ public class Main {
 		agents.add(new SurveillanceAgent(new Point2D.Double(200, 200), new Point2D.Double(205, 205))); 
 		frame = new MainFrame(map, agents);
 		startGameLoop();
+        alg = new SimpleAlgorithm(map);
 	}
 
 	public void startGameLoop() {
@@ -117,14 +121,15 @@ public class Main {
 
 	public void updateSimulation() {
 		for (Agent a : agents) {
-			
-			Point2D[] move = a.getNextMove(); 
-			if (isMoveValid(move)) {
-				a.setTopLeft(move[0]);
-				a.setBottomRight(move[1]);
-			}
-			
-		}
+
+            currentMove = a.getNextMove();
+            if (isMoveValid(currentMove)) {
+                a.setTopLeft(currentMove[0]);
+                a.setBottomRight(currentMove[1]);
+            }
+        }
+
+
 
 	}
 	
