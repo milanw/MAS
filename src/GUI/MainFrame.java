@@ -217,7 +217,7 @@ public class MainFrame extends JFrame {
 	    		  Main v = new Main(map);
 	      }});
 	      
-	      JCheckBox visionCheckBox = new JCheckBox("Show vision range");
+	      JCheckBox visionCheckBox = new JCheckBox("Show vision range", true);
 	      visionCheckBox.addActionListener(new ActionListener() {
               public void actionPerformed(ActionEvent e) {            
                   mapView.toggleVisionCircle();
