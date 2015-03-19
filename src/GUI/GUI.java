@@ -35,10 +35,10 @@ class GUI extends JComponent{
 	private static final Color COLOR_GOALZONE = new Color(255, 0, 0, 128);  //transparent red
 	private static final Color COLOR_SENTRY = Color.MAGENTA; 
 	private static final Color COLOR_OUTERWALL = Color.BLACK;
+	private static final Color COLOR_STRUCTURE = Color.CYAN;
 	
 	private static final Color COLOR_INTRUDER = Color.RED;
 	private static final Color COLOR_SURVEILLANCE = Color.GREEN;
-    private static final Color TRANSPARENT_COLOR =new Color(5, 200 , 10, 10 );
 	
 	private Map map;
 	private List<Agent> agents;
@@ -51,17 +51,13 @@ class GUI extends JComponent{
 	private boolean showImages = true; 								//rectangles or images?
 	private Deque<Map> undoStack = new ArrayDeque<Map>(); 
 	private Deque<Map> redoStack = new ArrayDeque<Map>(); 
-	BufferedImage sentryImg = null;
-	BufferedImage structureImg = null;
-	BufferedImage outerWallImg = null;
-    BufferedImage goalZoneImg = null;
-
-    BufferedImage iAgent = null;
-    BufferedImage sAgent = null;
-
-    BufferedImage image = null;
-
-    BufferedImage current = null;
+	
+	private BufferedImage sentryImg = null;
+	private BufferedImage structureImg = null;
+	private BufferedImage outerWallImg = null;	
+	private BufferedImage intruderImg = null;
+	private BufferedImage surveillanceImg = null;
+	private BufferedImage grassImg = null;
     
 	public GUI(Map map, ArrayList<Agent> agents) {		
 		this.map = map;
@@ -74,11 +70,12 @@ class GUI extends JComponent{
 		    sentryImg = ImageIO.read(new File("src/Resources/fortress.png"));
 		    outerWallImg = ImageIO.read(new File("src/Resources/brick.jpg"));
 		    structureImg = ImageIO.read(new File("src/Resources/bush.png"));
-            goalZoneImg = ImageIO.read(new File("src/Resources/goalZone.jpg"));
-            iAgent = ImageIO.read(new File("src/Resources/iAgent.jpg"));
-            sAgent = ImageIO.read(new File("src/Resources/sAgent.jpg"));
-            image = ImageIO.read(new File("src/Resources/grassBackground.jpg"));
-		} catch (IOException e) {}
+            intruderImg = ImageIO.read(new File("src/Resources/iAgent.jpg"));
+            surveillanceImg = ImageIO.read(new File("src/Resources/sAgent.jpg"));
+            grassImg = ImageIO.read(new File("src/Resources/grassBackground.jpg"));
+		} catch (IOException e) {
+			System.out.println("asd");
+		}
 
 		
 	}
@@ -87,10 +84,7 @@ class GUI extends JComponent{
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
 		
-		//g2d.setColor(COLOR_GRASS);
-        g2d.fillRect (0, 0, map.getWidth(), map.getHeight());
-
-        g.drawImage(image, 0,0, map.getWidth(),map.getHeight(),this);
+		paintGrass(g2d);
 
         for (InanimateObjects o : map.getGameObjects()) {
         	paintObject(o, g2d);
@@ -104,19 +98,29 @@ class GUI extends JComponent{
         paintCursorRectangle(g2d);
     }
 	
+	public void paintGrass(Graphics2D g) {
+		if (showImages) 
+			g.drawImage(grassImg, 0,0, map.getWidth(),map.getHeight(), COLOR_GRASS, null);
+		else {
+			g.setColor(COLOR_GRASS);
+	        g.fillRect (0, 0, map.getWidth(), map.getHeight());
+		}
+	}
 	
-	public void paintAgent(Agent a, Graphics2D g) {
-		if (a instanceof IntruderAgent) 
-    		//g.setColor(COLOR_INTRUDER);
-            current = iAgent;
-		else if (a instanceof SurveillanceAgent) 
-			//g.setColor(COLOR_SURVEILLANCE);
-            current = sAgent;
-		
-		double width = a.getBottomRight().getX() - a.getTopLeft().getX(); 
-    	double height = a.getBottomRight().getY() - a.getTopLeft().getY();         	
-        //g.fillRect((int)a.getTopLeft().getX(), (int)a.getTopLeft().getY(), (int)width, (int)height);
-        g.drawImage(current, (int)a.getTopLeft().getX(), (int)a.getTopLeft().getY(), (int)width, (int)height, COLOR_SURVEILLANCE, null);
+	public void paintAgent(Agent a, Graphics2D g) {		
+		int x = (int)a.getTopLeft().getX(); 
+		int y = (int)a.getTopLeft().getY();
+		int width = (int)(a.getBottomRight().getX() - a.getTopLeft().getX()); 
+    	int height = (int)(a.getBottomRight().getY() - a.getTopLeft().getY());         	
+       
+    	if (showImages) 
+    		g.drawImage(getImage(a), x, y, width, height, null);
+    	else {
+    		g.setColor(getColor(a));
+    		g.fillRect(x, y, width, height);
+    	}
+    		
+        
         if (showVisionCircle) 
         	paintVisionRange(a, g);         
 	}
@@ -135,15 +139,17 @@ class GUI extends JComponent{
 	 * paint an inanimate object
 	 */
 	public void paintObject(InanimateObjects o, Graphics2D g) {
-		g.setColor(getColor(o));
+		int x = (int)o.getTopLeft().getX(); 
+		int y = (int)o.getTopLeft().getY();
 		int width = (int)(o.getBottomRight().getX() - o.getTopLeft().getX()); 
-    	int height = (int)(o.getBottomRight().getY() - o.getTopLeft().getY());         	
-    	g.fillRect((int)o.getTopLeft().getX(), (int)o.getTopLeft().getY(), width, height);
-    	if (showImages) 
-    		g.drawImage(getImage(o), (int)o.getTopLeft().getX(), (int)o.getTopLeft().getY(), width, height, getColor(o), null);
-    	else {} //once there are images for everything this should contain g.fillRect..
+    	int height = (int)(o.getBottomRight().getY() - o.getTopLeft().getY());   
     	
-        
+    	if (showImages) 
+    		g.drawImage(getImage(o), x, y, width, height, null);
+    	else {
+    		g.setColor(getColor(o));
+    		g.fillRect(x, y, width, height);        	
+    	} 
 	}
 	
 	/* 
@@ -157,10 +163,18 @@ class GUI extends JComponent{
     		return COLOR_SENTRY; 
     	
 		else if (o instanceof Structure) 
-    		return TRANSPARENT_COLOR;
+    		return COLOR_STRUCTURE;
 		
 		else 
 			return COLOR_GRASS;
+	}
+	
+	public Color getColor(Agent a) {
+		if (a instanceof SurveillanceAgent) 
+    		return COLOR_SURVEILLANCE;
+    	
+		else 
+    		return COLOR_INTRUDER; 
 	}
 	
 	/* 
@@ -180,6 +194,14 @@ class GUI extends JComponent{
 			return null;
 	}
 	
+	public BufferedImage getImage(Agent a) {
+		if (a instanceof SurveillanceAgent) 
+    		return surveillanceImg;
+    	
+		else 
+    		return intruderImg; 
+	}
+	
 	public void paintCursorRectangle(Graphics2D g) {
 		g.setColor(Color.WHITE); 
         if (showRectangle)
@@ -191,12 +213,9 @@ class GUI extends JComponent{
 	        GoalZone goalZone = map.getGoalZone(); 	        
 	        double width = goalZone.getBottomRight().getY() - goalZone.getTopLeft().getY(); 
 	    	double height = goalZone.getBottomRight().getX() - goalZone.getTopLeft().getX();         	
-	    	//g.setColor(COLOR_GOALZONE);
-	    	//g.fillRect((int)goalZone.getTopLeft().getX(), (int)goalZone.getTopLeft().getY(), (int)width, (int)height);
-            if (showImages)
-                g.drawImage(goalZoneImg , (int)goalZone.getTopLeft().getX(), (int)goalZone.getTopLeft().getY(), (int)width, (int)height, COLOR_GOALZONE , null);
-            else {} //once there are images for everything this should contain g.fillRect..
-        }
+	    	g.setColor(COLOR_GOALZONE);
+	    	g.fillRect((int)goalZone.getTopLeft().getX(), (int)goalZone.getTopLeft().getY(), (int)width, (int)height);
+       }
 	}
     
     class BindMouseMove extends MouseAdapter {
