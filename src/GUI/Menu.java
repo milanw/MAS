@@ -13,12 +13,15 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import Agent.Agent;
-import GameObjects.InanimateObjects;
-import Map.mapGenerator;
+import Map.MapGenerator;
 import Map.Map;
 
 public class Menu extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField txtWidth;
 	private JTextField txtHeight;
@@ -86,7 +89,7 @@ public class Menu extends JFrame {
 				setVisible(false);
 				int width = Integer.parseInt(txtWidth.getText());
 				int height = Integer.parseInt(txtHeight.getText());
-				Map map = new mapGenerator(width, height).getMap();
+				Map map = new MapGenerator(width, height).getMap();
 				/*ArrayList<InanimateObjects> gameObjects = new ArrayList<InanimateObjects>(); 
 				gameObjects.add(new GoalZone(new Point(100, 100), new Point(150, 150))); 
 		    	gameObjects.add(new SentryTower(new Point(200, 300), new Point(400, 500))); 

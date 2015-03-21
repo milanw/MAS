@@ -20,7 +20,7 @@ import javax.swing.JComponent;
 import Agent.Agent;
 import Agent.SurveillanceAgent;
 import GameObjects.GoalZone;
-import GameObjects.InanimateObjects;
+import GameObjects.InanimateObject;
 import GameObjects.OuterWall;
 import GameObjects.SentryTower;
 import GameObjects.Structure;
@@ -44,7 +44,7 @@ class GUI extends JComponent{
 
 	private Map map;
 	private List<Agent> agents;
-	private int selectedObject; 
+	private InanimateObject selectedObject = new InanimateObject(null, null); 
 	private BindMouseMove movingAdapt = new BindMouseMove();
 	private int currentMouseX;
 	private int currentMouseY;
@@ -79,7 +79,7 @@ class GUI extends JComponent{
 
 		paintGrass(g2d);
 
-		for (InanimateObjects o : map.getGameObjects()) {
+		for (InanimateObject o : map.getGameObjects()) {
 			paintObject(o, g2d);
 		}
 
@@ -93,24 +93,19 @@ class GUI extends JComponent{
 
 	public void paintGrass(Graphics2D g) {
 		if (showImages) 
-			g.drawImage(grassImg, 0,0, map.getWidth(),map.getHeight(), COLOR_GRASS, null);
+			g.drawImage(grassImg, 0, 0, map.getWidth(), map.getHeight(), COLOR_GRASS, null);
 		else {
 			g.setColor(COLOR_GRASS);
 			g.fillRect (0, 0, map.getWidth(), map.getHeight());
 		}
 	}
 
-	public void paintAgent(Agent a, Graphics2D g) {		
-		int x = (int)a.getTopLeft().getX(); 
-		int y = (int)a.getTopLeft().getY();
-		int width = (int)(a.getBottomRight().getX() - a.getTopLeft().getX()); 
-		int height = (int)(a.getBottomRight().getY() - a.getTopLeft().getY());         	
-
+	public void paintAgent(Agent a, Graphics2D g) {	  	
 		if (showImages) 
-			g.drawImage(getImage(a), x, y, width, height, null);
+			g.drawImage(getImage(a), a.getX(), a.getY(), a.getWidth(), a.getHeight(), null);
 		else {
 			g.setColor(getColor(a));
-			g.fillRect(x, y, width, height);
+			g.fillRect(a.getX(), a.getY(), a.getWidth(), a.getHeight());
 		}
 
 
@@ -129,24 +124,19 @@ class GUI extends JComponent{
 	/* 
 	 * paint an inanimate object
 	 */
-	 public void paintObject(InanimateObjects o, Graphics2D g) {
-		 int x = (int)o.getTopLeft().getX(); 
-		 int y = (int)o.getTopLeft().getY();
-		 int width = (int)(o.getBottomRight().getX() - o.getTopLeft().getX()); 
-		 int height = (int)(o.getBottomRight().getY() - o.getTopLeft().getY());   
-
+	 public void paintObject(InanimateObject o, Graphics2D g) {
 		 if (showImages) 
-			 g.drawImage(getImage(o), x, y, width, height, null);
+			 g.drawImage(getImage(o), o.getX(), o.getY(), o.getWidth(), o.getHeight(), null);
 		 else {
 			 g.setColor(getColor(o));
-			 g.fillRect(x, y, width, height);        	
+			 g.fillRect(o.getX(), o.getY(), o.getWidth(), o.getHeight());        	
 		 } 
 	 }
 
 	 /* 
 	  * return color corresponding to inanimate object
 	  */
-	 public Color getColor(InanimateObjects o) {
+	 public Color getColor(InanimateObject o) {
 		 if (o instanceof OuterWall) 
 			 return COLOR_OUTERWALL;
 
@@ -171,7 +161,7 @@ class GUI extends JComponent{
 	 /* 
 	  * return image corresponding to inanimate object
 	  */
-	 public BufferedImage getImage(InanimateObjects o) {
+	 public BufferedImage getImage(InanimateObject o) {
 		 if (o instanceof OuterWall) 
 			 return outerWallImg;
 
@@ -196,16 +186,15 @@ class GUI extends JComponent{
 	 public void paintCursorRectangle(Graphics2D g) {
 		 g.setColor(Color.WHITE); 
 		 if (showRectangle)
-			 g.drawRect(currentMouseX, currentMouseY, 30, 30);
+			 g.drawRect(currentMouseX, currentMouseY, selectedObject.getSize(), selectedObject.getSize());
 	 }
 
 	 public void paintGoalZone(Graphics2D g) {
 		 if (map.getGoalZone() != null) {
-			 GoalZone goalZone = map.getGoalZone(); 	        
-			 double width = goalZone.getBottomRight().getY() - goalZone.getTopLeft().getY(); 
-			 double height = goalZone.getBottomRight().getX() - goalZone.getTopLeft().getX();         	
+			 GoalZone goalZone = map.getGoalZone(); 	 
+			 
 			 g.setColor(COLOR_GOALZONE);
-			 g.fillRect((int)goalZone.getTopLeft().getX(), (int)goalZone.getTopLeft().getY(), (int)width, (int)height);
+			 g.fillRect(goalZone.getX(), goalZone.getY(), goalZone.getWidth(), goalZone.getHeight());
 		 }
 	 }
 
@@ -217,13 +206,13 @@ class GUI extends JComponent{
 		 public void mousePressed(MouseEvent event) {
 			 x = event.getX();
 			 y = event.getY();
-			 InanimateObjects o = null;
-			 if (selectedObject == InanimateObjects.SENTRY_TYPE)
-				 o = new SentryTower(new Point(x,y), new Point(x+30, y+30));
-			 else if (selectedObject == InanimateObjects.GOAL_TYPE)
-				 map.setGoalZone(new GoalZone(new Point(x,y), new Point(x+30, y+30)));
-			 else if (selectedObject == InanimateObjects.STRUCTURE_TYPE)
-				 o = new Structure(new Point(x,y), new Point(x+30, y+30));
+			 InanimateObject o = null;
+			 if (selectedObject instanceof SentryTower)
+				 o = new SentryTower(new Point(x,y), new Point(x+selectedObject.getSize(), y+selectedObject.getSize()));
+			 else if (selectedObject instanceof GoalZone)
+				 map.setGoalZone(new GoalZone(new Point(x,y), new Point(x+selectedObject.getSize(), y+selectedObject.getSize())));
+			 else if (selectedObject instanceof Structure)
+				 o = new Structure(new Point(x,y), new Point(x+selectedObject.getSize(), y+selectedObject.getSize()));
 
 			 //if possible, insert game object
 			 if (o != null) {
@@ -287,8 +276,8 @@ class GUI extends JComponent{
 		 repaint();    	
 	 }
 
-	 public void selectObject(int type) {
-		 selectedObject = type; 
+	 public void selectObject(InanimateObject object) {
+		 selectedObject = object; 
 	 }
 
 	 public void toggleVisionCircle() {

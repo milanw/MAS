@@ -36,12 +36,15 @@ import Agent.Agent;
 import Agent.IntruderAgent;
 import Agent.SurveillanceAgent;
 import Algorithm.SimpleAlgorithm;
-import GameObjects.InanimateObjects;
+import GameObjects.GoalZone;
+import GameObjects.InanimateObject;
+import GameObjects.SentryTower;
+import GameObjects.Structure;
 import Main.Main;
 import Map.Map;
 import Map.MapExporter;
 import Map.MapImporter;
-import Map.mapGenerator;
+import Map.MapGenerator;
 
 public class MainFrame extends JFrame {
 	private static final int RIGHTMENU_WIDTH = 300; 
@@ -108,7 +111,7 @@ public class MainFrame extends JFrame {
         JMenuItem genRndMapItem = new JMenuItem("Generate new random Map");
         genRndMapItem.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
-                        map = new Map(new mapGenerator(width, height).getMap());                        
+                        map = new Map(new MapGenerator(width, height).getMap());                        
                         mapView.setMap(map);                        
         }});
         genRndMapItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
@@ -183,20 +186,20 @@ public class MainFrame extends JFrame {
         JButton sentryButton = new JButton("Sentry Tower"); 
         sentryButton.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {            
-                        selectObject(InanimateObjects.SENTRY_TYPE);
+                        selectObject(new SentryTower(null, null));
         }});
        
         
         JButton goalZoneButton = new JButton("Goal Zone"); 
         goalZoneButton.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {             
-                        selectObject(InanimateObjects.GOAL_TYPE);
+                        selectObject(new GoalZone(null, null));
         }});
         
         JButton structureButton = new JButton("Structure"); 
         structureButton.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {               
-                        selectObject(InanimateObjects.STRUCTURE_TYPE);
+                        selectObject(new Structure(null, null));
         }});
         
         editingMenu.add(sentryButton); 
@@ -239,14 +242,14 @@ public class MainFrame extends JFrame {
 		  return simulationMenu;
 	}
 	
-	public void selectObject(int type) {
-		mapView.selectObject(type); 
+	public void selectObject(InanimateObject object) {
+		mapView.selectObject(object); 
 	}
 	
 	public static void main(String[] args) {
 		int width = 600;
 		int height = 600;
-		Map m = new mapGenerator(width, height).getMap();
+		Map m = new MapGenerator(width, height).getMap();
 		//ArrayList<Agent> agents = new SimpleAlgorithm(m).getAgents();
 		ArrayList<Agent> agents = new ArrayList<Agent>();
 		agents.add(new IntruderAgent(new Point2D.Double(100, 100), new Point2D.Double(105, 105)));

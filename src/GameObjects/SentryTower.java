@@ -1,16 +1,15 @@
 package GameObjects;
 
-import java.awt.Point;
 import java.awt.geom.Point2D;
 
 
-public class SentryTower extends InanimateObjects{
+public class SentryTower extends InanimateObject{
 
-    public int visionRange = 18;
+    private int visionRange = 18;
+    private int defaultSize = 12;
 
 	public SentryTower(Point2D x, Point2D y) {
-		topLeft = x;
-		bottomRight = y;
+		super(x,y); 
 	}
 
     public void setVisionRange(int i){
@@ -19,6 +18,10 @@ public class SentryTower extends InanimateObjects{
 
     public int getVisionRange(){
         return visionRange;
+    }
+    
+    public int getSize() {
+    	return defaultSize;
     }
 
 

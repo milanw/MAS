@@ -1,17 +1,13 @@
 package Main;
 import java.awt.Rectangle;
 import java.awt.geom.Point2D;
-import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 
 import Agent.Agent;
 import Agent.IntruderAgent;
 import Agent.SurveillanceAgent;
-import Algorithm.SimpleAlgorithm;
 import GUI.MainFrame;
-import GUI.Menu;
 import Map.Map;
-import Map.mapGenerator;
 
 
 public class Main {
@@ -23,9 +19,7 @@ public class Main {
 	private Map map; 
 	private ArrayList<Agent> agents;
     private Point2D[] currentMove;
-    private SimpleAlgorithm alg;
-
-
+    
 	public Main(Map nmap) {
 
 		map = nmap;	
@@ -40,7 +34,6 @@ public class Main {
 		agents.add(new SurveillanceAgent(new Point2D.Double(200, 200), new Point2D.Double(205, 205))); 
 		frame = new MainFrame(map, agents);
 		startGameLoop();
-        alg = new SimpleAlgorithm(map);
 	}
 
 	public void startGameLoop() {
@@ -98,7 +91,7 @@ public class Main {
 				//Update the frames we got.
 				int thisSecond = (int) (lastUpdateTime / 1000000000);
 				if (thisSecond > lastSecondTime) {
-					System.out.println("NEW SECOND " + thisSecond + " " + frameCount);
+					//System.out.println("NEW SECOND " + thisSecond + " " + frameCount);
 					fps = frameCount;
 					frameCount = 0;
 					lastSecondTime = thisSecond;

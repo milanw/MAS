@@ -4,7 +4,7 @@ package Algorithm;
 import Agent.Agent;
 import Agent.IntruderAgent;
 import Agent.SurveillanceAgent;
-import GameObjects.InanimateObjects;
+import GameObjects.InanimateObject;
 import Map.Map;
 
 import java.awt.geom.Point2D;
@@ -15,7 +15,7 @@ public class SimpleAlgorithm {
     private SurveillanceAgent sAgent;
     private IntruderAgent iAgent;
     private Map map;
-    private ArrayList<InanimateObjects> gameObjects;
+    private ArrayList<InanimateObject> gameObjects;
 
     public SimpleAlgorithm(Map map){
         this.map = map;

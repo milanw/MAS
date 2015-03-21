@@ -2,48 +2,40 @@ package GameObjects;
 
 import java.awt.geom.Point2D;
 
-public class Structure extends InanimateObjects{
+public class Structure extends InanimateObject{
 
-    public boolean door, window;
-    public int visionRange = 10;
-
+    private boolean door, window;
+    private int visionRange = 10;
+    private static int defaultSize = 30; 
 
 	public Structure(Point2D x, Point2D y) {
-		topLeft = x;
-		bottomRight = y;
+		super(x,y);
+		
 	}
+	
 	public boolean isInside(Point2D n){
-		boolean xanswer = false;
-		boolean yanswer = false;
-//		System.out.println("point n: x = " + n.getX() + " y = "+ n.getY());
-//		System.out.println("topleft: x = "+ topLeft.getX()+ " y = " + topLeft.getY());
-//		System.out.println("bottomright: x = "+bottomRight.getX() + " y = "+bottomRight.getY());
-		if(n.getX() > topLeft.getX() && n.getX() < bottomRight.getX()){
-			xanswer = true;
-		}
-		if(n.getY() > topLeft.getY() && n.getY() < bottomRight.getY()){
-			yanswer = true;
-		}
-		boolean answer = false;
-		if(xanswer&&yanswer){
-			answer = true;
-		}
-		return answer;
-
+		if(n.getX() < topLeft.getX() || n.getX() > bottomRight.getX())
+		return false;	
+		
+		if(n.getY() < topLeft.getY() || n.getY() > bottomRight.getY())
+		return false;		
+	
+		return true; 
 	}
+	
 	public Point2D getTopLeft(){
 		return topLeft;
 	}
 
     public void setDoor(boolean b){
-        boolean door = b;
+        door = b;
     }
     public boolean hasDoor(){
         return door;
     }
 
     public void setWindow(boolean b){
-        boolean window = b;
+        window = b;
     }
     public boolean hasWindow(){
         return window;
@@ -53,6 +45,10 @@ public class Structure extends InanimateObjects{
     }
     public int getVisionRange(){
         return visionRange;
+    }
+    
+    public int getSize() {
+    	return defaultSize; 
     }
 
 }

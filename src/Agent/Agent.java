@@ -9,8 +9,8 @@ public class Agent {
 	private int maxTurn;
 	protected double visionRange;
 	private int viewingAngle; 
-    Point2D topLeft;
-    Point2D bottomRight;
+    private Point2D topLeft;
+    private Point2D bottomRight;
 
 	
 	public Agent(Point2D topLeft, Point2D bottomRight){
@@ -113,6 +113,28 @@ public class Agent {
     public void setViewingAngle(int viewingAngle) {
         this.viewingAngle = viewingAngle;
     }
+    
+    public int getWidth() {
+		return (int)(bottomRight.getX()-topLeft.getX());
+	}
+	
+	public int getHeight() {
+		return (int)(bottomRight.getY()-topLeft.getY()); 
+	}
+	
+	/*
+	 * return x coordinate of top left point
+	 */
+	public int getX() {
+		return (int)topLeft.getX();
+	}
+	
+	/* 
+	 * return y coordinate of top left point
+	 */
+	public int getY() {
+		return (int)topLeft.getY(); 
+	}
 
 
 

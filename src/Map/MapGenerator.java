@@ -1,30 +1,30 @@
 package Map;
 
-import java.awt.Point;
 import java.awt.geom.Point2D;
-import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
-import GameObjects.InanimateObjects;
+
+import GameObjects.InanimateObject;
 import GameObjects.OuterWall;
 import GameObjects.SentryTower;
 import GameObjects.Structure;
 
-public class mapGenerator {
-	ArrayList<InanimateObjects> map = new ArrayList<InanimateObjects>();
-	int structureAmount = 15;
-	int sentrytowerAmount = 4;
-	int height;
-	int width;
+public class MapGenerator {
+	private ArrayList<InanimateObject> map = new ArrayList<InanimateObject>();
+	private int structureAmount = 15;
+	private int sentrytowerAmount = 4;
+	private int height;
+	private int width;
 	
-	public mapGenerator(int height, int width){
+	public MapGenerator(int height, int width){
 		this.height = height;
 		this.width= width;
 		addOuterWalls();
 		addStructures();
 		addSentryTowers();
+		/*
 		for(int i=0;i<map.size();i++){
 			System.out.println(map.get(i).getClass() + " " + map.get(i).getTopLeft() + " " + map.get(i).getBottomRight());
-		}
+		}*/
 	}
 
 	public boolean emptySpot(Point2D n){
@@ -36,13 +36,15 @@ public class mapGenerator {
 		}
 		return answer;
 	}
+	
 	public Map getMap(){
 		return new Map(width, height, map);
 	}
 	
-	public ArrayList<InanimateObjects> getObjects() {
+	public ArrayList<InanimateObject> getObjects() {
 		return map;
 	}
+	
 	public void addStructures(){
 		int samount = structureAmount;
 		while(0<samount){
@@ -75,15 +77,16 @@ public class mapGenerator {
 				if(m == false){
 					map.add(s);
 					samount--;
-					System.out.println("structureamount = "+ samount);
+					//System.out.println("structureamount = "+ samount);
 				}
 			}
 	
 		}
 	}
+	
 	public void addSentryTowers(){
 		int samount = sentrytowerAmount;
-		System.out.println("sentryamount = "+ samount);
+		//System.out.println("sentryamount = "+ samount);
 		while(0<samount){
 		double x = 2+Math.random()*width-2;
 		double y = 2+Math.random()*height-2;
@@ -112,12 +115,13 @@ public class mapGenerator {
 			if(m == false){
 				map.add(s);
 				samount--;
-				System.out.println("sentyamount = " + samount);
+				//System.out.println("sentyamount = " + samount);
 			}
 		}
 		}
 
 	}
+	
 	public void addOuterWalls(){	
 		
 		//left

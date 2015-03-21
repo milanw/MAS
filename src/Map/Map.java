@@ -5,22 +5,22 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import GameObjects.GoalZone;
-import GameObjects.InanimateObjects;
+import GameObjects.InanimateObject;
 
 public class Map {
-	private ArrayList<InanimateObjects> gameObjects; 
+	private ArrayList<InanimateObject> gameObjects; 
 	private GoalZone goalZone; 	 
 	private int width; 
 	private int height; 
 	
-	public Map(int width, int height, ArrayList<InanimateObjects> gameObjects, GoalZone goalZone) {
+	public Map(int width, int height, ArrayList<InanimateObject> gameObjects, GoalZone goalZone) {
 		this.width = width; 
 		this.height = height; 
 		this.gameObjects = gameObjects; 
 		this.goalZone = goalZone; 
 	}
 	
-	public Map(int width, int height, ArrayList<InanimateObjects> gameObjects) {
+	public Map(int width, int height, ArrayList<InanimateObject> gameObjects) {
 		this.width = width; 
 		this.height = height; 
 		this.gameObjects = gameObjects; 
@@ -28,10 +28,10 @@ public class Map {
 	
 	//copy constructor
 	public Map(Map map) {
-		this(map.getWidth(), map.getHeight(), new ArrayList<InanimateObjects>(map.getGameObjects()), map.getGoalZone());
+		this(map.getWidth(), map.getHeight(), new ArrayList<InanimateObject>(map.getGameObjects()), map.getGoalZone());
 	}
 	
-	public ArrayList<InanimateObjects> getGameObjects() {
+	public ArrayList<InanimateObject> getGameObjects() {
 		return gameObjects; 
 	}
 	
@@ -51,7 +51,7 @@ public class Map {
 		return goalZone; 
 	}
 	
-	public boolean addObject(InanimateObjects o) {
+	public boolean addObject(InanimateObject o) {
 		if (checkCollisions(getObjectRectangle(o))) {
 			gameObjects.add(o); 
 			return true;
@@ -62,7 +62,7 @@ public class Map {
 	
 	public boolean checkCollisions(Rectangle objectRectangle) {
 		
-		for (InanimateObjects i : gameObjects) {
+		for (InanimateObject i : gameObjects) {
 			Rectangle r = getObjectRectangle(i);
 			if (r.intersects(objectRectangle)) 
 				return false;
@@ -71,7 +71,7 @@ public class Map {
 		return true; 
 	}
 	
-	public Rectangle getObjectRectangle(InanimateObjects o) {
+	public Rectangle getObjectRectangle(InanimateObject o) {
 		int objectWidth = (int)(o.getBottomRight().getX() - o.getTopLeft().getX()); 
 		int objectHeight = (int)(o.getBottomRight().getY() - o.getTopLeft().getY()); 
 		

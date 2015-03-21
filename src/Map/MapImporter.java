@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import GameObjects.GoalZone;
-import GameObjects.InanimateObjects;
+import GameObjects.InanimateObject;
 import GameObjects.OuterWall;
 import GameObjects.SentryTower;
 import GameObjects.Structure;
@@ -18,7 +18,7 @@ public class MapImporter {
 	public Map importMap(String mapName) {
 		int width = 0;
 		int height = 0; 
-		ArrayList<InanimateObjects> gameObjects = new ArrayList<InanimateObjects>(); 
+		ArrayList<InanimateObject> gameObjects = new ArrayList<InanimateObject>(); 
 		GoalZone goalZone = null; 
 		BufferedReader br = null;		
 		boolean firstLine = true; 
@@ -41,16 +41,16 @@ public class MapImporter {
 					Point topLeft = new Point(Integer.parseInt(gameObject[1]), Integer.parseInt(gameObject[2])); 
 					Point bottomRight = new Point(Integer.parseInt(gameObject[3]), Integer.parseInt(gameObject[4])); 
 					
-					if (Integer.parseInt(gameObject[0]) == InanimateObjects.SENTRY_TYPE) {
+					if (Integer.parseInt(gameObject[0]) == InanimateObject.SENTRY_TYPE) {
 						gameObjects.add(new SentryTower(topLeft, bottomRight)); 
 					}
-					else if (Integer.parseInt(gameObject[0]) == InanimateObjects.GOAL_TYPE) {
+					else if (Integer.parseInt(gameObject[0]) == InanimateObject.GOAL_TYPE) {
 						goalZone = new GoalZone(topLeft, bottomRight); 
 					}
-					else if (Integer.parseInt(gameObject[0]) == InanimateObjects.OUTERWALL_TYPE) {
+					else if (Integer.parseInt(gameObject[0]) == InanimateObject.OUTERWALL_TYPE) {
 						gameObjects.add(new OuterWall(topLeft, bottomRight)); 
 					}
-					else if (Integer.parseInt(gameObject[0]) == InanimateObjects.STRUCTURE_TYPE) {
+					else if (Integer.parseInt(gameObject[0]) == InanimateObject.STRUCTURE_TYPE) {
 						gameObjects.add(new Structure(topLeft, bottomRight)); 
 					}
 				}

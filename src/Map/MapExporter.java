@@ -9,7 +9,7 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
 import GameObjects.GoalZone;
-import GameObjects.InanimateObjects;
+import GameObjects.InanimateObject;
 import GameObjects.OuterWall;
 import GameObjects.SentryTower;
 import GameObjects.Structure;
@@ -35,10 +35,10 @@ public class MapExporter {
 		//write goal zone
 		GoalZone g = map.getGoalZone(); 
 		if (g != null) 
-			bw.write(InanimateObjects.GOAL_TYPE + " " + (int)g.getTopLeft().getX() + " " + (int)g.getTopLeft().getY() + " " + (int)g.getBottomRight().getX() + " " + (int)g.getBottomRight().getY() + "\n");
+			bw.write(InanimateObject.GOAL_TYPE + " " + (int)g.getTopLeft().getX() + " " + (int)g.getTopLeft().getY() + " " + (int)g.getBottomRight().getX() + " " + (int)g.getBottomRight().getY() + "\n");
 		
 		//write arraylist
-		for (InanimateObjects o : map.getGameObjects()) {
+		for (InanimateObject o : map.getGameObjects()) {
 			bw.write(getType(o) + " " + (int)o.getTopLeft().getX() + " " + (int)o.getTopLeft().getY() + " " + (int)o.getBottomRight().getX() + " " + (int)o.getBottomRight().getY());
 			bw.newLine();
 		}
@@ -46,22 +46,22 @@ public class MapExporter {
 		bw.close();		
 	}
 	
-	public int getType(InanimateObjects object) {
+	public int getType(InanimateObject object) {
 		if (object instanceof SentryTower) 
-			return InanimateObjects.SENTRY_TYPE; 
+			return InanimateObject.SENTRY_TYPE; 
 		else if (object instanceof GoalZone) 
-			return InanimateObjects.GOAL_TYPE; 
+			return InanimateObject.GOAL_TYPE; 
 		else if (object instanceof OuterWall) 
-			return InanimateObjects.OUTERWALL_TYPE; 
+			return InanimateObject.OUTERWALL_TYPE; 
 		else if (object instanceof Structure) 
-			return InanimateObjects.STRUCTURE_TYPE; 
+			return InanimateObject.STRUCTURE_TYPE; 
 		else 
-			return InanimateObjects.EMPTY_TYPE;
+			return InanimateObject.EMPTY_TYPE;
 	}
 	
 	public static void main(String[] args) throws IOException {
 		
-		ArrayList<InanimateObjects> gameObjects = new ArrayList<InanimateObjects>(); 
+		ArrayList<InanimateObject> gameObjects = new ArrayList<InanimateObject>(); 
 		gameObjects.add(new GoalZone(new Point(100, 100), new Point(150, 150))); 
 		gameObjects.add(new SentryTower(new Point(200, 300), new Point(400, 500))); 
     	Map m = new Map(600, 600, gameObjects);
