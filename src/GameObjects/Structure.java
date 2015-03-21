@@ -15,10 +15,10 @@ public class Structure extends InanimateObject{
 	
 	public boolean isInside(Point2D n){
 		if(n.getX() < topLeft.getX() || n.getX() > bottomRight.getX())
-		return false;	
+			return false;	
 		
 		if(n.getY() < topLeft.getY() || n.getY() > bottomRight.getY())
-		return false;		
+			return false;		
 	
 		return true; 
 	}
