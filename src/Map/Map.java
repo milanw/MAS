@@ -62,7 +62,6 @@ public class Map {
 	}
 	
 	public boolean checkCollisions(Rectangle objectRectangle) {
-		
 		for (InanimateObject i : gameObjects) {
 			Rectangle r = getObjectRectangle(i);
 			if (r.intersects(objectRectangle)) 
@@ -90,14 +89,25 @@ public class Map {
 		
 		return new Rectangle((int)o.getTopLeft().getX(), (int)o.getTopLeft().getY(), objectWidth, objectHeight);		
 	}
+	
 	public boolean emptySpot(Point2D n){
-		boolean answer = true;
-		for(int i=0;i<gameObjects.size();i++){
-			if(gameObjects.get(i).isInside(n)){
-				answer = false;
-			}
+		for(InanimateObject o : gameObjects){
+			if(o.isInside(n))
+				return false;			
 		}
-		return answer;
+		
+		return true;
+	}
+
+	public Point2D findEmptySpot(int length) {
+		Point2D spot = new Point2D.Double(Math.random()*width, Math.random()*height);
+		Rectangle spotRectangle = new Rectangle((int)spot.getX(), (int)spot.getY(), length, length);
+		while (!checkCollisions(spotRectangle)) {
+			spot = new Point2D.Double(Math.random()*width, Math.random()*height);			
+			spotRectangle = new Rectangle((int)spot.getX(), (int)spot.getY(), length, length);
+		}
+		
+		return spot; 
 	}
 }
 

@@ -144,6 +144,12 @@ public class Simulator {
 	
 	public void stopSimulation() {
 		simulationRunning = false;
+		
+		//reset agent locations
+		for (Agent a : agents) {
+			a.setTopLeft(map.findEmptySpot(a.getSize()));
+			a.setBottomRight(new Point2D.Double(a.getX()+a.getSize(), a.getY()+a.getSize()));
+		}
 	}
 	
 	public void pauseSimulation() {

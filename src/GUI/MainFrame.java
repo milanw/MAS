@@ -226,7 +226,7 @@ public class MainFrame extends JFrame {
 				}
 				else {
 					simulation.startSimulation();
-					startStopButton.setText("Stop");
+					startStopButton.setText("Stop & Reset");
 				}
 
 			}});	      

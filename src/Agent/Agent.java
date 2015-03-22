@@ -6,6 +6,7 @@ import java.util.Random;
 public class Agent {
 
     private double speed = 1.4;
+    private int defaultSize = 5; 
 	private int maxTurn;
 	private boolean onSentryTower; 
 	protected double visionRange;
@@ -152,6 +153,10 @@ public class Agent {
             visionRange = 6.0;
             viewingAngle = 45;
         }
+    }
+    
+    public int getSize() {
+    	return defaultSize; 
     }
 
 
