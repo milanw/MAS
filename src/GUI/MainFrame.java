@@ -51,7 +51,7 @@ public class MainFrame extends JFrame {
 	private int width;
 	private int height;
 	private Map map;	
-	private GUI mapView; 
+	private MapViewer mapView; 
 	private JPanel panel;
 	public int objectSelected = 0;
 	private Simulator main;
@@ -72,7 +72,7 @@ public class MainFrame extends JFrame {
         panel = new JPanel();
         panel.setLayout(new BorderLayout());
         //ipanel.setLayout(new BorderLayout());
-        mapView = new GUI(map, agents);       
+        mapView = new MapViewer(map, agents);       
         mapView.setPreferredSize(new Dimension(width,height));
        // mapView.setBorder(BorderFactory.createLineBorder(Color.GRAY,25));
         panel.add(mapView,BorderLayout.WEST);

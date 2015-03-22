@@ -28,7 +28,7 @@ import Map.Map;
 
 
 
-class GUI extends JComponent{
+class MapViewer extends JComponent{
 	
 	private static final long serialVersionUID = 1L;
 	private static final Color COLOR_GRASS = new Color(5, 128, 60);			// dark green
@@ -54,7 +54,7 @@ class GUI extends JComponent{
 	private Deque<Map> undoStack = new ArrayDeque<Map>(); 
 	private Deque<Map> redoStack = new ArrayDeque<Map>(); 
 
-	public GUI(Map map, ArrayList<Agent> agents) {		
+	public MapViewer(Map map, ArrayList<Agent> agents) {		
 		this.map = map;
 		this.agents = agents; 
 		this.setDoubleBuffered(true);
