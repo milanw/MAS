@@ -58,6 +58,7 @@ class MapViewer extends JComponent{
 	private boolean showRectangle;
 	private boolean showVisionCircle = true; 
 	private boolean showImages = true; 								//rectangles or images?
+	private boolean showMarkers = true; 
 	private Deque<Map> undoStack = new ArrayDeque<Map>(); 
 	private Deque<Map> redoStack = new ArrayDeque<Map>(); 
 
@@ -97,7 +98,7 @@ class MapViewer extends JComponent{
 			paintAgent(a, g2d); 
 		}
 
-		paintMarkers(g2d);
+		if (showMarkers) paintMarkers(g2d);
 
 		paintGoalZone(g2d);
 		paintCursorRectangle(g2d);
@@ -306,6 +307,10 @@ class MapViewer extends JComponent{
 
 	public void toggleShowImages() {
 		showImages = !showImages; 
+	}
+	
+	public void toggleShowMarkers() {
+		showMarkers = !showMarkers; 
 	}
 
 	public int scale(double value) {

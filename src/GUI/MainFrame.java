@@ -271,12 +271,20 @@ public class MainFrame extends JFrame {
 				mapView.toggleShowImages();
 				mapView.repaint();
 			}});
+		
+		JCheckBox markersCheckBox = new JCheckBox("Show markers", true);
+		markersCheckBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {            
+				mapView.toggleShowMarkers();
+				mapView.repaint();
+			}});
 
 		simulationMenu.add(startStopButton); 
 		simulationMenu.add(pauseContinueButton); 
 
 		simulationMenu.add(visionCheckBox); 
 		simulationMenu.add(imagesCheckBox); 
+		simulationMenu.add(markersCheckBox);
 
 		return simulationMenu;
 	}
