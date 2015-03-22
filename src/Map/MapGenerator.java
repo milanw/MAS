@@ -90,13 +90,13 @@ public class MapGenerator {
 		while(0<samount){
 		double x = 2+Math.random()*width-2;
 		double y = 2+Math.random()*height-2;
-		double nx = x + (width/50);
-		double ny = y + (height/50);
+		double nx = x + (SentryTower.getDefaultSize());
+		double ny = y + (SentryTower.getDefaultSize());
 		while(nx>width || ny>height){
 			x = 2+Math.random()*width-2;
 			y = 2+Math.random()*height-2;
-			nx = x + (width/50);
-			ny = y + (height/50);
+			nx = x + (SentryTower.getDefaultSize());
+			ny = y + (SentryTower.getDefaultSize());
 		}
 
 		Point2D.Double topleft = new Point2D.Double(x, y);

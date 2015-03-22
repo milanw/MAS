@@ -4,9 +4,9 @@ import java.awt.geom.Point2D;
 
 
 public class SentryTower extends InanimateObject{
-
+	private static final int DEFAULTSIZE = 12; 
     private int visionRange = 18;
-    private int defaultSize = 12;
+    private int size = DEFAULTSIZE;
 
 	public SentryTower(Point2D x, Point2D y) {
 		super(x,y); 
@@ -21,7 +21,11 @@ public class SentryTower extends InanimateObject{
     }
     
     public int getSize() {
-    	return defaultSize;
+    	return size;
+    }
+    
+    public static int getDefaultSize() {
+    	return DEFAULTSIZE; 
     }
 
 

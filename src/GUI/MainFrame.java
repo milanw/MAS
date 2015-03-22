@@ -7,6 +7,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Point2D;
 import java.io.IOException;
@@ -16,6 +18,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -42,6 +45,8 @@ public class MainFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	
 	private static final int RIGHTMENU_WIDTH = 300; 
+	private static final int FRAME_WIDTH = 1024; 
+	private static final int FRAME_HEIGHT = 768; 
 	
 	private JButton startStopButton; 
 	private JButton pauseContinueButton;
@@ -62,34 +67,43 @@ public class MainFrame extends JFrame {
 		this.map = map;
 
 		this.setTitle("Multi-Agent Surveillance");
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		
-		this.setSize(width+RIGHTMENU_WIDTH, height+100);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		this.setSize(FRAME_WIDTH, FRAME_HEIGHT); 
 		this.setLocationRelativeTo(null);
 
 		//map view
 		panel = new JPanel();
 		panel.setLayout(new BorderLayout());
-		//ipanel.setLayout(new BorderLayout());
-		mapView = new MapViewer(map, agents);       
-		mapView.setPreferredSize(new Dimension(width,height));
-		// mapView.setBorder(BorderFactory.createLineBorder(Color.GRAY,25));
-		panel.add(mapView,BorderLayout.WEST);
-		//ipanel.add(mapView,BorderLayout.WEST);
-
+		int remainingWidth = FRAME_WIDTH - RIGHTMENU_WIDTH; 
+		mapView = new MapViewer(map, agents, remainingWidth, FRAME_HEIGHT);      
+		
+		mapView.setPreferredSize(new Dimension(remainingWidth, FRAME_HEIGHT));
+		panel.add(mapView, BorderLayout.WEST);
 
 		//right Menu
 		JTabbedPane tabbedPane = new JTabbedPane(); 
 		tabbedPane.addTab("Map Editing", createEditingMenu());
 		tabbedPane.addTab("Simulation", createSimulationMenu());
-		tabbedPane.setPreferredSize(new Dimension(RIGHTMENU_WIDTH,height));
-		panel.add(tabbedPane,BorderLayout.EAST);
-		//ipanel.add(tabbedPane,BorderLayout.EAST);
+		tabbedPane.setPreferredSize(new Dimension(RIGHTMENU_WIDTH, height));
+		panel.add(tabbedPane, BorderLayout.EAST);
+		panel.add(new JLabel(Integer.toString(map.getWidth()) + "x" + Integer.toString(map.getHeight()) + "m"), BorderLayout.SOUTH);
+		
 
 		//set menu bar
 		this.setJMenuBar(createMenuBar());
 
 		this.getContentPane().add(panel);
 		this.setVisible(true);
+		
+		this.getRootPane().addComponentListener(new ComponentAdapter() {
+            public void componentResized(ComponentEvent e) {            	
+            	int newWidth = (int) getBounds().getSize().getWidth(); 
+            	int newHeight = (int) getBounds().getSize().getHeight(); 
+            	mapView.setPreferredSize(new Dimension(newWidth-RIGHTMENU_WIDTH, newHeight));
+                mapView.resize((double)newWidth, newHeight);
+            }
+        });
 	}
 
 	/*
@@ -274,7 +288,7 @@ public class MainFrame extends JFrame {
 	public Map getMap() {
 		return map;
 	}
-
+	/*
 	public static void main(String[] args) {
 		int width = 600;
 		int height = 600;
@@ -286,5 +300,5 @@ public class MainFrame extends JFrame {
 		Simulator main = new Simulator(m, agents);
 		MainFrame frame = new MainFrame(m, agents, main);
 		main.setFrame(frame);
-	}
+	}*/
 }

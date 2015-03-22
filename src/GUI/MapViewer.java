@@ -1,6 +1,7 @@
 package GUI; 
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -53,10 +54,13 @@ class MapViewer extends JComponent{
 	private boolean showImages = true; 								//rectangles or images?
 	private Deque<Map> undoStack = new ArrayDeque<Map>(); 
 	private Deque<Map> redoStack = new ArrayDeque<Map>(); 
+	
+	private double factor = 2.0; 
 
-	public MapViewer(Map map, ArrayList<Agent> agents) {		
+	public MapViewer(Map map, ArrayList<Agent> agents, int width, int height) {		
 		this.map = map;
 		this.agents = agents; 
+		this.factor = getFactor(width, height-60); 
 		this.setDoubleBuffered(true);
 		this.addMouseListener(movingAdapt);
 		this.addMouseMotionListener(movingAdapt);
@@ -93,19 +97,19 @@ class MapViewer extends JComponent{
 
 	public void paintGrass(Graphics2D g) {
 		if (showImages) 
-			g.drawImage(grassImg, 0, 0, map.getWidth(), map.getHeight(), COLOR_GRASS, null);
+			g.drawImage(grassImg, 0, 0, scale(map.getWidth()), scale(map.getHeight()), COLOR_GRASS, null);
 		else {
 			g.setColor(COLOR_GRASS);
-			g.fillRect (0, 0, map.getWidth(), map.getHeight());
+			g.fillRect (0, 0, scale(map.getWidth()), scale(map.getHeight()));
 		}
 	}
 
 	public void paintAgent(Agent a, Graphics2D g) {	  	
 		if (showImages) 
-			g.drawImage(getImage(a), a.getX(), a.getY(), a.getWidth(), a.getHeight(), null);
+			g.drawImage(getImage(a), scale(a.getX()), scale(a.getY()), scale(a.getWidth()), scale(a.getHeight()), null);
 		else {
 			g.setColor(getColor(a));
-			g.fillRect(a.getX(), a.getY(), a.getWidth(), a.getHeight());
+			g.fillRect(scale(a.getX()), scale(a.getY()), scale(a.getWidth()), scale(a.getHeight()));
 		}
 
 
@@ -118,7 +122,7 @@ class MapViewer extends JComponent{
 		double middleX = (a.getTopLeft().getX() + a.getBottomRight().getX()) / 2;
 		double middleY = (a.getTopLeft().getY() + a.getBottomRight().getY()) / 2;
 		g.setColor(Color.BLACK);
-		g.drawOval((int)(middleX-range), (int)(middleY-range), (int)(2*range), (int)(2*range));		
+		g.drawOval(scale(middleX-range), scale(middleY-range), scale(2*range), scale(2*range));		
 	}
 
 	/* 
@@ -126,10 +130,10 @@ class MapViewer extends JComponent{
 	 */
 	 public void paintObject(InanimateObject o, Graphics2D g) {
 		 if (showImages) 
-			 g.drawImage(getImage(o), o.getX(), o.getY(), o.getWidth(), o.getHeight(), null);
+			 g.drawImage(getImage(o), scale(o.getX()), scale(o.getY()), scale(o.getWidth()), scale(o.getHeight()), null);
 		 else {
 			 g.setColor(getColor(o));
-			 g.fillRect(o.getX(), o.getY(), o.getWidth(), o.getHeight());        	
+			 g.fillRect(scale(o.getX()), scale(o.getY()), scale(o.getWidth()), scale(o.getHeight()));        	
 		 } 
 	 }
 
@@ -186,7 +190,7 @@ class MapViewer extends JComponent{
 	 public void paintCursorRectangle(Graphics2D g) {
 		 g.setColor(Color.WHITE); 
 		 if (showRectangle)
-			 g.drawRect(currentMouseX, currentMouseY, selectedObject.getSize(), selectedObject.getSize());
+			 g.drawRect(currentMouseX, currentMouseY, scale(selectedObject.getSize()), scale(selectedObject.getSize()));
 	 }
 
 	 public void paintGoalZone(Graphics2D g) {
@@ -194,7 +198,7 @@ class MapViewer extends JComponent{
 			 GoalZone goalZone = map.getGoalZone(); 	 
 			 
 			 g.setColor(COLOR_GOALZONE);
-			 g.fillRect(goalZone.getX(), goalZone.getY(), goalZone.getWidth(), goalZone.getHeight());
+			 g.fillRect(scale(goalZone.getX()), scale(goalZone.getY()), scale(goalZone.getWidth()), scale(goalZone.getHeight()));
 		 }
 	 }
 
@@ -204,8 +208,8 @@ class MapViewer extends JComponent{
 
 		 @Override
 		 public void mousePressed(MouseEvent event) {
-			 x = event.getX();
-			 y = event.getY();
+			 x = (int)(event.getX()/factor);
+			 y = (int)(event.getY()/factor);
 			 InanimateObject o = null;
 			 if (selectedObject instanceof SentryTower)
 				 o = new SentryTower(new Point(x,y), new Point(x+selectedObject.getSize(), y+selectedObject.getSize()));
@@ -286,6 +290,20 @@ class MapViewer extends JComponent{
 
 	 public void toggleShowImages() {
 		 showImages = !showImages; 
+	 }
+	 
+	 public int scale(double value) {
+		 return (int)(value*factor); 
+	 }
+	 
+	 public double getFactor(double width, double height) {
+		 double xFactor = (double)width/ (double)map.getWidth(); 
+		 double yFactor = (double)height/ (double)map.getHeight(); 
+		 return xFactor < yFactor ? xFactor : yFactor;
+	 }
+	 
+	 public void resize(double width, double height) {		 
+		 this.factor = getFactor(width, height-60); 
 	 }
 }
 
