@@ -40,11 +40,11 @@ import GameObjects.GoalZone;
 import GameObjects.InanimateObject;
 import GameObjects.SentryTower;
 import GameObjects.Structure;
-import Main.Main;
 import Map.Map;
 import Map.MapExporter;
 import Map.MapImporter;
 import Map.MapGenerator;
+import Simulation.Simulator;
 
 public class MainFrame extends JFrame {
 	private static final int RIGHTMENU_WIDTH = 300; 
@@ -54,9 +54,11 @@ public class MainFrame extends JFrame {
 	private GUI mapView; 
 	private JPanel panel;
 	public int objectSelected = 0;
+	private Simulator main;
 	
-	public MainFrame(Map map, ArrayList<Agent> agents) {
-		
+	
+	public MainFrame(Map map, ArrayList<Agent> agents, Simulator main) {
+		this.main = main;
 		this.width = map.getWidth();
 		this.height = map.getHeight(); 
 		this.map = map;
@@ -219,8 +221,11 @@ public class MainFrame extends JFrame {
 		  String startStop = "Start/Stop"; 
 		  JButton startStopButton = new JButton(startStop); 		 
 	      startStopButton.addActionListener(new ActionListener() {
-	    	  public void actionPerformed(ActionEvent e) {            
-	    		  Main v = new Main(map);
+	    	  public void actionPerformed(ActionEvent e) {
+	    		  if (main.isRunning()) 
+	    			  main.stopSimulation();
+	    		  else 
+	    			  main.startSimulation();
 	      }});
 	      
 	      JCheckBox visionCheckBox = new JCheckBox("Show vision range", true);
@@ -248,6 +253,10 @@ public class MainFrame extends JFrame {
 		mapView.selectObject(object); 
 	}
 	
+	public Map getMap() {
+		return map;
+	}
+	
 	public static void main(String[] args) {
 		int width = 600;
 		int height = 600;
@@ -256,6 +265,8 @@ public class MainFrame extends JFrame {
 		ArrayList<Agent> agents = new ArrayList<Agent>();
 		agents.add(new IntruderAgent(new Point2D.Double(100, 100), new Point2D.Double(105, 105)));
 		agents.add(new SurveillanceAgent(new Point2D.Double(200, 200), new Point2D.Double(205, 205)));
-		MainFrame frame = new MainFrame(m, agents);
+		Simulator main = new Simulator(m, agents);
+		MainFrame frame = new MainFrame(m, agents, main);
+		main.setFrame(frame);
 	}
 }

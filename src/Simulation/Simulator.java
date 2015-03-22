@@ -1,7 +1,9 @@
-package Main;
+package Simulation;
 import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+
+import javax.swing.JFrame;
 
 import Agent.Agent;
 import Agent.IntruderAgent;
@@ -10,8 +12,8 @@ import GUI.MainFrame;
 import Map.Map;
 
 
-public class Main {
-	private boolean simulationRunning = true;
+public class Simulator {
+	private boolean simulationRunning = false;
 	private boolean simulationPaused = false;
 	private int fps = 60;
 	private int frameCount = 0;
@@ -20,6 +22,7 @@ public class Main {
 	private ArrayList<Agent> agents;
     private Point2D[] currentMove;
     
+    /*
 	public Main(Map nmap) {
 
 		map = nmap;	
@@ -32,11 +35,23 @@ public class Main {
 		}
 		agents.add(new IntruderAgent(new Point2D.Double(100, 100), new Point2D.Double(105, 105)));
 		agents.add(new SurveillanceAgent(new Point2D.Double(200, 200), new Point2D.Double(205, 205))); 
-		frame = new MainFrame(map, agents);
-		startGameLoop();
+		//frame = new MainFrame(map, agents, this);
+		//startGameLoop();
+	}*/
+	
+	public Simulator(Map map, ArrayList<Agent> agents) {
+		this.map = map;	
+		this.agents = agents; 
+	}
+	
+	public void stopSimulation() {
+		simulationRunning = false;
 	}
 
-	public void startGameLoop() {
+	public void startSimulation() {
+		map = frame.getMap();
+		simulationRunning = true; 
+		
 		Thread loop = new Thread() {
 			public void run() {
 				gameLoop();
@@ -91,7 +106,7 @@ public class Main {
 				//Update the frames we got.
 				int thisSecond = (int) (lastUpdateTime / 1000000000);
 				if (thisSecond > lastSecondTime) {
-					//System.out.println("NEW SECOND " + thisSecond + " " + frameCount);
+					System.out.println("NEW SECOND " + thisSecond + " " + frameCount);
 					fps = frameCount;
 					frameCount = 0;
 					lastSecondTime = thisSecond;
@@ -121,9 +136,6 @@ public class Main {
                 a.setBottomRight(currentMove[1]);
             }
         }
-
-
-
 	}
 	
 	
@@ -137,5 +149,14 @@ public class Main {
 
 	public void drawSimulation() {
 		frame.repaint();
+	}
+	
+	public boolean isRunning() {
+		return simulationRunning; 
+	}
+	
+	public void setFrame(MainFrame frame) {
+		this.frame = frame;
+		
 	}
 }
