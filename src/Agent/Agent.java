@@ -7,6 +7,7 @@ public class Agent {
 
     private double speed = 1.4;
 	private int maxTurn;
+	private boolean onSentryTower; 
 	protected double visionRange;
 	private int viewingAngle; 
     private Point2D topLeft;
@@ -24,12 +25,12 @@ public class Agent {
 	
 	public Point2D[] getNextMove() {
 		Random rnd = new Random(); 
-//		if (rnd.nextBoolean())
-//			return move(rnd.nextInt(4));
-//		else
-//			return move(1);
+		if (rnd.nextBoolean())
+			return move(rnd.nextInt(4));
+		else
+			return move(1);
 
-        return move(rnd.nextInt(4));
+        //return move(rnd.nextInt(4));
     }
 	
 	public Point2D[] move(int direction){
@@ -135,6 +136,23 @@ public class Agent {
 	public int getY() {
 		return (int)topLeft.getY(); 
 	}
+	
+	public boolean IsOnSentryTower(){
+        return onSentryTower;
+    }
+
+    public void setOnSentryTower(boolean b) {
+        if (b) {
+            onSentryTower = b;
+            visionRange = 15.0;
+            viewingAngle = 30;
+        }
+        else {
+            onSentryTower = b;
+            visionRange = 6.0;
+            viewingAngle = 45;
+        }
+    }
 
 
 

@@ -21,32 +21,13 @@ public class Simulator {
 	private Map map; 
 	private ArrayList<Agent> agents;
     private Point2D[] currentMove;
-    
-    /*
-	public Main(Map nmap) {
-
-		map = nmap;	
-		agents = new ArrayList<Agent>();
-		Point2D.Double s1 = new Point2D.Double(Math.random()*map.getHeight(), Math.random()*map.getWidth());
-		Point2D.Double s2 = new Point2D.Double(Math.random()*map.getHeight(), Math.random()*map.getWidth());
-		while(!map.emptySpot(s1)||!map.emptySpot(s2)){
-			s1 = new Point2D.Double(Math.random()*map.getHeight(), Math.random()*map.getWidth());
-			s2 = new Point2D.Double(Math.random()*map.getHeight(), Math.random()*map.getWidth());
-		}
-		agents.add(new IntruderAgent(new Point2D.Double(100, 100), new Point2D.Double(105, 105)));
-		agents.add(new SurveillanceAgent(new Point2D.Double(200, 200), new Point2D.Double(205, 205))); 
-		//frame = new MainFrame(map, agents, this);
-		//startGameLoop();
-	}*/
 	
 	public Simulator(Map map, ArrayList<Agent> agents) {
 		this.map = map;	
 		this.agents = agents; 
 	}
 	
-	public void stopSimulation() {
-		simulationRunning = false;
-	}
+	
 
 	public void startSimulation() {
 		map = frame.getMap();
@@ -127,24 +108,26 @@ public class Simulator {
 		}
 	}
 
+	//needs some cleaning up
 	public void updateSimulation() {
 		for (Agent a : agents) {
-
+			Point2D[] move = a.getNextMove();
+			int width = (int)(move[1].getX()-move[0].getX());
+			int height = (int)(move[1].getY()-move[0].getY());
+			Rectangle collisionRectangle = new Rectangle((int)move[0].getX(), (int)move[0].getY(), width, height);
+			
             currentMove = a.getNextMove();
-            if (isMoveValid(currentMove)) {
+            if (map.collidesWithTower(collisionRectangle)) {
+            	a.setTopLeft(currentMove[0]);
+                a.setBottomRight(currentMove[1]);
+                a.setOnSentryTower(true);
+            }
+            else if (map.checkCollisions(collisionRectangle)) {
                 a.setTopLeft(currentMove[0]);
                 a.setBottomRight(currentMove[1]);
+                a.setOnSentryTower(false); 
             }
         }
-	}
-	
-	
-	public boolean isMoveValid(Point2D[] move) {
-		int width = (int)(move[1].getX()-move[0].getX());
-		int height = (int)(move[1].getY()-move[0].getY());
-		Rectangle collisionRectangle = new Rectangle((int)move[0].getX(), (int)move[0].getY(), width, height);
-		
-		return map.checkCollisions(collisionRectangle);
 	}
 
 	public void drawSimulation() {
@@ -155,8 +138,23 @@ public class Simulator {
 		return simulationRunning; 
 	}
 	
+	public boolean isPaused() {
+		return simulationPaused; 
+	}
+	
+	public void stopSimulation() {
+		simulationRunning = false;
+	}
+	
+	public void pauseSimulation() {
+		simulationPaused = true; 
+	}
+	
+	public void continueSimulation() {
+		simulationPaused = false; 
+	}
+	
 	public void setFrame(MainFrame frame) {
-		this.frame = frame;
-		
+		this.frame = frame;		
 	}
 }

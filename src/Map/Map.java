@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import GameObjects.GoalZone;
 import GameObjects.InanimateObject;
+import GameObjects.SentryTower;
 
 public class Map {
 	private ArrayList<InanimateObject> gameObjects; 
@@ -69,6 +70,18 @@ public class Map {
 		}
 		
 		return true; 
+	}
+	
+	public boolean collidesWithTower(Rectangle objectRectangle) {		
+		for (InanimateObject i : gameObjects) {
+			if (i instanceof SentryTower) {
+				Rectangle r = getObjectRectangle(i);
+				if (r.intersects(objectRectangle)) 
+					return true;
+			}			
+		}
+		
+		return false; 
 	}
 	
 	public Rectangle getObjectRectangle(InanimateObject o) {

@@ -21,7 +21,7 @@ public class SurveillanceAgent extends Agent{
     }
 
     public void setOnSentryTower(boolean b) {
-        if (b = true) {
+        if (b) {
             onSentryTower = b;
             visionRange = 15.0;
             viewingAngle = 30;
