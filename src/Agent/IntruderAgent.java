@@ -2,6 +2,8 @@ package Agent;
 
 import java.awt.geom.Point2D;
 
+import Map.Map;
+
 public class IntruderAgent extends Agent{
 	
 	private double sprintspeed = 3.0;
@@ -13,8 +15,8 @@ public class IntruderAgent extends Agent{
 		visionRange = 7.5;
 	}
 	
-	public IntruderAgent(Point2D topLeft, Point2D bottomRight){
-		super(topLeft, bottomRight);
+	public IntruderAgent(Point2D topLeft, Point2D bottomRight, Map map){
+		super(topLeft, bottomRight, map);
 		visionRange = 7.5;
 	}
 	

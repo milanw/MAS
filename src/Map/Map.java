@@ -6,10 +6,12 @@ import java.util.ArrayList;
 
 import GameObjects.GoalZone;
 import GameObjects.InanimateObject;
+import GameObjects.Marker;
 import GameObjects.SentryTower;
 
 public class Map {
 	private ArrayList<InanimateObject> gameObjects; 
+	private ArrayList<Marker> markers = new ArrayList<Marker>(); 
 	private GoalZone goalZone; 	 
 	private int width; 
 	private int height; 
@@ -108,6 +110,14 @@ public class Map {
 		}
 		
 		return spot; 
+	}
+	
+	public void addMarker(Marker marker) {
+		markers.add(marker); 
+	}
+	
+	public ArrayList<Marker> getMarkers() {
+		return markers; 
 	}
 }
 

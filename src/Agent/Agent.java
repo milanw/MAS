@@ -1,10 +1,14 @@
 package Agent;
 
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import java.util.Random;
 
-public class Agent {
+import GameObjects.Marker;
+import Map.Map;
 
+public class Agent {
+	private Map map; 
     private double speed = 1.4;
     private static int defaultSize = 5; 
 	private int maxTurn;
@@ -15,9 +19,10 @@ public class Agent {
     private Point2D bottomRight;
 
 	
-	public Agent(Point2D topLeft, Point2D bottomRight){
+	public Agent(Point2D topLeft, Point2D bottomRight, Map map){
 		this.topLeft = topLeft; 
 		this.bottomRight = bottomRight; 
+		this.map = map; 
 	}
 	
 	public Agent(){
@@ -26,8 +31,10 @@ public class Agent {
 	
 	public Point2D[] getNextMove() {
 		Random rnd = new Random(); 
-		if (rnd.nextBoolean())
+		if (rnd.nextBoolean()) {
+			if (rnd.nextBoolean()){placeMarker(3); }
 			return move(rnd.nextInt(4));
+		}
 		else
 			return move(1);
 
@@ -143,13 +150,12 @@ public class Agent {
     }
 
     public void setOnSentryTower(boolean b) {
-        if (b) {
-            onSentryTower = b;
+    	onSentryTower = b;
+        if (onSentryTower) {            
             visionRange = 15.0;
             viewingAngle = 30;
         }
         else {
-            onSentryTower = b;
             visionRange = 6.0;
             viewingAngle = 45;
         }
@@ -158,7 +164,11 @@ public class Agent {
     public static int getSize() {
     	return defaultSize; 
     }
-
+    
+    public void placeMarker(int type) {    	
+    	Marker marker = new Marker(topLeft, type); 
+    	map.addMarker(marker);
+    }
 
 
 }
