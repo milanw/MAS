@@ -9,19 +9,24 @@ import Map.Map;
 import Map.MapGenerator;
 import Simulation.Simulator;
 
-
 public class Main {
 	public static void main(String[] args){
-		int width = 600;
-		int height = 600;
-		Map map = new MapGenerator(width, height).getMap();
-		//ArrayList<Agent> agents = new SimpleAlgorithm(m).getAgents();
+		int mapWidth = 200;
+		int mapHeight = 200;
+		Map map = new MapGenerator(mapWidth, mapHeight).getMap();
 		ArrayList<Agent> agents = new ArrayList<Agent>();
 		
-		Point2D position = map.findEmptySpot(5);
-		agents.add(new IntruderAgent(position, new Point2D.Double(position.getX()+5, position.getY()+5)));
-		position = map.findEmptySpot(5);
-		agents.add(new SurveillanceAgent(position, new Point2D.Double(position.getX()+5, position.getY()+5)));
+		int size = Agent.getSize(); 
+		Point2D position = map.findEmptySpot(size);
+		agents.add(new IntruderAgent(position, new Point2D.Double(position.getX()+size, position.getY()+size), map));
+		position = map.findEmptySpot(size);
+		agents.add(new SurveillanceAgent(position, new Point2D.Double(position.getX()+size, position.getY()+size), map));
+		position = map.findEmptySpot(size);
+		agents.add(new SurveillanceAgent(position, new Point2D.Double(position.getX()+size, position.getY()+size), map));
+		position = map.findEmptySpot(size);
+		agents.add(new SurveillanceAgent(position, new Point2D.Double(position.getX()+size, position.getY()+size), map));
+		position = map.findEmptySpot(size);
+		agents.add(new SurveillanceAgent(position, new Point2D.Double(position.getX()+size, position.getY()+size), map));
 		
 		Simulator main = new Simulator(map, agents);
 		MainFrame frame = new MainFrame(map, agents, main);

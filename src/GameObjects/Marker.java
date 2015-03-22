@@ -2,15 +2,12 @@ package GameObjects;
 
 import java.awt.geom.Point2D;
 
-public class Marker {
+public class Marker extends InanimateObject {
 	private static final int DEFAULT_SIZE = 2; 
-	private Point2D topLeft;
-	private Point2D bottomRight; 
 	private int type; 				// 5 different types
 	
-	public Marker(Point2D topRight, int type) {
-		this.topLeft = topRight; 
-		this.bottomRight = new Point2D.Double(topRight.getX()+DEFAULT_SIZE, topRight.getY()+DEFAULT_SIZE); 
+	public Marker(Point2D topLeft, int type) {
+		super(topLeft, new Point2D.Double(topLeft.getX()+DEFAULT_SIZE, topLeft.getY()+DEFAULT_SIZE)); 
 		this.type = type; 
 	}
 	

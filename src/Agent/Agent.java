@@ -1,5 +1,6 @@
 package Agent;
 
+import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
@@ -29,7 +30,37 @@ public class Agent {
 		
 	}
 	
+	public Point2D[] pheromoneMove() {
+		Point2D left = new Point2D.Double(topLeft.getX()-getWidth(), topLeft.getY());
+		Point2D right = new Point2D.Double(topLeft.getX()+getWidth(), topLeft.getY());
+		Point2D top = new Point2D.Double(topLeft.getX(), topLeft.getY()-getHeight());
+		Point2D bottom = new Point2D.Double(topLeft.getX(), topLeft.getY()+getHeight());
+		Point2D[] directions = {left, top, bottom, right}; 
+		
+		Point2D result = null; 
+		int minMarkers = Integer.MAX_VALUE;
+		
+		for (Point2D d : directions) {
+			Rectangle r = new Rectangle((int)d.getX(), (int)d.getY(), getWidth(), getHeight());
+			Rectangle r2 = new Rectangle((int)d.getX(), (int)d.getY(), getWidth(), getHeight());
+			if (map.checkCollisions(r2)) { 
+				int amountMarkers = map.markersIn(r);
+				System.out.println(amountMarkers); 
+				if (amountMarkers < minMarkers) {
+					minMarkers = amountMarkers; 
+					result = d; 
+				}
+			}
+		}
+		
+		return new Point2D[] {result, new Point2D.Double(result.getX()+getWidth(), result.getY()+getHeight())}; 
+	}
+	
 	public Point2D[] getNextMove() {
+		placeMarker(3); 
+		return pheromoneMove(); 
+		
+		/*
 		Random rnd = new Random(); 
 		if (rnd.nextBoolean()) {
 			if (rnd.nextBoolean()){placeMarker(3); }
@@ -37,7 +68,7 @@ public class Agent {
 		}
 		else
 			return move(1);
-
+		*/
         //return move(rnd.nextInt(4));
     }
 	

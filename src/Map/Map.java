@@ -119,6 +119,20 @@ public class Map {
 	public ArrayList<Marker> getMarkers() {
 		return markers; 
 	}
+	
+	public int markersIn(Rectangle area) {
+		int count = 0; 
+		for (Marker m : markers) {
+			Rectangle r = getObjectRectangle(m);
+			if (area.intersects(r)) 
+				count++; 
+		}
+		return count;
+	}
+	
+	public void resetMarkers() {
+		markers = new ArrayList<Marker>();
+	}
 }
 
 

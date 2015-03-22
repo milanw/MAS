@@ -31,6 +31,7 @@ public class Simulator {
 
 	public void startSimulation() {
 		map = frame.getMap();
+		map.resetMarkers();
 		simulationRunning = true; 
 		
 		Thread loop = new Thread() {
@@ -87,7 +88,7 @@ public class Simulator {
 				//Update the frames we got.
 				int thisSecond = (int) (lastUpdateTime / 1000000000);
 				if (thisSecond > lastSecondTime) {
-					System.out.println("NEW SECOND " + thisSecond + " " + frameCount);
+					//ystem.out.println("NEW SECOND " + thisSecond + " " + frameCount);
 					fps = frameCount;
 					frameCount = 0;
 					lastSecondTime = thisSecond;
@@ -150,6 +151,8 @@ public class Simulator {
 			a.setTopLeft(map.findEmptySpot(a.getSize()));
 			a.setBottomRight(new Point2D.Double(a.getX()+a.getSize(), a.getY()+a.getSize()));
 		}
+		
+		
 	}
 	
 	public void pauseSimulation() {
