@@ -128,9 +128,10 @@ class MapViewer extends JComponent{
 
 	public void paintVisionRange(Agent a, Graphics2D g) {
 		double range = a.getVisionRange();
-		double middleX = (a.getTopLeft().getX() + a.getBottomRight().getX()) / 2;
-		double middleY = (a.getTopLeft().getY() + a.getBottomRight().getY()) / 2;
+		double middleX = (a.getTopLeft().getX() + a.getBottomRight().getX()) / 2.0;
+		double middleY = (a.getTopLeft().getY() + a.getBottomRight().getY()) / 2.0;
 		g.setColor(Color.BLACK);
+		System.out.println((middleX-range) + " " +scale(middleX-range));
 		g.drawOval(scale(middleX-range), scale(middleY-range), scale(2*range), scale(2*range));		
 	}
 

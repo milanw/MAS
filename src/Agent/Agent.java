@@ -18,7 +18,6 @@ public class Agent {
 	private int viewingAngle; 
     private Point2D topLeft;
     private Point2D bottomRight;
-
 	
 	public Agent(Point2D topLeft, Point2D bottomRight, Map map){
 		this.topLeft = topLeft; 
@@ -28,7 +27,7 @@ public class Agent {
 	
 	public Agent(){
 		
-	}
+	}	
 	
 	public Point2D[] pheromoneMove() {
 		Point2D left = new Point2D.Double(topLeft.getX()-getWidth(), topLeft.getY());
@@ -53,7 +52,7 @@ public class Agent {
 			}
 		}
 		
-		return new Point2D[] {result, new Point2D.Double(result.getX()+getWidth(), result.getY()+getHeight())}; 
+		return new Point2D[] {result, new Point2D.Double(result.getX()+defaultSize, result.getY()+defaultSize)}; 
 	}
 	
 	public Point2D[] getNextMove() {
