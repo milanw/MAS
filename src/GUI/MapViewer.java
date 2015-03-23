@@ -167,8 +167,10 @@ class MapViewer extends JComponent{
 		else if (o instanceof Structure) 
 			return COLOR_STRUCTURE;
 
-		else 
-			return COLOR_GRASS;
+		else if(o instanceof GoalZone){
+			return COLOR_GOALZONE;
+			
+		}else return COLOR_GRASS;
 	}
 
 	public Color getColor(Agent a) {
@@ -211,6 +213,7 @@ class MapViewer extends JComponent{
 	}
 
 	public void paintGoalZone(Graphics2D g) {
+		
 		if (map.getGoalZone() != null) {
 			GoalZone goalZone = map.getGoalZone(); 	 
 

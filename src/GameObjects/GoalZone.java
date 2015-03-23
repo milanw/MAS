@@ -1,16 +1,16 @@
 package GameObjects;
 
 import java.awt.Point;
+import java.awt.geom.Point2D;
 
 public class GoalZone extends InanimateObject{
-	private static int defaultSize = 30; 	
+	public static int defaultSize = 5; 	
 
-	public GoalZone(Point x, Point y) {
+	public GoalZone(Point2D x, Point2D y) {
 		super(x,y);
 	}
 	
 	public int getSize() {
 		return defaultSize; 
 	}
-
 }

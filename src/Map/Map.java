@@ -26,7 +26,12 @@ public class Map {
 	public Map(int width, int height, ArrayList<InanimateObject> gameObjects) {
 		this.width = width; 
 		this.height = height; 
-		this.gameObjects = gameObjects; 
+		this.gameObjects = gameObjects;
+		goalZone = (GoalZone) gameObjects.get(0);
+		gameObjects.remove(0);
+		for(int i = 0;i<gameObjects.size();i++){
+			System.out.println(gameObjects.get(i).getClass());
+		}
 	}
 	
 	//copy constructor

@@ -3,6 +3,7 @@ package Map;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+import GameObjects.GoalZone;
 import GameObjects.InanimateObject;
 import GameObjects.OuterWall;
 import GameObjects.SentryTower;
@@ -18,9 +19,11 @@ public class MapGenerator {
 	public MapGenerator(int height, int width){
 		this.height = height;
 		this.width= width;
+		addEndZone();
 		addOuterWalls();
 		addStructures();
 		addSentryTowers();
+		
 		/*
 		for(int i=0;i<map.size();i++){
 			System.out.println(map.get(i).getClass() + " " + map.get(i).getTopLeft() + " " + map.get(i).getBottomRight());
@@ -120,6 +123,46 @@ public class MapGenerator {
 		}
 		}
 
+	}
+	public void addEndZone(){
+		boolean placed = false;
+		while(placed == false){
+		double x = 2+Math.random()*width-2;
+		double y = 2+Math.random()*height-2;
+		System.out.println(x+ " " + y);
+		double nx = x + (GoalZone.defaultSize);
+		double ny = y + (GoalZone.defaultSize);
+		while(nx>width || ny>height){
+			x = 2+Math.random()*width-2;
+			y = 2+Math.random()*height-2;
+			nx = x + (GoalZone.defaultSize);
+			ny = y + (GoalZone.defaultSize);
+		}
+
+		Point2D.Double topleft = new Point2D.Double(x, y);
+		Point2D.Double bottomright = new Point2D.Double(nx, ny);
+		Point2D.Double topright = new Point2D.Double(nx, y);
+		Point2D.Double bottomleft = new Point2D.Double(x, ny);
+		Point2D.Double middlePoint = new Point2D.Double(nx-x,ny-y);
+		if(emptySpot(topleft) && emptySpot(bottomright) && emptySpot(topright)&&emptySpot(bottomleft)&&emptySpot(middlePoint)){
+			
+			GoalZone s = new GoalZone(topleft, bottomright);
+			boolean m = false;
+			for(int j = 0;j<map.size();j++){
+				if(s.isInside(map.get(j).getTopLeft()) == true){
+					m = true;
+				}
+			}
+			if(m == false){
+				map.add(s);
+				placed = true;
+				System.out.println(s.getTopLeft() + " " + s.getBottomRight());
+				//System.out.println("placed = " + placed);
+			}
+		}
+		}
+		System.out.println("placed = " + placed);
+		
 	}
 	
 	public void addOuterWalls(){	
