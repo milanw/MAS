@@ -27,6 +27,4 @@ public class SentryTower extends InanimateObject{
     public static int getDefaultSize() {
     	return DEFAULTSIZE; 
     }
-
-
 }
