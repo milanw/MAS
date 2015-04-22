@@ -44,7 +44,7 @@ public class Agent {
 			Rectangle r2 = new Rectangle((int)d.getX(), (int)d.getY(), getWidth(), getHeight());
 			if (map.checkCollisions(r2)) { 
 				int amountMarkers = map.markersIn(r);
-				System.out.println(amountMarkers); 
+				//System.out.println(amountMarkers); 
 				if (amountMarkers < minMarkers) {
 					minMarkers = amountMarkers; 
 					result = d; 
