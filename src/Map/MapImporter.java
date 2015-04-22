@@ -66,7 +66,7 @@ public class MapImporter {
 				ex.printStackTrace();
 			}
 		}
-		Map map = new Map(width, height, gameObjects);
+		Map map = new Map(width, height, gameObjects, null);
 		if (goalZone != null) 
 			map.setGoalZone(goalZone); 
  

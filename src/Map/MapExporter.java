@@ -36,7 +36,9 @@ public class MapExporter {
 		GoalZone g = map.getGoalZone(); 
 		if (g != null) 
 			bw.write(InanimateObject.GOAL_TYPE + " " + (int)g.getTopLeft().getX() + " " + (int)g.getTopLeft().getY() + " " + (int)g.getBottomRight().getX() + " " + (int)g.getBottomRight().getY() + "\n");
-		
+		else 
+			bw.write(InanimateObject.GOAL_TYPE + " " + 0 + " " + 0 + " " + 0 + " " + 0 + "\n");
+			
 		//write arraylist
 		for (InanimateObject o : map.getGameObjects()) {
 			bw.write(getType(o) + " " + (int)o.getTopLeft().getX() + " " + (int)o.getTopLeft().getY() + " " + (int)o.getBottomRight().getX() + " " + (int)o.getBottomRight().getY());
@@ -59,15 +61,5 @@ public class MapExporter {
 			return InanimateObject.EMPTY_TYPE;
 	}
 	
-	public static void main(String[] args) throws IOException {
-		
-		ArrayList<InanimateObject> gameObjects = new ArrayList<InanimateObject>(); 
-		gameObjects.add(new GoalZone(new Point(100, 100), new Point(150, 150))); 
-		gameObjects.add(new SentryTower(new Point(200, 300), new Point(400, 500))); 
-    	Map m = new Map(600, 600, gameObjects);
-    	
-		MapExporter e = new MapExporter("test", m); 
-		e.export();
-		
-	}
+	
 }

@@ -41,7 +41,7 @@ public class MapGenerator {
 	}
 	
 	public Map getMap(){
-		return new Map(width, height, map);
+		return new Map(width, height, map, null);
 	}
 	
 	public ArrayList<InanimateObject> getObjects() {
@@ -129,7 +129,7 @@ public class MapGenerator {
 		while(placed == false){
 		double x = 2+Math.random()*width-2;
 		double y = 2+Math.random()*height-2;
-		System.out.println(x+ " " + y);
+		//System.out.println(x+ " " + y);
 		double nx = x + (GoalZone.defaultSize);
 		double ny = y + (GoalZone.defaultSize);
 		while(nx>width || ny>height){
@@ -156,12 +156,12 @@ public class MapGenerator {
 			if(m == false){
 				map.add(s);
 				placed = true;
-				System.out.println(s.getTopLeft() + " " + s.getBottomRight());
+				//System.out.println(s.getTopLeft() + " " + s.getBottomRight());
 				//System.out.println("placed = " + placed);
 			}
 		}
 		}
-		System.out.println("placed = " + placed);
+		//System.out.println("placed = " + placed);
 		
 	}
 	

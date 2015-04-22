@@ -121,6 +121,14 @@ public class MainFrame extends JFrame {
 	 */
 	public JMenu createMapMenu() {
 		JMenu mapMenu = new JMenu("Map");
+		
+		
+		JMenuItem createEmptMapItem = new JMenuItem("Create new empty Map");
+		createEmptMapItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				map = new Map(200, 200, new ArrayList<InanimateObject>(), null);                        
+				mapView.setMap(map);                        
+			}});
 
 		JMenuItem genRndMapItem = new JMenuItem("Generate new random Map");
 		genRndMapItem.addActionListener(new ActionListener() {
@@ -181,12 +189,21 @@ public class MainFrame extends JFrame {
 				mapView.redo();
 			}});
 		redoMapItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y, ActionEvent.CTRL_MASK));
+		
+		JMenuItem printDisMap = new JMenuItem("Print Discretized Map");
+		printDisMap.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mapView.printDiscreteMap();
+			}});
+		
 
+		mapMenu.add(createEmptMapItem);
 		mapMenu.add(genRndMapItem);
 		mapMenu.add(impMapItem);
 		mapMenu.add(expMapItem);
 		mapMenu.add(undoMapItem);
 		mapMenu.add(redoMapItem);
+		mapMenu.add(printDisMap);
 
 		return mapMenu;
 	}

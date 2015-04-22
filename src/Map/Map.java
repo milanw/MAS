@@ -23,6 +23,7 @@ public class Map {
 		this.goalZone = goalZone; 
 	}
 	
+	/*
 	public Map(int width, int height, ArrayList<InanimateObject> gameObjects) {
 		this.width = width; 
 		this.height = height; 
@@ -32,7 +33,7 @@ public class Map {
 		for(int i = 0;i<gameObjects.size();i++){
 			System.out.println(gameObjects.get(i).getClass());
 		}
-	}
+	}*/
 	
 	//copy constructor
 	public Map(Map map) {
@@ -133,6 +134,21 @@ public class Map {
 				count++; 
 		}
 		return count;
+	}
+	
+	public int[][] getDiscretizedMap() {
+		int squareSize = 5; 			// side length of each square in the grid
+		int[][] grid = new int[width/squareSize][height/squareSize];
+		
+		for (int x = 0; x < grid.length; x++) {
+			for (int y = 0; y < grid[0].length; y++) {
+				Rectangle r = new Rectangle(squareSize*x, squareSize*y, squareSize, squareSize); 
+				if (checkCollisions(r)) {
+					grid[x][y] = 1; 
+				}
+			}
+		}
+		return grid; 
 	}
 	
 	public void resetMarkers() {

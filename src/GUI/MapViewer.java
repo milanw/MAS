@@ -131,7 +131,7 @@ class MapViewer extends JComponent{
 		double middleX = (a.getTopLeft().getX() + a.getBottomRight().getX()) / 2.0;
 		double middleY = (a.getTopLeft().getY() + a.getBottomRight().getY()) / 2.0;
 		g.setColor(Color.BLACK);
-		System.out.println((middleX-range) + " " +scale(middleX-range));
+		//System.out.println((middleX-range) + " " +scale(middleX-range));
 		g.drawOval(scale(middleX-range), scale(middleY-range), scale(2*range), scale(2*range));		
 	}
 
@@ -279,6 +279,17 @@ class MapViewer extends JComponent{
 		map = new Map(m); 
 		undoStack = new ArrayDeque<Map>();
 		repaint();
+	}
+	
+	public void printDiscreteMap() {
+		System.out.println("a\n");
+		int[][] grid = map.getDiscretizedMap(); 
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid[0].length; j++) {
+				System.out.print(grid[j][i]);
+			}
+			System.out.println(); 
+		}
 	}
 
 	public void undo() {    	
