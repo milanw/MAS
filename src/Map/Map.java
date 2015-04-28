@@ -76,7 +76,7 @@ public class Map {
 				return false;
 		}
 		
-		return true; 
+		return true;
 	}
 	
 	public boolean collidesWithTower(Rectangle objectRectangle) {		
@@ -88,7 +88,7 @@ public class Map {
 			}			
 		}
 		
-		return false; 
+		return false;
 	}
 	
 	public Rectangle getObjectRectangle(InanimateObject o) {
