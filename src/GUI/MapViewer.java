@@ -27,7 +27,7 @@ import Map.Map;
 
 
 
-class MapViewer extends JComponent{
+public class MapViewer extends JComponent{
 
 	private static final long serialVersionUID = 1L;
 	private static final Color COLOR_GRASS = new Color(5, 128, 60);			// dark green
@@ -202,6 +202,13 @@ class MapViewer extends JComponent{
 		else 
 			return intruderImg; 
 	}
+    public void setImage(Agent a, BufferedImage b){
+        if (a instanceof SurveillanceAgent)
+            surveillanceImg = b;
+
+        else
+            intruderImg = b;
+    }
 
 	public void paintCursorRectangle(Graphics2D g) {
 		g.setColor(Color.WHITE); 
@@ -341,11 +348,10 @@ class MapViewer extends JComponent{
 
     //the desired angle of rotating the image is calculated as the following
     // double angle = Math.toRadians(degree);
-    public static BufferedImage rotate(BufferedImage image, double angle) {
+    public void rotate(BufferedImage image, double angle, Agent a) {
         double sin = Math.abs(Math.sin(angle)), cos = Math.abs(Math.cos(angle));
         int w = image.getWidth(), h = image.getHeight();
         int neww = (int)Math.floor(w*cos+h*sin), newh = (int)Math.floor(h*cos+w*sin);
-
         GraphicsConfiguration gc = getDefaultConfiguration();
         BufferedImage result = gc.createCompatibleImage(neww, newh, Transparency.TRANSLUCENT);
         Graphics2D g = result.createGraphics();
@@ -353,7 +359,8 @@ class MapViewer extends JComponent{
         g.rotate(angle, w/2, h/2);
         g.drawRenderedImage(image, null);
         g.dispose();
-        return result;
+        this.setImage(a, result);
+        //return result;
     }
 
     public static GraphicsConfiguration getDefaultConfiguration() {

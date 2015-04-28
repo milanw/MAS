@@ -313,6 +313,8 @@ public class MainFrame extends JFrame {
 	public Map getMap() {
 		return map;
 	}
+
+    public MapViewer getMapViewer() { return mapView; }
 	/*
 	public static void main(String[] args) {
 		int width = 600;

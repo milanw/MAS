@@ -1,6 +1,7 @@
 package Simulation;
 import java.awt.Rectangle;
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -10,6 +11,7 @@ import Agent.IntruderAgent;
 import Agent.SurveillanceAgent;
 import GUI.MainFrame;
 import Map.Map;
+import GUI.MapViewer;
 
 
 public class Simulator {
@@ -18,6 +20,8 @@ public class Simulator {
 	private int fps = 60;
 	private int frameCount = 0;
 	private MainFrame frame;
+    private MapViewer mapView;
+    private BufferedImage imageRotate;
 	private Map map; 
 	private ArrayList<Agent> agents;
     private Point2D[] currentMove;
@@ -117,17 +121,24 @@ public class Simulator {
 			int width = (int)(move[1].getX()-move[0].getX());
 			int height = (int)(move[1].getY()-move[0].getY());
 			Rectangle collisionRectangle = new Rectangle((int)move[0].getX(), (int)move[0].getY(), width, height);
-			
+
+            mapView = frame.getMapViewer();
+            imageRotate = mapView.getImage(a);
+            double angle = Math.toRadians(90);
+
             currentMove = a.getNextMove();
             if (map.collidesWithTower(collisionRectangle)) {
             	a.setTopLeft(currentMove[0]);
                 a.setBottomRight(currentMove[1]);
                 a.setOnSentryTower(true);
+                mapView.rotate(imageRotate, angle, a);
+
             }
             else if (map.checkCollisions(collisionRectangle)) {
                 a.setTopLeft(currentMove[0]);
                 a.setBottomRight(currentMove[1]);
-                a.setOnSentryTower(false); 
+                a.setOnSentryTower(false);
+                mapView.rotate(imageRotate, angle, a);
             }
         }
 	}
