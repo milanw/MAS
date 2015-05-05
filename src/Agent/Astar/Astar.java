@@ -3,10 +3,12 @@ package Agent.Astar;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+import Map.Map;
+
 public class Astar {
 	ArrayList<Point2D> path = null;
 	
-	public Astar(Point2D start, Point2D goal){
+	public Astar(Point2D start, Point2D goal, Map map){
 		ArrayList<location> closed = null;
 		ArrayList<location> open = null;
 		location s = new location(start, 0, goal, null);
@@ -43,7 +45,7 @@ public class Astar {
 						}
 					}
 				}
-				if(inOpen == false && inClosed == false){
+				if(inOpen == false && inClosed == false && map.emptySpot(neighbours.get(i).getPoint())){
 					open.add(neighbours.get(i));
 				}
 			}
