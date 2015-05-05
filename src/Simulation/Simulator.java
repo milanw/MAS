@@ -75,6 +75,7 @@ public class Simulator {
 				//Do as many game updates as we need to, potentially playing catchup.
 				while( now - lastUpdateTime > TIME_BETWEEN_UPDATES && updateCount < MAX_UPDATES_BEFORE_RENDER) {
 					updateSimulation();
+					System.out.println("Time = " + TIME_BETWEEN_UPDATES);
 					lastUpdateTime += TIME_BETWEEN_UPDATES;
 					updateCount++;
 				}
@@ -118,6 +119,7 @@ public class Simulator {
 	public void updateSimulation() {
 		for (Agent a : agents) {
 			Point2D[] move = a.getNextMove();
+			if(move == null){System.out.println("WHY IS IT NULL!!! ;A;");}
 			int width = (int)(move[1].getX()-move[0].getX());
 			int height = (int)(move[1].getY()-move[0].getY());
 			Rectangle collisionRectangle = new Rectangle((int)move[0].getX(), (int)move[0].getY(), width, height);
