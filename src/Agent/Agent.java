@@ -18,6 +18,7 @@ public class Agent {
 	private int viewingAngle; 
     private Point2D topLeft;
     private Point2D bottomRight;
+    private int movementmode = 0;
 	
 	public Agent(Point2D topLeft, Point2D bottomRight, Map map){
 		this.topLeft = topLeft; 
@@ -56,19 +57,11 @@ public class Agent {
 	}
 	
 	public Point2D[] getNextMove() {
-		placeMarker(3); 
-		return pheromoneMove(); 
-		
-		/*
-		Random rnd = new Random(); 
-		if (rnd.nextBoolean()) {
-			if (rnd.nextBoolean()){placeMarker(3); }
-			return move(rnd.nextInt(4));
-		}
-		else
-			return move(1);
-		*/
-        //return move(rnd.nextInt(4));
+		if(movementmode == 0){
+			placeMarker(3); 
+			return pheromoneMove();
+		}else
+			return null;
     }
 	
 	public Point2D[] move(int direction){

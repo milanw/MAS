@@ -23,8 +23,11 @@ public class IntruderAgent extends Agent{
 	public void sprint(){
 		
 	}
-
-    
+	public Point2D[] getNextMove() {
+		
+		
+		return null;
+	}
 
     
 }
