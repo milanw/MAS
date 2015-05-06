@@ -10,7 +10,7 @@ import Map.Map;
 
 public class Agent {
 	private Map map; 
-    private double speed = 1.4;
+    private double speed = 0.4;
     private static int defaultSize = 5; 
 	private int maxTurn;
 	private boolean onSentryTower; 
@@ -73,26 +73,26 @@ public class Agent {
          double bottomx = bottomRight.getX();
         // moving up
         if(direction == 0){
-        	newTopLeft.setLocation(topx, --topy);
-            newBottomRight.setLocation(bottomx, --bottomy);
+        	newTopLeft.setLocation(topx, (topy-speed));
+            newBottomRight.setLocation(bottomx, (bottomy-speed));
         }
 
         // moving left
         else if(direction == 1){
-        	newTopLeft.setLocation(--topx, topy);
-        	newBottomRight.setLocation(--bottomx, bottomy);
+        	newTopLeft.setLocation((topx-speed), topy);
+        	newBottomRight.setLocation((bottomx-speed), bottomy);
         }
 
         // moving right
         else if(direction == 2){
-        	newTopLeft.setLocation(++topx, topy);
-        	newBottomRight.setLocation(++bottomx, bottomy);
+        	newTopLeft.setLocation((topx+speed), topy);
+        	newBottomRight.setLocation((bottomx+speed), bottomy);
         }
 
         // moving down
         else if(direction == 3){
-        	newTopLeft.setLocation(topx, ++topy);
-        	newBottomRight.setLocation(bottomx, ++bottomy);
+        	newTopLeft.setLocation(topx, (topy+speed));
+        	newBottomRight.setLocation(bottomx, (bottomy+speed));
         }
         
         return new Point2D[] {newTopLeft, newBottomRight}; 
