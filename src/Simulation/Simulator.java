@@ -25,7 +25,7 @@ public class Simulator {
 	private Map map; 
 	private ArrayList<Agent> agents;
     private Point2D[] currentMove;
-	
+	private double timebetweenupdates;
 	public Simulator(Map map, ArrayList<Agent> agents) {
 		this.map = map;	
 		this.agents = agents; 
@@ -51,6 +51,7 @@ public class Simulator {
 		final double GAME_HERTZ = 5.0;
 		//Calculate how many ns each frame should take for our target game hertz.
 		final double TIME_BETWEEN_UPDATES = 1000000000 / GAME_HERTZ;
+		timebetweenupdates = TIME_BETWEEN_UPDATES;
        // final double TIME_BETWEEN_UPDATES = 1000000000 ;// GAME_HERTZ;
 		//At the very most we will update the game this many times before a new render.
 		//If you're worried about visual hitches more than perfect timing, set this to 1.
@@ -75,7 +76,7 @@ public class Simulator {
 				//Do as many game updates as we need to, potentially playing catchup.
 				while( now - lastUpdateTime > TIME_BETWEEN_UPDATES && updateCount < MAX_UPDATES_BEFORE_RENDER) {
 					updateSimulation();
-					System.out.println("Time = " + TIME_BETWEEN_UPDATES);
+					//System.out.println("Time = " + TIME_BETWEEN_UPDATES);
 					lastUpdateTime += TIME_BETWEEN_UPDATES;
 					updateCount++;
 				}
@@ -118,31 +119,33 @@ public class Simulator {
 	//needs some cleaning up
 	public void updateSimulation() {
 		for (Agent a : agents) {
-			Point2D[] move = a.getNextMove();
-			if(move == null){System.out.println("WHY IS IT NULL!!! ;A;");}
-			int width = (int)(move[1].getX()-move[0].getX());
-			int height = (int)(move[1].getY()-move[0].getY());
-			Rectangle collisionRectangle = new Rectangle((int)move[0].getX(), (int)move[0].getY(), width, height);
-
-            mapView = frame.getMapViewer();
-            imageRotate = mapView.getImage(a);
-            double angle = Math.toRadians(90);
-
-            currentMove = a.getNextMove();
-            if (map.collidesWithTower(collisionRectangle)) {
-            	a.setTopLeft(currentMove[0]);
-                a.setBottomRight(currentMove[1]);
-                a.setOnSentryTower(true);
-                mapView.rotate(imageRotate, angle, a);
-
-            }
-            else if (map.checkCollisions(collisionRectangle)) {
-                a.setTopLeft(currentMove[0]);
-                a.setBottomRight(currentMove[1]);
-                a.setOnSentryTower(false);
-                mapView.rotate(imageRotate, angle, a);
-            }
-        }
+			a.getNextMove(timebetweenupdates);
+		}
+//			Point2D[] move = a.getNextMove();
+//			if(move == null){System.out.println("WHY IS IT NULL!!! ;A;");}
+//			int width = (int)(move[1].getX()-move[0].getX());
+//			int height = (int)(move[1].getY()-move[0].getY());
+//			Rectangle collisionRectangle = new Rectangle((int)move[0].getX(), (int)move[0].getY(), width, height);
+//
+//            mapView = frame.getMapViewer();
+//            imageRotate = mapView.getImage(a);
+//            double angle = Math.toRadians(90);
+//
+//            currentMove = a.getNextMove();
+//            if (map.collidesWithTower(collisionRectangle)) {
+//            	a.setTopLeft(currentMove[0]);
+//                a.setBottomRight(currentMove[1]);
+//                a.setOnSentryTower(true);
+//                mapView.rotate(imageRotate, angle, a);
+//
+//            }
+//            else if (map.checkCollisions(collisionRectangle)) {
+//                a.setTopLeft(currentMove[0]);
+//                a.setBottomRight(currentMove[1]);
+//                a.setOnSentryTower(false);
+//                mapView.rotate(imageRotate, angle, a);
+//            }
+//        }
 	}
 
 	public void drawSimulation() {

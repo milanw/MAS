@@ -37,9 +37,11 @@ public class location {
 	public location getParent(){
 		return parent;
 	}
-
+	public double getHeuristicValue(){
+		return heuristicValue;
+	}
 	public ArrayList<location> getNeighbours(){
-		ArrayList<location> neighbours = null;
+		ArrayList<location> neighbours = new ArrayList<location>();
 		Point2D p1 = new Point2D.Double(point.getX(), point.getY()-1);
 		location g1 = new location(p1, startValue+1, goal, this);
 		neighbours.add(g1);

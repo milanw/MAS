@@ -108,10 +108,10 @@ public class Map {
 	}
 
 	public Point2D findEmptySpot(int length) {
-		Point2D spot = new Point2D.Double(Math.random()*width, Math.random()*height);
+		Point2D spot = new Point2D.Double((int)(Math.random()*width), (int)(Math.random()*height));
 		Rectangle spotRectangle = new Rectangle((int)spot.getX(), (int)spot.getY(), length, length);
 		while (!checkCollisions(spotRectangle)) {
-			spot = new Point2D.Double(Math.random()*width, Math.random()*height);			
+			spot = new Point2D.Double((int)(Math.random()*width),(int) (Math.random()*height));			
 			spotRectangle = new Rectangle((int)spot.getX(), (int)spot.getY(), length, length);
 		}
 		
