@@ -15,6 +15,7 @@ public class InternalMap {
 	
 	public InternalMap(int width, int height) {
 		map = new int[height/cellWidth][width/cellWidth]; 
+		
 	}
 	
 	public InternalMap(int width, int height, int cellWidth) {
@@ -36,6 +37,10 @@ public class InternalMap {
 	
 	public int[][] getMap() {
 		return map; 
+	}
+	
+	public void setMap(int[][] m) {
+		map = m; 
 	}
 	
 	public ArrayList<int[]> getCellsAround(int x, int y) {

@@ -17,6 +17,7 @@ public class Main {
 		int mapHeight = 200;
 		Map map = new MapGenerator(mapWidth, mapHeight).getMap();
 		InternalMap internalMap = new InternalMap(mapWidth, mapHeight); 
+		internalMap.setMap(map.getDiscretizedMap());
 		Agent.internalMap = internalMap; 
 		
 		ArrayList<Agent> agents = new ArrayList<Agent>();

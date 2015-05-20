@@ -156,4 +156,29 @@ public class Astar {
 	public ArrayList<Point2D> getPath(){
 		return path;
 	}
+	
+	//test 
+	public static void main(String[] args) {
+		int[][] map = new int[3][3]; 
+		map[1][0] = 1; 
+		map[1][1] = 1; 
+		map[1][2] = 1; 
+		
+		Point2D start = new Point2D.Double(0,0);
+		map[0][0] = 8;
+		Point2D goal = new Point2D.Double(2,2);
+		map[2][2] = 9; 
+		
+		Astar a = new Astar(start, goal, map);
+		System.out.println("path: " + a.getPath() + "\n"); 
+		
+		for (int i = 0; i < map.length; i++) {
+			for (int j = 0; j < map[0].length; j++) {
+				System.out.print(map[i][j] + " ");
+			}
+			System.out.println();
+		}
+		
+		System.out.println("\n8 marks the start, 9 marks the goal, 1's are wall cells");
+	}
 }

@@ -20,14 +20,14 @@ public class InternalMapComponent extends JComponent {
 		Graphics2D g2d = (Graphics2D) g;
 		
 		int[][] grid = map.getMap(); 
-		System.out.println("asdasd " + grid.length);
+		
 		for (int i = 0; i < grid.length; i++) {
 			for (int j = 0; j < grid[0].length; j++) {
 				if (grid[i][j] == 1) g2d.setColor(Color.BLACK);
 				if (grid[i][j] == 0) g2d.setColor(Color.WHITE);
 				if (grid[i][j] == 3) g2d.setColor(Color.RED);
 				if (grid[i][j] == 4) g2d.setColor(Color.BLUE);
-				g2d.fillRect(j*5, i*5, 5, 5);
+				g2d.fillRect(i*5, j*5, 5, 5);
 			}
 		}
 		

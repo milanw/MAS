@@ -143,7 +143,7 @@ public class Map {
 		for (int x = 0; x < grid.length; x++) {
 			for (int y = 0; y < grid[0].length; y++) {
 				Rectangle r = new Rectangle(squareSize*x, squareSize*y, squareSize, squareSize); 
-				if (checkCollisions(r)) {
+				if (!checkCollisions(r)) {
 					grid[x][y] = 1; 
 				}
 			}
