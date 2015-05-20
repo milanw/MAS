@@ -11,6 +11,9 @@ import GameObjects.Marker;
 import Map.Map;
 
 public class Agent {
+	public static InternalMap internalMap;
+	private boolean explorationFinished = false;
+	
 	private Map map; 
     private double speed = 1.4;
     private static int defaultSize = 4; 
@@ -65,7 +68,7 @@ public class Agent {
 	
 		//get a new path if none is specified yet
 		
-		if(path.isEmpty()){
+		if(path.isEmpty()){/*
 			Point2D start = new Point2D.Double(topLeft.getX()+defaultSize/2, topLeft.getY()+defaultSize/2);
 			Point2D goal = new Point2D.Double((int) (Math.random()*map.getWidth()), (int) (Math.random()*map.getHeight()));
 			while(map.emptySpot(goal)==false){
@@ -73,6 +76,9 @@ public class Agent {
 			}
 			Astar as = new Astar(start, goal, map);
 			path = as.getPath();
+			*/ 
+			
+			brickAndMortar(); 
 		}
 		
 		//System.out.println("next move = " + path.get(0));
@@ -175,6 +181,46 @@ public class Agent {
 		return newCurrent;
 	}
 	
+	public void brickAndMortar() {
+		int[] pos = getDiscretePosition(); 
+		ArrayList<int[]> explored = internalMap.getCellsAround(pos[0], pos[1], 3);
+		ArrayList<int[]> unexplored = internalMap.getCellsAround(pos[0], pos[1], 0);
+		
+		//marking step
+		
+		if (!internalMap.blockingPath(pos)) {
+			internalMap.setCell(pos, 4); 
+		}
+		else {
+			internalMap.setCell(pos, 3); 
+		}
+		
+		//navigation step
+		//if at least one of the four cells around is unexplored
+		if (!unexplored.isEmpty()) {
+			moveTo(internalMap.getBestCell(unexplored));
+		}
+		
+		else if (!explored.isEmpty()) {
+			moveTo(explored.get(0)); //todo
+		}
+		
+		else {
+			explorationFinished = true; 
+		}
+	}
+	
+	public void moveTo(int[] pos) {
+		int width = internalMap.getCellWidth();
+		path.add(new Point2D.Double(pos[0]*width, pos[1]*width));
+	}
+	
+	public int[] getDiscretePosition() {
+		int x = (int)topLeft.getX() / internalMap.getCellWidth(); 
+		int y = (int)topLeft.getX() / internalMap.getCellWidth();
+		
+		return new int[] {x, y};		
+	}
 	
 	//NOT USED ANYMORE
 	public Point2D[] move(int direction){
