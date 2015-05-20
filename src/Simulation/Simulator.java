@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import Agent.Agent;
 import Agent.IntruderAgent;
 import Agent.SurveillanceAgent;
+import GUI.InternalMapFrame;
 import GUI.MainFrame;
 import Map.Map;
 import GUI.MapViewer;
@@ -26,6 +27,7 @@ public class Simulator {
 	private ArrayList<Agent> agents;
     private Point2D[] currentMove;
 	private double timebetweenupdates;
+	InternalMapFrame internalMapFrame = new InternalMapFrame(Agent.internalMap); 
 	public Simulator(Map map, ArrayList<Agent> agents) {
 		this.map = map;	
 		this.agents = agents; 
@@ -150,6 +152,7 @@ public class Simulator {
 
 	public void drawSimulation() {
 		frame.repaint();
+		internalMapFrame.repaint();
 	}
 	
 	public boolean isRunning() {

@@ -5,6 +5,7 @@ import Agent.Agent;
 import Agent.InternalMap;
 import Agent.IntruderAgent;
 import Agent.SurveillanceAgent;
+import GUI.InternalMapFrame;
 import GUI.MainFrame;
 import Map.Map;
 import Map.MapGenerator;
@@ -36,6 +37,10 @@ public class Main {
 		Simulator main = new Simulator(map, agents);
 		MainFrame frame = new MainFrame(map, agents, main);
 		main.setFrame(frame);
+		
 	
 	}
+	
+	
 }
+
