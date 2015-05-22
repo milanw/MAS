@@ -121,7 +121,8 @@ public class Simulator {
 	//needs some cleaning up
 	public void updateSimulation() {
 		for (Agent a : agents) {
-			a.getNextMove(timebetweenupdates);
+			//a.getNextMove(timebetweenupdates);
+			a.getMove();
 		}
 //			Point2D[] move = a.getNextMove();
 //			if(move == null){System.out.println("WHY IS IT NULL!!! ;A;");}
@@ -148,6 +149,7 @@ public class Simulator {
 //                mapView.rotate(imageRotate, angle, a);
 //            }
 //        }
+		drawSimulation();
 	}
 
 	public void drawSimulation() {

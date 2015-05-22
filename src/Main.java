@@ -7,6 +7,7 @@ import Agent.IntruderAgent;
 import Agent.SurveillanceAgent;
 import GUI.InternalMapFrame;
 import GUI.MainFrame;
+import GameObjects.InanimateObject;
 import Map.Map;
 import Map.MapGenerator;
 import Simulation.Simulator;
@@ -16,6 +17,7 @@ public class Main {
 		int mapWidth = 200;
 		int mapHeight = 200;
 		Map map = new MapGenerator(mapWidth, mapHeight).getMap();
+		//Map map = new Map(mapWidth, mapHeight, new ArrayList<InanimateObject>(), null);
 		InternalMap internalMap = new InternalMap(mapWidth, mapHeight); 
 		internalMap.setMap(map.getDiscretizedMap());
 		Agent.internalMap = internalMap; 

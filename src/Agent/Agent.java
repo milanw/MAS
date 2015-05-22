@@ -62,13 +62,14 @@ public class Agent {
 		return new Point2D[] {result, new Point2D.Double(result.getX()+defaultSize, result.getY()+defaultSize)}; 
 	}
 	
+
 	public void getNextMove(double TIME_BETWEEN_UPDATES) {
 //		placeMarker(3); 
 //		return pheromoneMove(); 
 	
 		//get a new path if none is specified yet
 		
-		if(path.isEmpty()){/*
+		if(path.isEmpty()){
 			Point2D start = new Point2D.Double(topLeft.getX()+defaultSize/2, topLeft.getY()+defaultSize/2);
 			Point2D goal = new Point2D.Double((int) (Math.random()*map.getWidth()), (int) (Math.random()*map.getHeight()));
 			while(map.emptySpot(goal)==false){
@@ -76,9 +77,9 @@ public class Agent {
 			}
 			Astar as = new Astar(start, goal, map);
 			path = as.getPath();
-			*/ 
 			
-			brickAndMortar(); 
+			
+			
 		}
 		
 		//System.out.println("next move = " + path.get(0));
@@ -159,6 +160,7 @@ public class Agent {
 		topLeft = new Point2D.Double(newCurrent.getX()-(defaultSize/2), newCurrent.getY()-(defaultSize/2));
 		bottomRight = new Point2D.Double(newCurrent.getX()+(defaultSize/2), newCurrent.getY()+(defaultSize/2));
     }
+
 	public Point2D turnMove(int newDirection, double amountToMove){
 		Point2D newCurrent = new Point2D.Double();
 		if(path.size()==1){
@@ -181,6 +183,9 @@ public class Agent {
 		return newCurrent;
 	}
 	
+	public void getMove() {
+		brickAndMortar();
+	}
 	public void brickAndMortar() {
 		int[] pos = getDiscretePosition(); 
 		ArrayList<int[]> explored = internalMap.getCellsAround(pos[0], pos[1], 3);
@@ -189,35 +194,45 @@ public class Agent {
 		//marking step
 		
 		if (!internalMap.blockingPath(pos)) {
+			//System.out.println("marked as visited: " + pos[0] + " " + pos[1]); 
 			internalMap.setCell(pos, 4); 
 		}
 		else {
+			//System.out.println("marked as explored: " + pos[0] + " " + pos[1]); 
 			internalMap.setCell(pos, 3); 
 		}
 		
 		//navigation step
 		//if at least one of the four cells around is unexplored
 		if (!unexplored.isEmpty()) {
-			moveTo(internalMap.getBestCell(unexplored));
+			//System.out.println("unexplored cells exist"); 
+			int[] p = internalMap.getBestCell(unexplored);
+			//System.out.println(p[0] + " " + p[1] + " " + pos[0] + " " + pos[1]);
+			moveTo(p);
 		}
 		
 		else if (!explored.isEmpty()) {
-			moveTo(explored.get(0)); //todo
+			//System.out.println("explored cells exist"); 
+			Random rnd = new Random(); 
+			moveTo(explored.get(rnd.nextInt(explored.size()))); //todo
 		}
 		
 		else {
+			System.out.println("exploration finished");
 			explorationFinished = true; 
 		}
 	}
 	
 	public void moveTo(int[] pos) {
 		int width = internalMap.getCellWidth();
-		path.add(new Point2D.Double(pos[0]*width, pos[1]*width));
+		//path.add(new Point2D.Double(pos[0]*width, pos[1]*width));
+		topLeft = new Point2D.Double(pos[0]*width, pos[1]*width);
+		bottomRight = new Point2D.Double(pos[0]*width+defaultSize, pos[1]*width+defaultSize);
 	}
 	
 	public int[] getDiscretePosition() {
 		int x = (int)topLeft.getX() / internalMap.getCellWidth(); 
-		int y = (int)topLeft.getX() / internalMap.getCellWidth();
+		int y = (int)topLeft.getY() / internalMap.getCellWidth();
 		
 		return new int[] {x, y};		
 	}

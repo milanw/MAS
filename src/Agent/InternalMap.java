@@ -67,7 +67,7 @@ public class InternalMap {
 	}
 	
 	public int[] getBestCell(ArrayList<int[]> candidates) {
-		int[] best = candidates.get(0); 
+		int[] best = null; 
 		int wallVisitedAround = 0; 
 		
 		for (int[] c : candidates) {
@@ -115,8 +115,8 @@ public class InternalMap {
 		ArrayList<int[]> accessible = new ArrayList<int[]>(); 
 		for (int i = 0; i < grid.length; i++) {
 			for (int j = 0; j < grid[0].length; j++) {
-				if (grid[j][i] != 1) 
-					accessible.add(new int[] {i, j});
+				if (grid[i][j] != 1) 
+					accessible.add(new int[] {j, i});
 			}
 		}
 		return accessible; 
@@ -125,7 +125,7 @@ public class InternalMap {
 	public boolean blockingPath(int[] pos) {
 		//ArrayList<int[]> accessible = getCellsAround(pos[0], pos[1], 0);
 		//accessible.addAll(getCellsAround(pos[0], pos[1], 3));
-		ArrayList<int[]> accessible = getAccessibleCells(getSubgrid(pos));
+		/*ArrayList<int[]> accessible = getAccessibleCells(getSubgrid(pos));
 		
 		for (int i = 0; i < accessible.size(); i++) {
 			for (int j = i+1; j < accessible.size(); j++) {
@@ -137,7 +137,48 @@ public class InternalMap {
 			}
 		}
 		
-		return false;
+		return false; */
+		
+		ArrayList<int[]> accessible = getAccessibleCells(getSubgrid(pos)); 
+		for (int i = 0; i < accessible.size(); i++) {
+			for (int j = i+1; j < accessible.size(); j++) {
+				if (!pathBetween(getSubgrid(pos), accessible.get(i), accessible.get(j)))
+					return true;
+			}
+		}
+		return false; 
+	}
+	
+	// fills in all cells in discovered that are reachable from (x,y) as true
+	public void connectedComponent(int[][] grid, boolean[][] discovered, int x, int y) {
+		discovered[y][x] = true; 
+		for (int[] v : getAdjacent(grid, x, y)) {
+			if (discovered[v[1]][v[0]] != true) 
+				connectedComponent(grid, discovered, v[0], v[1]);
+		}
+		
+	}
+	
+	
+	public ArrayList<int[]> getAdjacent(int[][] grid, int x, int y) {
+		ArrayList<int[]> adjacent = new ArrayList<int[]>(); 
+		if (x > 0 && grid[y][x-1] != 1) 
+			adjacent.add(new int[] {x-1, y});
+		if (x+1 < grid[0].length && grid[y][x+1] != 1) 
+			adjacent.add(new int[] {x+1, y});
+		if (y > 0 && grid[y-1][x] != 1) 
+			adjacent.add(new int[] {x, y-1});
+		if (y+1 < grid.length && grid[y+1][x] != 1) 
+			adjacent.add(new int[] {x, y+1});
+		
+		return adjacent; 
+	}
+	
+	public boolean pathBetween(int[][] grid, int[] start, int[] goal) {
+		boolean[][] reachable = new boolean[grid.length][grid[0].length];
+		connectedComponent(grid, reachable, start[0], start[1]); 
+		return reachable[goal[1]][goal[0]]; 
+		
 	}
 	
 	public int getCellWidth() {
