@@ -123,28 +123,6 @@ public class InternalMap {
 		return accessible; 
 	}
 	
-	public ArrayList<int[]> getExploredCells(int[][] grid) {
-		ArrayList<int[]> accessible = new ArrayList<int[]>(); 
-		for (int i = 0; i < grid.length; i++) {
-			for (int j = 0; j < grid[0].length; j++) {
-				if (grid[i][j] == 3) 
-					accessible.add(new int[] {j, i});
-			}
-		}
-		return accessible; 
-	}
-	
-	public ArrayList<int[]> getUnexploredCells(int[][] grid) {
-		ArrayList<int[]> accessible = new ArrayList<int[]>(); 
-		for (int i = 0; i < grid.length; i++) {
-			for (int j = 0; j < grid[0].length; j++) {
-				if (grid[i][j] == 0) 
-					accessible.add(new int[] {j, i});
-			}
-		}
-		return accessible; 
-	}
-	
 	
 	public boolean blockingPath(int[] pos) {		
 		ArrayList<int[]> accessible = getAccessibleCells(getSubgrid(pos)); 
@@ -155,23 +133,6 @@ public class InternalMap {
 			}
 		}
 		return false; 
-		
-		/*ArrayList<int[]> accessible = getExploredCells(getSubgrid(pos)); 
-		for (int i = 0; i < accessible.size(); i++) {
-			for (int j = i+1; j < accessible.size(); j++) {
-				if (!pathBetween(getSubgrid(pos), accessible.get(i), accessible.get(j)))
-					return true;
-			}
-		}
-		
-		accessible = getUnexploredCells(getSubgrid(pos)); 
-		for (int i = 0; i < accessible.size(); i++) {
-			for (int j = i+1; j < accessible.size(); j++) {
-				if (!pathBetween(getSubgrid(pos), accessible.get(i), accessible.get(j)))
-					return true;
-			}
-		}
-		return false; */
 	}
 	
 	// fills in all cells in discovered that are reachable from (x,y) as true
