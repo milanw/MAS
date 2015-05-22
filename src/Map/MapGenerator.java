@@ -11,6 +11,7 @@ import GameObjects.Structure;
 
 public class MapGenerator {
 	private ArrayList<InanimateObject> map = new ArrayList<InanimateObject>();
+	private GoalZone goalZone;
 	private int structureAmount = 15;
 	private int sentrytowerAmount = 4;
 	private int height;
@@ -41,7 +42,7 @@ public class MapGenerator {
 	}
 	
 	public Map getMap(){
-		return new Map(width, height, map, null);
+		return new Map(width, height, map, goalZone);
 	}
 	
 	public ArrayList<InanimateObject> getObjects() {
@@ -154,7 +155,7 @@ public class MapGenerator {
 				}
 			}
 			if(m == false){
-				map.add(s);
+				goalZone = s; 
 				placed = true;
 				//System.out.println(s.getTopLeft() + " " + s.getBottomRight());
 				//System.out.println("placed = " + placed);
