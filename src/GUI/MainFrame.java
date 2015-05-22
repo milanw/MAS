@@ -190,11 +190,7 @@ public class MainFrame extends JFrame {
 			}});
 		redoMapItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y, ActionEvent.CTRL_MASK));
 		
-		JMenuItem printDisMap = new JMenuItem("Print Discretized Map");
-		printDisMap.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				mapView.printDiscreteMap();
-			}});
+		
 		
 
 		mapMenu.add(createEmptMapItem);
@@ -203,7 +199,7 @@ public class MainFrame extends JFrame {
 		mapMenu.add(expMapItem);
 		mapMenu.add(undoMapItem);
 		mapMenu.add(redoMapItem);
-		mapMenu.add(printDisMap);
+		
 
 		return mapMenu;
 	}

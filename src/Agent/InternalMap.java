@@ -11,7 +11,7 @@ import Agent.Astar.Astar;
 
 public class InternalMap {
 	private int[][] map; 
-	private int cellWidth = 5; 
+	private int cellWidth = 4; 
 	
 	public InternalMap(int width, int height) {
 		map = new int[height/cellWidth][width/cellWidth]; 
@@ -82,14 +82,15 @@ public class InternalMap {
 	}
 	
 	public int[][] getSubgrid(int[] pos) {
-		int tmp = map[pos[1]][pos[0]]; 
-		map[pos[1]][pos[0]] = 1; 
+		int[][] tmpMap = map.clone();
+		
+		tmpMap[pos[1]][pos[0]] = 1; 
 		int rangeY = 3; 
 		
-		int endX = pos[0]+2 > map.length ? pos[0]+1 : pos[0]+2;
+		int endX = pos[0]+2 > tmpMap.length ? pos[0]+1 : pos[0]+2;
 		
 		int endY = pos[1]+2;
-		if (pos[1]+2 > map[0].length) {
+		if (pos[1]+2 > tmpMap[0].length) {
 			endY = pos[1]+1;
 			rangeY--;
 		}
@@ -104,10 +105,10 @@ public class InternalMap {
 		
 	    int[][] subgrid = new int[rangeY][];
 	    for (int i = y; i < endY; i++) {
-	        subgrid[i-y] = Arrays.copyOfRange(map[i], x, endX);
+	        subgrid[i-y] = Arrays.copyOfRange(tmpMap[i], x, endX);
 	    }
 	    
-	    map[pos[1]][pos[0]] = tmp;
+	  
 	    return subgrid;
 	}
 	
@@ -115,30 +116,37 @@ public class InternalMap {
 		ArrayList<int[]> accessible = new ArrayList<int[]>(); 
 		for (int i = 0; i < grid.length; i++) {
 			for (int j = 0; j < grid[0].length; j++) {
-				if (grid[i][j] != 1) 
+				if (grid[i][j] != 1 && grid[i][j] != 4) 
+					accessible.add(new int[] {j, i});  //weird
+			}
+		}
+		return accessible; 
+	}
+	
+	public ArrayList<int[]> getExploredCells(int[][] grid) {
+		ArrayList<int[]> accessible = new ArrayList<int[]>(); 
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid[0].length; j++) {
+				if (grid[i][j] == 3) 
 					accessible.add(new int[] {j, i});
 			}
 		}
 		return accessible; 
 	}
 	
-	public boolean blockingPath(int[] pos) {
-		//ArrayList<int[]> accessible = getCellsAround(pos[0], pos[1], 0);
-		//accessible.addAll(getCellsAround(pos[0], pos[1], 3));
-		/*ArrayList<int[]> accessible = getAccessibleCells(getSubgrid(pos));
-		
-		for (int i = 0; i < accessible.size(); i++) {
-			for (int j = i+1; j < accessible.size(); j++) {
-				Point2D start = new Point2D.Double(accessible.get(i)[0], accessible.get(i)[1]);
-				Point2D goal = new Point2D.Double(accessible.get(j)[0], accessible.get(j)[1]);
-				Astar a = new Astar(start, goal, getSubgrid(pos));
-				if (a.getPath().isEmpty() || a.getPath() == null)
-					return true;
+	public ArrayList<int[]> getUnexploredCells(int[][] grid) {
+		ArrayList<int[]> accessible = new ArrayList<int[]>(); 
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid[0].length; j++) {
+				if (grid[i][j] == 0) 
+					accessible.add(new int[] {j, i});
 			}
 		}
-		
-		return false; */
-		
+		return accessible; 
+	}
+	
+	
+	public boolean blockingPath(int[] pos) {		
 		ArrayList<int[]> accessible = getAccessibleCells(getSubgrid(pos)); 
 		for (int i = 0; i < accessible.size(); i++) {
 			for (int j = i+1; j < accessible.size(); j++) {
@@ -147,6 +155,23 @@ public class InternalMap {
 			}
 		}
 		return false; 
+		
+		/*ArrayList<int[]> accessible = getExploredCells(getSubgrid(pos)); 
+		for (int i = 0; i < accessible.size(); i++) {
+			for (int j = i+1; j < accessible.size(); j++) {
+				if (!pathBetween(getSubgrid(pos), accessible.get(i), accessible.get(j)))
+					return true;
+			}
+		}
+		
+		accessible = getUnexploredCells(getSubgrid(pos)); 
+		for (int i = 0; i < accessible.size(); i++) {
+			for (int j = i+1; j < accessible.size(); j++) {
+				if (!pathBetween(getSubgrid(pos), accessible.get(i), accessible.get(j)))
+					return true;
+			}
+		}
+		return false; */
 	}
 	
 	// fills in all cells in discovered that are reachable from (x,y) as true
@@ -162,13 +187,13 @@ public class InternalMap {
 	
 	public ArrayList<int[]> getAdjacent(int[][] grid, int x, int y) {
 		ArrayList<int[]> adjacent = new ArrayList<int[]>(); 
-		if (x > 0 && grid[y][x-1] != 1) 
+		if (x > 0 && grid[y][x-1] != 1 && grid[y][x-1] != 4) 
 			adjacent.add(new int[] {x-1, y});
-		if (x+1 < grid[0].length && grid[y][x+1] != 1) 
+		if (x+1 < grid[0].length && grid[y][x+1] != 1 && grid[y][x+1] != 4) 
 			adjacent.add(new int[] {x+1, y});
-		if (y > 0 && grid[y-1][x] != 1) 
+		if (y > 0 && grid[y-1][x] != 1 && grid[y-1][x] != 4) 
 			adjacent.add(new int[] {x, y-1});
-		if (y+1 < grid.length && grid[y+1][x] != 1) 
+		if (y+1 < grid.length && grid[y+1][x] != 1 && grid[y+1][x] != 4) 
 			adjacent.add(new int[] {x, y+1});
 		
 		return adjacent; 
@@ -184,4 +209,6 @@ public class InternalMap {
 	public int getCellWidth() {
 		return cellWidth; 
 	}
+	
+	
 }

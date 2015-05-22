@@ -284,16 +284,7 @@ public class MapViewer extends JComponent{
 		repaint();
 	}
 	
-	public void printDiscreteMap() {
-		System.out.println("a\n");
-		int[][] grid = map.getDiscretizedMap(); 
-		for (int i = 0; i < grid.length; i++) {
-			for (int j = 0; j < grid[0].length; j++) {
-				System.out.print(grid[j][i]);
-			}
-			System.out.println(); 
-		}
-	}
+	
 
 	public void undo() {    	
 		if (!undoStack.isEmpty()) {

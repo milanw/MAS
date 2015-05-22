@@ -19,22 +19,26 @@ public class Main {
 		Map map = new MapGenerator(mapWidth, mapHeight).getMap();
 		//Map map = new Map(mapWidth, mapHeight, new ArrayList<InanimateObject>(), null);
 		InternalMap internalMap = new InternalMap(mapWidth, mapHeight); 
-		internalMap.setMap(map.getDiscretizedMap());
+		internalMap.setMap(map.getDiscretizedMap(internalMap.getCellWidth()));
 		Agent.internalMap = internalMap; 
 		
 		ArrayList<Agent> agents = new ArrayList<Agent>();
 		
 		int size = Agent.getSize(); 
-		Point2D position = map.findEmptySpot(size);
-		agents.add(new IntruderAgent(position, new Point2D.Double(position.getX()+size, position.getY()+size), map));
-		position = map.findEmptySpot(size);
+		Point2D position = new Point2D.Double(3, 50);
+		//agents.add(new IntruderAgent(position, new Point2D.Double(position.getX()+size, position.getY()+size), map));
+		position = new Point2D.Double(5, 5);
 		agents.add(new SurveillanceAgent(position, new Point2D.Double(position.getX()+size, position.getY()+size), map));
-		position = map.findEmptySpot(size);
+		position = new Point2D.Double(194, 2);
 		agents.add(new SurveillanceAgent(position, new Point2D.Double(position.getX()+size, position.getY()+size), map));
-		position = map.findEmptySpot(size);
+		position = new Point2D.Double(2, 194);
 		agents.add(new SurveillanceAgent(position, new Point2D.Double(position.getX()+size, position.getY()+size), map));
-		position = map.findEmptySpot(size);
+		position =new Point2D.Double(194, 194);
 		agents.add(new SurveillanceAgent(position, new Point2D.Double(position.getX()+size, position.getY()+size), map));
+		
+		for (Agent a : agents) {
+			System.out.println(a.getId());
+		}
 		
 		
 		Simulator main = new Simulator(map, agents);

@@ -27,7 +27,7 @@ public class InternalMapComponent extends JComponent {
 				if (grid[i][j] == 0) g2d.setColor(Color.WHITE);
 				if (grid[i][j] == 3) g2d.setColor(Color.RED);
 				if (grid[i][j] == 4) g2d.setColor(Color.BLUE);
-				g2d.fillRect(j*5, i*5, 5, 5);
+				g2d.fillRect(j*map.getCellWidth(), i*map.getCellWidth(), map.getCellWidth(), map.getCellWidth());
 			}
 		}
 		

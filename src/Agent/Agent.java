@@ -11,9 +11,11 @@ import GameObjects.Marker;
 import Map.Map;
 
 public class Agent {
+	private static int idCount = 0; 
 	public static InternalMap internalMap;
 	private boolean explorationFinished = false;
 	
+	private int id; 
 	private Map map; 
     private double speed = 1.4;
     private static int defaultSize = 4; 
@@ -24,9 +26,11 @@ public class Agent {
     private Point2D topLeft;
     private Point2D bottomRight;
     private ArrayList<Point2D> path= new ArrayList<Point2D>();
+    private int[] lastPosition = new int[] {-1, -1}; 
 
 	
 	public Agent(Point2D topLeft, Point2D bottomRight, Map map){
+		this.id = idCount++; 
 		this.topLeft = topLeft; 
 		this.bottomRight = bottomRight; 
 		this.map = map;
@@ -188,8 +192,7 @@ public class Agent {
 	}
 	public void brickAndMortar() {
 		int[] pos = getDiscretePosition(); 
-		ArrayList<int[]> explored = internalMap.getCellsAround(pos[0], pos[1], 3);
-		ArrayList<int[]> unexplored = internalMap.getCellsAround(pos[0], pos[1], 0);
+		
 		
 		//marking step
 		
@@ -202,6 +205,9 @@ public class Agent {
 			internalMap.setCell(pos, 3); 
 		}
 		
+		ArrayList<int[]> explored = internalMap.getCellsAround(pos[0], pos[1], 3);
+		ArrayList<int[]> unexplored = internalMap.getCellsAround(pos[0], pos[1], 0);
+		
 		//navigation step
 		//if at least one of the four cells around is unexplored
 		if (!unexplored.isEmpty()) {
@@ -212,15 +218,17 @@ public class Agent {
 		}
 		
 		else if (!explored.isEmpty()) {
-			//System.out.println("explored cells exist"); 
-			Random rnd = new Random(); 
-			moveTo(explored.get(rnd.nextInt(explored.size()))); //todo
+			int[] move = explored.remove(id%explored.size());
+			if (move[0] == lastPosition[0] && move[1] == lastPosition[1] && explored.size()>0)
+				move = explored.get(id%explored.size());
+			moveTo(move);
 		}
 		
 		else {
-			System.out.println("exploration finished");
+			System.out.println("exploration finished " + unexplored.size());
 			explorationFinished = true; 
 		}
+		lastPosition = pos; 
 	}
 	
 	public void moveTo(int[] pos) {
@@ -365,6 +373,10 @@ public class Agent {
     
     public static int getSize() {
     	return defaultSize; 
+    }
+    
+    public int getId() {
+    	return id; 
     }
     
     public void placeMarker(int type) {    	

@@ -136,8 +136,7 @@ public class Map {
 		return count;
 	}
 	
-	public int[][] getDiscretizedMap() {
-		int squareSize = 5; 			// side length of each square in the grid
+	public int[][] getDiscretizedMap(int squareSize) {		
 		int[][] grid = new int[width/squareSize][height/squareSize];
 		
 		for (int i = 0; i < grid.length; i++) {
