@@ -12,6 +12,7 @@ import Map.Map;
 
 public class Agent {
 	private static int idCount = 0; 
+	private static ArrayList<Agent> agents = new ArrayList<Agent>();
 	public static InternalMap internalMap;
 	private boolean explorationFinished = false;
 	
@@ -30,10 +31,11 @@ public class Agent {
 
 	
 	public Agent(Point2D topLeft, Point2D bottomRight, Map map){
-		this.id = idCount++; 
+		this.id = idCount++; 		
 		this.topLeft = topLeft; 
 		this.bottomRight = bottomRight; 
 		this.map = map;
+		this.agents.add(this);
 	}
 	
 	public Agent(){
@@ -205,8 +207,8 @@ public class Agent {
 			internalMap.setCell(pos, 3); 
 		}
 		
-		ArrayList<int[]> explored = internalMap.getCellsAround(pos[0], pos[1], 3);
-		ArrayList<int[]> unexplored = internalMap.getCellsAround(pos[0], pos[1], 0);
+		ArrayList<int[]> explored = internalMap.removeOccupied(internalMap.getCellsAround(pos[0], pos[1], 3));
+		ArrayList<int[]> unexplored = internalMap.removeOccupied(internalMap.getCellsAround(pos[0], pos[1], 0));
 		
 		//navigation step
 		//if at least one of the four cells around is unexplored
@@ -219,6 +221,8 @@ public class Agent {
 		
 		else if (!explored.isEmpty()) {
 			int[] move = explored.remove(id%explored.size());
+			Random rnd = new Random();
+			//int[] move = explored.remove(rnd.nextInt(explored.size()));
 			if (move[0] == lastPosition[0] && move[1] == lastPosition[1] && explored.size()>0)
 				move = explored.get(id%explored.size());
 			moveTo(move);
@@ -391,6 +395,10 @@ public class Agent {
     public void placeMarker(int type) {    	
     	Marker marker = new Marker(topLeft, type); 
     	map.addMarker(marker);
+    }
+    
+    public static ArrayList<Agent> getAllAgents() {
+    	return agents; 
     }
 
 

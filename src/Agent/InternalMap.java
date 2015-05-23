@@ -11,7 +11,7 @@ import Agent.Astar.Astar;
 
 public class InternalMap {
 	private int[][] map; 
-	private int cellWidth = 4; 
+	private int cellWidth = 5; 
 	
 	public InternalMap(int width, int height) {
 		map = new int[height/cellWidth][width/cellWidth]; 
@@ -175,6 +175,24 @@ public class InternalMap {
 		connectedComponent(grid, reachable, start[0], start[1]); 
 		return reachable[goal[1]][goal[0]]; 
 		
+	}
+	
+	// is cell occupied by an agent?
+	public boolean cellOccupied(int[] pos) {
+		for (Agent a : Agent.getAllAgents()) {
+			if (a.getDiscretePosition()[0] == pos[0] && a.getDiscretePosition()[1] == pos[1])
+				return true;
+		}
+		return false;
+	}
+	
+	public ArrayList<int[]> removeOccupied(ArrayList<int[]> cells) {
+		ArrayList<int[]> cleaned = new ArrayList<int[]>();
+		for (int[] c : cells) {
+			if (!cellOccupied(c))
+				cleaned.add(c);
+		}
+		return cleaned;
 	}
 	
 	public int getCellWidth() {
