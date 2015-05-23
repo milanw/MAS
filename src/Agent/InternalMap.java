@@ -43,6 +43,16 @@ public class InternalMap {
 		map = m; 
 	}
 	
+	public ArrayList<int[]> get8CellsAround(int x, int y) {
+		ArrayList<int[]> cells = getCellsAround(x, y); 
+		if (x-1 >= 0 && y-1 >=0) cells.add(new int[] {x-1, y-1});
+		if (x+1 < map[0].length && y+1 < map.length) cells.add(new int[] {x+1, y+1});
+		if (x-1 >= 0 && y+1 < map.length) cells.add(new int[] {x-1, y+1});
+		if (x+1 < map[0].length && y-1 >=0) cells.add(new int[] {x+1, y-1});
+		
+		return cells;		
+	}
+	
 	public ArrayList<int[]> getCellsAround(int x, int y) {
 		ArrayList<int[]> cells = new ArrayList<int[]>(); 
 		if (x-1 >= 0) cells.add(new int[] {x-1, y});

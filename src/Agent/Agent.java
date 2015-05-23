@@ -192,7 +192,7 @@ public class Agent {
 	}
 	public void brickAndMortar() {
 		int[] pos = getDiscretePosition(); 
-		
+		detectWalls(pos);
 		
 		//marking step
 		
@@ -243,6 +243,15 @@ public class Agent {
 		int y = (int)topLeft.getY() / internalMap.getCellWidth();
 		
 		return new int[] {x, y};		
+	}
+	
+	public void detectWalls(int[] pos) {
+		ArrayList<int[]> adjacent = internalMap.get8CellsAround(pos[0], pos[1]);
+		for (int[] cell : adjacent) {
+			if (map.getDiscretizedMap(internalMap.getCellWidth())[cell[1]][cell[0]] == 1) {
+				internalMap.setCell(cell, 1);
+			}
+		}
 	}
 	
 	//NOT USED ANYMORE

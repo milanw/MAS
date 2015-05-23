@@ -19,7 +19,7 @@ public class Main {
 		Map map = new MapGenerator(mapWidth, mapHeight).getMap();
 		//Map map = new Map(mapWidth, mapHeight, new ArrayList<InanimateObject>(), null);
 		InternalMap internalMap = new InternalMap(mapWidth, mapHeight); 
-		internalMap.setMap(map.getDiscretizedMap(internalMap.getCellWidth()));
+		//internalMap.setMap(map.getDiscretizedMap(internalMap.getCellWidth()));
 		Agent.internalMap = internalMap; 
 		
 		ArrayList<Agent> agents = new ArrayList<Agent>();
