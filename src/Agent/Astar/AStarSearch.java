@@ -4,8 +4,6 @@ import static java.lang.Math.sqrt;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-
 
 
 
@@ -52,17 +50,6 @@ public class AStarSearch {
 		}		
 		
 		return null; 
-	}
-	
-	public ArrayList<Node> reconstructPath(HashMap<Node, Node> cameFrom, Node current) {
-		ArrayList<Node> path = new ArrayList<Node>();
-		path.add(current);
-		System.out.println(cameFrom.containsKey(current));
-		while (cameFrom.containsKey(current)) {
-			current = cameFrom.get(current); //remove?
-			path.add(current);
-		}
-		return path; 
 	}
 	
 	public ArrayList<Node> reconstructPath(Node current) {
