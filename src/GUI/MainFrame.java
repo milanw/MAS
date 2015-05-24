@@ -50,6 +50,7 @@ public class MainFrame extends JFrame {
 	
 	private JButton startStopButton; 
 	private JButton pauseContinueButton;
+	private JButton spawnIntruderButton;
 	
 	private int width;
 	private int height;
@@ -60,7 +61,7 @@ public class MainFrame extends JFrame {
 	private JPanel panel;	
 	private Simulator simulation;
 
-	public MainFrame(Map map, ArrayList<Agent> agents, Simulator simulation) {
+	public MainFrame(Map map, Simulator simulation) {
 		this.simulation = simulation;
 		this.width = map.getWidth();
 		this.height = map.getHeight(); 
@@ -76,7 +77,7 @@ public class MainFrame extends JFrame {
 		panel = new JPanel();
 		panel.setLayout(new BorderLayout());
 		int remainingWidth = FRAME_WIDTH - RIGHTMENU_WIDTH; 
-		mapView = new MapViewer(map, agents, remainingWidth, FRAME_HEIGHT);      
+		mapView = new MapViewer(map, simulation.getAgents(), remainingWidth, FRAME_HEIGHT);      
 		
 		mapView.setPreferredSize(new Dimension(remainingWidth, FRAME_HEIGHT));
 		panel.add(mapView, BorderLayout.WEST);
@@ -270,6 +271,14 @@ public class MainFrame extends JFrame {
 					pauseContinueButton.setText("Pause");
 				}
 			}});
+		
+		spawnIntruderButton = new JButton("Spawn Intruder"); 		 
+		spawnIntruderButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Point2D topLeft = new Point2D.Double(2,2); 
+				Point2D bottomRight = new Point2D.Double(2+Agent.getSize(), 2+Agent.getSize());
+				simulation.spawnIntruder(new IntruderAgent(topLeft, bottomRight, map));
+			}});
 
 		JCheckBox visionCheckBox = new JCheckBox("Show vision range", true);
 		visionCheckBox.addActionListener(new ActionListener() {
@@ -293,7 +302,8 @@ public class MainFrame extends JFrame {
 			}});
 
 		simulationMenu.add(startStopButton); 
-		simulationMenu.add(pauseContinueButton); 
+		simulationMenu.add(pauseContinueButton);
+		simulationMenu.add(spawnIntruderButton);
 
 		simulationMenu.add(visionCheckBox); 
 		simulationMenu.add(imagesCheckBox); 

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import Agent.Astar.Astar;
+import GameObjects.GoalZone;
 import GameObjects.Marker;
 import Map.Map;
 
@@ -77,7 +78,9 @@ public class Agent {
 		
 		if(path.isEmpty()){
 			Point2D start = new Point2D.Double(topLeft.getX()+defaultSize/2, topLeft.getY()+defaultSize/2);
-			Point2D goal = new Point2D.Double((int) (Math.random()*map.getWidth()), (int) (Math.random()*map.getHeight()));
+			GoalZone goalZone = map.getGoalZone();
+			//Point2D goal = new Point2D.Double((int) (Math.random()*map.getWidth()), (int) (Math.random()*map.getHeight()));
+			Point2D goal = new Point2D.Double(goalZone.getTopLeft().getX(), goalZone.getTopLeft().getY());
 			while(map.emptySpot(goal)==false){
 				goal = new Point2D.Double((int) (Math.random()*map.getWidth()), (int) (Math.random()*map.getHeight()));
 			}
@@ -229,7 +232,7 @@ public class Agent {
 		}
 		
 		else {
-			System.out.println("exploration finished " + unexplored.size());
+			//System.out.println("exploration finished " + unexplored.size());
 			explorationFinished = true; 
 		}
 		lastPosition = pos; 

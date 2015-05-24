@@ -1,3 +1,4 @@
+
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
@@ -13,10 +14,12 @@ import Map.MapGenerator;
 import Simulation.Simulator;
 
 public class Main {
+	public static Map map; 
+	
 	public static void main(String[] args){
 		int mapWidth = 200;
 		int mapHeight = 200;
-		Map map = new MapGenerator(mapWidth, mapHeight).getMap();
+		map = new MapGenerator(mapWidth, mapHeight).getMap();
 		//Map map = new Map(mapWidth, mapHeight, new ArrayList<InanimateObject>(), null);
 		InternalMap internalMap = new InternalMap(mapWidth, mapHeight); 
 		//internalMap.setMap(map.getDiscretizedMap(internalMap.getCellWidth()));
@@ -35,14 +38,18 @@ public class Main {
 		agents.add(new SurveillanceAgent(position, new Point2D.Double(position.getX()+size, position.getY()+size), map));
 		position =new Point2D.Double(194, 194);
 		agents.add(new SurveillanceAgent(position, new Point2D.Double(position.getX()+size, position.getY()+size), map));
+		position = map.findEmptySpot(size);
+		agents.add(new SurveillanceAgent(position, new Point2D.Double(position.getX()+size, position.getY()+size), map));
+		position = map.findEmptySpot(size);
+		agents.add(new SurveillanceAgent(position, new Point2D.Double(position.getX()+size, position.getY()+size), map));
+		position = map.findEmptySpot(size);
+		agents.add(new SurveillanceAgent(position, new Point2D.Double(position.getX()+size, position.getY()+size), map));
 		
-		for (Agent a : agents) {
-			System.out.println(a.getId());
-		}
+		
 		
 		
 		Simulator main = new Simulator(map, agents);
-		MainFrame frame = new MainFrame(map, agents, main);
+		MainFrame frame = new MainFrame(map, main);
 		main.setFrame(frame);
 		
 	

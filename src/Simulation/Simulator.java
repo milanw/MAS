@@ -122,7 +122,13 @@ public class Simulator {
 	public void updateSimulation() {
 		for (Agent a : agents) {
 			//a.getNextMove(timebetweenupdates);
-			a.getMove();
+			if (a instanceof IntruderAgent) {
+				a.getNextMove(timebetweenupdates);
+				System.out.println("intruder");
+			}
+			else 
+				a.getMove();
+			
 		}
 //			Point2D[] move = a.getNextMove();
 //			if(move == null){System.out.println("WHY IS IT NULL!!! ;A;");}
@@ -187,5 +193,13 @@ public class Simulator {
 	
 	public void setFrame(MainFrame frame) {
 		this.frame = frame;		
+	}
+	
+	public ArrayList<Agent> getAgents() {
+		return agents;
+	}
+	
+	public void spawnIntruder(IntruderAgent intruder) {
+		agents.add(intruder); 
 	}
 }
