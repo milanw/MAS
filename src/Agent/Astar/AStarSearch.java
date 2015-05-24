@@ -77,13 +77,13 @@ public class AStarSearch {
 	
 	public ArrayList<Node> getNeighbours(Node node) {
 		ArrayList<Node> neighbours = new ArrayList<Node>(); 
-		if (node.x+1 <map[0].length)
+		if (node.x+1 <map[0].length && map[node.y][node.x+1] != 1)
 			neighbours.add(new Node(node.x+1, node.y));
-		if (node.y+1 <map.length)
+		if (node.y+1 <map.length && map[node.y+1][node.x] != 1)
 			neighbours.add(new Node(node.x, node.y+1));
-		if (node.x-1 >= 0)
+		if (node.x-1 >= 0 && map[node.y][node.x-1] != 1)
 			neighbours.add(new Node(node.x-1, node.y));
-		if (node.y-1 >= 0 && node.x+1 <map[0].length)
+		if (node.y-1 >= 0 && map[node.y-1][node.x] != 1)
 			neighbours.add(new Node(node.x, node.y-1));
 		return neighbours;
 	}
@@ -104,10 +104,15 @@ public class AStarSearch {
 	
 	
 	public static void main(String[] args) {
-		AStarSearch a = new AStarSearch(new int[10][10]); 
+		int[][] grid = new int[3][3]; 
+		grid[1][0] = 1;
+		grid[1][1] = 0; 
+		grid[1][2] = 1; 
+		
+		AStarSearch a = new AStarSearch(grid); 
 		
 		Node start = new Node(0,0);
-		Node goal = new Node(0,3);
+		Node goal = new Node(2,2);
 		System.out.println(a.findPath(start, goal));
 	}
 }
