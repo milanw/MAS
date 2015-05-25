@@ -7,7 +7,6 @@ import Agent.InternalMap;
 import Agent.IntruderAgent;
 import Agent.SurveillanceAgent;
 import Agent.InfluenceMap.InfluenceMap;
-import GUI.InternalMapFrame;
 import GUI.MainFrame;
 import GameObjects.InanimateObject;
 import Map.Map;
