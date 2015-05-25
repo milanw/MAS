@@ -19,35 +19,36 @@ public class InfluenceMap {
 		this.map = new double[this.height][this.width];
 	}
 
-	
-	public void propagate(Node start) {
+	public void decay() {
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[0].length; j++) {
-				int distance = Math.max(Math.abs(start.x-j), Math.abs(start.y-i)); 
-				map[i][j] += Math.pow(PROPAGATION_CONSTANT, distance);
+				map[i][j] = map[i][j]*0.75;
 			}			
 		}
 	}
 	
-	public void propagate2(Node start) {
+	public void propagate(InfluenceNode start, double propagationConstant, int sign) {
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[0].length; j++) {
 				int distance = Math.max(Math.abs(start.x-j), Math.abs(start.y-i)); 
-				map[i][j] -= Math.pow(0.7, distance);
+				map[i][j] += sign*Math.pow(propagationConstant, distance);
+				map[i][j] = sign < 0 ? Math.max(-1.0, map[i][j]) : Math.min(1.0, map[i][j]);
 			}			
 		}
 	}
 	
-	public ArrayList<Node> getNeighbours(Node node) {
-		ArrayList<Node> neighbours = new ArrayList<Node>(); 
+	
+	
+	public ArrayList<InfluenceNode> getNeighbours(InfluenceNode node) {
+		ArrayList<InfluenceNode> neighbours = new ArrayList<InfluenceNode>(); 
 		if (node.x+1 <map[0].length)
-			neighbours.add(new Node(node.x+1, node.y));
+			neighbours.add(new InfluenceNode(node.x+1, node.y));
 		if (node.y+1 <map.length)
-			neighbours.add(new Node(node.x, node.y+1));
+			neighbours.add(new InfluenceNode(node.x, node.y+1));
 		if (node.x-1 >= 0)
-			neighbours.add(new Node(node.x-1, node.y));
+			neighbours.add(new InfluenceNode(node.x-1, node.y));
 		if (node.y-1 >= 0)
-			neighbours.add(new Node(node.x, node.y-1));
+			neighbours.add(new InfluenceNode(node.x, node.y-1));
 		return neighbours;
 	}
 	
@@ -61,7 +62,7 @@ public class InfluenceMap {
 	
 	public static void main(String[] args) {
 		InfluenceMap m = new InfluenceMap(100, 100);
-		m.propagate(new Node(5,5));
+		m.propagate(new InfluenceNode(5,5), 0.9, 1);
 		//m.propagate2(new Node(10,10));
 		
 		double[][] grid = m.getMap(); 

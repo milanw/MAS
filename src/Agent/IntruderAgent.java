@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import Agent.Astar.AStarSearch;
 import Agent.Astar.Node;
+import Agent.InfluenceMap.InfluenceNode;
 import GameObjects.GoalZone;
 import Map.Map;
 
@@ -30,6 +31,7 @@ public class IntruderAgent extends Agent{
 	}
 	
 	public void getMove() {
+		influenceMap.propagate(new InfluenceNode(getDiscretePosition()[0], getDiscretePosition()[1]), 0.8, 1);
 		if (queue.isEmpty()) {
 			GoalZone g = map.getGoalZone();
 			Point2D to = new Point2D.Double((g.getTopLeft().getX()+g.getBottomRight().getX())/2, (g.getTopLeft().getY()+g.getBottomRight().getY())/2);

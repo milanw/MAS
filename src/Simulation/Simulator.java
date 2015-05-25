@@ -10,9 +10,8 @@ import Agent.Agent;
 import Agent.IntruderAgent;
 import Agent.SurveillanceAgent;
 import Agent.InfluenceMap.InfluenceMap;
-import Agent.InfluenceMap.Node;
-import GUI.InfluenceMapFrame;
-import GUI.InternalMapFrame;
+import Agent.InfluenceMap.InfluenceNode;
+import GUI.DeveloperFrame;
 import GUI.MainFrame;
 import Map.Map;
 import GUI.MapViewer;
@@ -32,13 +31,10 @@ public class Simulator {
 	private boolean intruderSpawned = false;
     private Point2D[] currentMove;
 	private double timebetweenupdates;
-	InternalMapFrame internalMapFrame = new InternalMapFrame(Agent.internalMap); 
-	InfluenceMap influenceMap = new InfluenceMap(200, 200);	
-	InfluenceMapFrame influenceMapFrame = new InfluenceMapFrame(influenceMap); 
+	DeveloperFrame developerFrame = new DeveloperFrame(Agent.internalMap, Agent.influenceMap);
 	
-	public Simulator(Map map, ArrayList<Agent> agents) {
-		influenceMap.propagate(new Node(10,10));
-		influenceMap.propagate2(new Node(20,25));
+	
+	public Simulator(Map map, ArrayList<Agent> agents) {		
 		this.map = map;	
 		this.agents = agents; 
 	}
@@ -130,6 +126,7 @@ public class Simulator {
 
 	//needs some cleaning up
 	public void updateSimulation() {
+		Agent.influenceMap.decay();
 		if (intruderSpawned) {
 			agents.add(intruder); 
 			intruderSpawned = false;
@@ -176,7 +173,7 @@ public class Simulator {
 
 	public void drawSimulation() {
 		frame.repaint();
-		internalMapFrame.repaint();
+		developerFrame.repaint();
 	}
 	
 	public boolean isRunning() {

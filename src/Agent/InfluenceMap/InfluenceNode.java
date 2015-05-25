@@ -1,18 +1,18 @@
 package Agent.InfluenceMap;
 
 
-public class Node {
+public class InfluenceNode {
 	int x;
 	int y; 
 	int distance; 		//distance from source
 	double value;
 	
-	public Node(int x, int y) {
+	public InfluenceNode(int x, int y) {
 		this.x = x;
 		this.y = y; 
 	}
 	
-	public boolean equals(Node node){
+	public boolean equals(InfluenceNode node){
 		return x == node.x && y == node.y;
 	}
 

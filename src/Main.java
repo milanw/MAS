@@ -6,6 +6,7 @@ import Agent.Agent;
 import Agent.InternalMap;
 import Agent.IntruderAgent;
 import Agent.SurveillanceAgent;
+import Agent.InfluenceMap.InfluenceMap;
 import GUI.InternalMapFrame;
 import GUI.MainFrame;
 import GameObjects.InanimateObject;
@@ -22,8 +23,10 @@ public class Main {
 		map = new MapGenerator(mapWidth, mapHeight).getMap();
 		//Map map = new Map(mapWidth, mapHeight, new ArrayList<InanimateObject>(), null);
 		InternalMap internalMap = new InternalMap(mapWidth, mapHeight); 
+		InfluenceMap influenceMap = new InfluenceMap(mapWidth, mapHeight);
 		//internalMap.setMap(map.getDiscretizedMap(internalMap.getCellWidth()));
 		Agent.internalMap = internalMap; 
+		Agent.influenceMap = influenceMap;
 		
 		ArrayList<Agent> agents = new ArrayList<Agent>();
 		

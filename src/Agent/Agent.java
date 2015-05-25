@@ -9,6 +9,8 @@ import java.util.Random;
 import Agent.Astar.AStarSearch;
 import Agent.Astar.Astar;
 import Agent.Astar.Node;
+import Agent.InfluenceMap.InfluenceMap;
+import Agent.InfluenceMap.InfluenceNode;
 import GameObjects.GoalZone;
 import GameObjects.Marker;
 import Map.Map;
@@ -17,6 +19,7 @@ public class Agent {
 	private static int idCount = 0; 
 	private static ArrayList<Agent> agents = new ArrayList<Agent>();
 	public static InternalMap internalMap;
+	public static InfluenceMap influenceMap;
 	private boolean explorationFinished = false;
 	
 	private int id; 
@@ -196,6 +199,7 @@ public class Agent {
 	}
 	
 	public void getMove() {
+		influenceMap.propagate(new InfluenceNode(getDiscretePosition()[0], getDiscretePosition()[1]), 0.7, -1);
 		brickAndMortar();
 	}
 	public void brickAndMortar() {
