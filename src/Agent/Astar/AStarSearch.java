@@ -4,6 +4,8 @@ import static java.lang.Math.sqrt;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.PriorityQueue;
 
 
 
@@ -16,14 +18,19 @@ public class AStarSearch {
 	
 	public ArrayList<Node> findPath(Node start, Node goal) {
 		ArrayList<Node> closed = new ArrayList<Node>();
-		ArrayList<Node> open = new ArrayList<Node>();
+		//ArrayList<Node> open = new ArrayList<Node>();
+		PriorityQueue<Node> open = new PriorityQueue<Node>(10, new NodeComparator());
 		open.add(start);
 		
 		start.g = 0;
 		start.f = start.g + heuristicEstimate(start, goal);
 		
 		while (!open.isEmpty()) {
-			Node current = lowestF(open);
+			//Node current = lowestF(open);
+			Node current = open.poll();
+			
+			if(current.g > 300)
+				return reconstructPath(current);
 			
 			if (current.equals(goal)) {
 				return reconstructPath(current);
@@ -57,10 +64,11 @@ public class AStarSearch {
 		path.add(current); 
 		Node parent = current.parent; 
 		while (parent != null) {
-			path.add(parent); 
+			path.add(0, parent);
+			//path.add(parent); 
 			parent = parent.parent; 
 		}
-		Collections.reverse(path); 
+		//Collections.reverse(path); 
 		path.remove(0);
 		return path;
 	}
@@ -100,13 +108,31 @@ public class AStarSearch {
 		return lowest; 
 	}
 	
+	public class NodeComparator implements Comparator<Node>
+	{
+	    @Override
+	    public int compare(Node a, Node b)
+	    {
+	       
+	        if (a.f < b.f)
+	        {
+	            return -1;
+	        }
+	        if (a.f > b.f)
+	        {
+	            return 1;
+	        }
+	        return 0;
+	    }
+	}
+	
 	
 	
 	
 	public static void main(String[] args) {
 		int[][] grid = new int[3][3]; 
 		grid[1][0] = 1;
-		grid[1][1] = 0; 
+		grid[1][1] = 1; 
 		grid[1][2] = 1; 
 		
 		AStarSearch a = new AStarSearch(grid); 
