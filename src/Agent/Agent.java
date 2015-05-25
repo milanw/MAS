@@ -6,7 +6,9 @@ import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 import java.util.Random;
 
+import Agent.Astar.AStarSearch;
 import Agent.Astar.Astar;
+import Agent.Astar.Node;
 import GameObjects.GoalZone;
 import GameObjects.Marker;
 import Map.Map;
@@ -18,16 +20,17 @@ public class Agent {
 	private boolean explorationFinished = false;
 	
 	private int id; 
-	private Map map; 
+	protected Map map; 
     private double speed = 1.4;
     private static int defaultSize = 4; 
 	private int maxTurn;
 	private boolean onSentryTower; 
 	protected double visionRange;
 	private int viewingAngle; 
-    private Point2D topLeft;
-    private Point2D bottomRight;
+    protected Point2D topLeft;
+    protected Point2D bottomRight;
     private ArrayList<Point2D> path= new ArrayList<Point2D>();
+    protected ArrayList<Node> queue = new ArrayList<Node>();
     private int[] lastPosition = new int[] {-1, -1}; 
 
 	
@@ -299,6 +302,14 @@ public class Agent {
         }
         
         return new Point2D[] {newTopLeft, newBottomRight}; 
+	}
+
+	public ArrayList<Node> findPath(Point2D to) {
+		int[] start = getDiscretePosition();
+		int[] goal = map.getDiscretePosition(to, internalMap.getCellWidth());
+		AStarSearch a = new AStarSearch(internalMap.getMap());
+		return a.findPath(new Node(start[0], start[1]), new Node(goal[0], goal[1]));
+		
 	}
 	
 	public void turn() {

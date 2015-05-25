@@ -25,6 +25,8 @@ public class Simulator {
     private BufferedImage imageRotate;
 	private Map map; 
 	private ArrayList<Agent> agents;
+	private IntruderAgent intruder;
+	private boolean intruderSpawned = false;
     private Point2D[] currentMove;
 	private double timebetweenupdates;
 	InternalMapFrame internalMapFrame = new InternalMapFrame(Agent.internalMap); 
@@ -120,16 +122,22 @@ public class Simulator {
 
 	//needs some cleaning up
 	public void updateSimulation() {
+		if (intruderSpawned) {
+			agents.add(intruder); 
+			intruderSpawned = false;
+		}
 		for (Agent a : agents) {
 			//a.getNextMove(timebetweenupdates);
-			if (a instanceof IntruderAgent) {
+			/*if (a instanceof IntruderAgent) {
 				a.getNextMove(timebetweenupdates);
+			
 				System.out.println("intruder");
 			}
-			else 
+			else  */
 				a.getMove();
 			
 		}
+		//if (intruder != null) intruder.getMove();
 //			Point2D[] move = a.getNextMove();
 //			if(move == null){System.out.println("WHY IS IT NULL!!! ;A;");}
 //			int width = (int)(move[1].getX()-move[0].getX());
@@ -199,7 +207,11 @@ public class Simulator {
 		return agents;
 	}
 	
-	public void spawnIntruder(IntruderAgent intruder) {
-		agents.add(intruder); 
+	public void spawnIntruder() {
+		Point2D topLeft = new Point2D.Double(4,4); 
+		Point2D bottomRight = new Point2D.Double(4+Agent.getSize(), 4+Agent.getSize());
+		intruder = new IntruderAgent(topLeft, bottomRight, map); 
+		intruderSpawned = true;
+		//agents.add(intruder);
 	}
 }

@@ -4,6 +4,7 @@ import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+import Agent.Agent;
 import GameObjects.GoalZone;
 import GameObjects.InanimateObject;
 import GameObjects.Marker;
@@ -98,6 +99,13 @@ public class Map {
 		return new Rectangle((int)o.getTopLeft().getX(), (int)o.getTopLeft().getY(), objectWidth, objectHeight);		
 	}
 	
+	public Rectangle getAgentRectangle(Agent o) {
+		int objectWidth = (int)(o.getBottomRight().getX() - o.getTopLeft().getX()); 
+		int objectHeight = (int)(o.getBottomRight().getY() - o.getTopLeft().getY()); 
+		
+		return new Rectangle((int)o.getTopLeft().getX(), (int)o.getTopLeft().getY(), objectWidth, objectHeight);		
+	}
+	
 	public boolean emptySpot(Point2D n){
 		for(InanimateObject o : gameObjects){
 			if(o.isInside(n))
@@ -150,8 +158,20 @@ public class Map {
 		return grid; 
 	}
 	
+	public int[] getDiscretePosition(Point2D position, int squareSize) {
+		return new int[] {(int)position.getX()/squareSize, (int)position.getY()/squareSize}; 
+	}
+	
 	public void resetMarkers() {
 		markers = new ArrayList<Marker>();
+	}
+	
+	public boolean inGoalZone(Agent a) {
+		Rectangle goalRect = getObjectRectangle(goalZone);
+		Rectangle agentRect= getAgentRectangle(a);
+		
+		return goalRect.intersects(agentRect);
+		
 	}
 }
 
