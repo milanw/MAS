@@ -33,12 +33,12 @@ public class Simulator {
     private Point2D[] currentMove;
 	private double timebetweenupdates;
 	InternalMapFrame internalMapFrame = new InternalMapFrame(Agent.internalMap); 
-	InfluenceMap influenceMap = new InfluenceMap(200, 200);
-	
+	InfluenceMap influenceMap = new InfluenceMap(200, 200);	
 	InfluenceMapFrame influenceMapFrame = new InfluenceMapFrame(influenceMap); 
+	
 	public Simulator(Map map, ArrayList<Agent> agents) {
 		influenceMap.propagate(new Node(10,10));
-		influenceMap.propagate(new Node(20,25));
+		influenceMap.propagate2(new Node(20,25));
 		this.map = map;	
 		this.agents = agents; 
 	}

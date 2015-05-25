@@ -29,7 +29,7 @@ private InfluenceMap map;
 			}
 		}
 		
-		g2d.setColor(Color.BLACK);
+		g2d.setColor(Color.BLUE);
 		g2d.drawString("Low Activity", 10, 220);
 		g2d.setColor(Color.RED);
 		g2d.drawString("High Activity", 10, 240);
@@ -37,8 +37,12 @@ private InfluenceMap map;
 	}
 	
 	private static Color colorFor(double value) {
-	    value = Math.max(0, Math.min(1, value));
-	    int red = (int)(value * 255);
-	    return new Color(red,0,0);
+		Color c;
+	    if (value < 0) 
+	    	c = new Color(0, 0, (int)(Math.abs(value)*255));	    
+	    else 
+	    	c = new Color((int)(value*255), 0, 0);
+	    	
+	    return c; 
 	}
 }
