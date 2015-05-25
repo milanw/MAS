@@ -31,7 +31,7 @@ public class IntruderAgent extends Agent{
 	}
 	
 	public void getMove() {
-		influenceMap.propagate(new InfluenceNode(getDiscretePosition()[0], getDiscretePosition()[1]), 0.8, 1);
+		influenceMap.propagate(new InfluenceNode(super.getDiscretePosition()[0], super.getDiscretePosition()[1]), 0.8, 1);
 		if (queue.isEmpty()) {
 			GoalZone g = map.getGoalZone();
 			Point2D to = new Point2D.Double((g.getTopLeft().getX()+g.getBottomRight().getX())/2, (g.getTopLeft().getY()+g.getBottomRight().getY())/2);
@@ -56,8 +56,8 @@ public class IntruderAgent extends Agent{
 	}
 	
 	public int[] getDiscretePosition() {
-		int ax = (int)(topLeft.getX()+bottomRight.getX()/2) / internalMap.getCellWidth();
-		int ay = (int)(topLeft.getY()+bottomRight.getY()/2) / internalMap.getCellWidth();
+		int ax = (int)(topLeft.getX()+bottomRight.getX()/2.0) / internalMap.getCellWidth();
+		int ay = (int)(topLeft.getY()+bottomRight.getY()/2.0) / internalMap.getCellWidth();
 		return new int[] {ax, ay};
 		
 	}

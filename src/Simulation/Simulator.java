@@ -142,6 +142,8 @@ public class Simulator {
 				a.getMove();
 			
 		}
+
+		developerFrame.repaint();
 		//if (intruder != null) intruder.getMove();
 //			Point2D[] move = a.getNextMove();
 //			if(move == null){System.out.println("WHY IS IT NULL!!! ;A;");}
@@ -173,7 +175,6 @@ public class Simulator {
 
 	public void drawSimulation() {
 		frame.repaint();
-		developerFrame.repaint();
 	}
 	
 	public boolean isRunning() {

@@ -22,7 +22,7 @@ public class InfluenceMap {
 	public void decay() {
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[0].length; j++) {
-				map[i][j] = map[i][j]*0.75;
+				map[i][j] = map[i][j]*0.5;
 			}			
 		}
 	}
@@ -30,8 +30,10 @@ public class InfluenceMap {
 	public void propagate(InfluenceNode start, double propagationConstant, int sign) {
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[0].length; j++) {
-				int distance = Math.max(Math.abs(start.x-j), Math.abs(start.y-i)); 
-				map[i][j] += sign*Math.pow(propagationConstant, distance);
+				int distance =  Math.abs(start.x-j) + Math.abs(start.y-i);
+				//int distance = Math.max(Math.abs(start.x-j), Math.abs(start.y-i)); 
+				map[i][j] += sign * Math.pow(propagationConstant, distance);
+				//map[i][j] += sign *Math.exp(propagationConstant*distance);		
 				map[i][j] = sign < 0 ? Math.max(-1.0, map[i][j]) : Math.min(1.0, map[i][j]);
 			}			
 		}

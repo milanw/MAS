@@ -199,7 +199,7 @@ public class Agent {
 	}
 	
 	public void getMove() {
-		influenceMap.propagate(new InfluenceNode(getDiscretePosition()[0], getDiscretePosition()[1]), 0.7, -1);
+		influenceMap.propagate(new InfluenceNode(getDiscretePosition()[0], getDiscretePosition()[1]), 0.6, -1);
 		brickAndMortar();
 	}
 	public void brickAndMortar() {
