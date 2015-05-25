@@ -7,8 +7,8 @@ package Agent.Astar;
 
 public class Node {
 	Node parent; 
-	int x;
-	int y; 
+	public int x;
+	public int y; 
 	double g; 
 	double  f;
 

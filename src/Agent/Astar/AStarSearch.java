@@ -43,7 +43,7 @@ public class AStarSearch {
 				
 				if (closed.contains(neighbour)) 
 					continue; 
-				double tentativeG = current.g + distance(current, neighbour);
+				double tentativeG = current.g + 1;
 				
 				if (!open.contains(neighbour) || tentativeG < neighbour.g) {
 					neighbour.parent = current; 
@@ -74,7 +74,12 @@ public class AStarSearch {
 	}
 	
 	public double heuristicEstimate(Node start, Node goal) {
-		return sqrt(pow(start.x-goal.x, 2) + pow(start.y - goal.y, 2));
+		//manhattan distance
+		double dx = Math.abs(start.x - goal.x);
+		double dy = Math.abs(start.y - goal.y);
+		double h = 1 * (dx + dy);
+		h *= (1.0 + 0.001); //tie breaking scaling
+		return h;
 	}
 	
 	
@@ -132,7 +137,7 @@ public class AStarSearch {
 	public static void main(String[] args) {
 		int[][] grid = new int[3][3]; 
 		grid[1][0] = 1;
-		grid[1][1] = 1; 
+		grid[1][1] = 0; 
 		grid[1][2] = 1; 
 		
 		AStarSearch a = new AStarSearch(grid); 
@@ -140,5 +145,12 @@ public class AStarSearch {
 		Node start = new Node(0,0);
 		Node goal = new Node(2,2);
 		System.out.println(a.findPath(start, goal));
+		PriorityQueue<Node> pq = new PriorityQueue<Node>(10, a.new NodeComparator());
+		start.f = 1;
+		goal.f = 5; 
+		pq.add(goal);
+		pq.add(start);
+		
+		System.out.println(pq.poll());
 	}
 }
