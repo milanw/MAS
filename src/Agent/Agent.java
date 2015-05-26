@@ -215,19 +215,24 @@ public class Agent {
 		int[][] internal = internalMap.getMap();
 		double bestValue = -2.0; 
 		int[] bestCell = new int[2]; 
+		int[] secondBestCell = new int[2]; 
 		
 		for (InfluenceNode node : adjacent) {
+			
 			if (internal[node.y][node.x] == 1)
 				continue;
 			
 			if (influence[node.y][node.x] > bestValue) {
 				bestValue = influence[node.y][node.x];
+				secondBestCell = bestCell;
 				bestCell = new int[] {node.x, node.y};
 			}
 				
 		}
-		
-		moveTo(bestCell);
+		if (lastPosition == bestCell)
+			moveTo(secondBestCell);
+		else
+			moveTo(bestCell);
 	}
 	public void brickAndMortar() {
 		int[] pos = getDiscretePosition(); 
