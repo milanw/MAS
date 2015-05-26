@@ -54,6 +54,8 @@ public class InfluenceMap {
 		return neighbours;
 	}
 	
+	
+	
 	public double[][] getMap() {
 		return map; 
 	}

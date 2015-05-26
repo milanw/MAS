@@ -21,6 +21,7 @@ public class Agent {
 	public static InternalMap internalMap;
 	public static InfluenceMap influenceMap;
 	private boolean explorationFinished = false;
+	public static boolean intruderEntered = false;
 	
 	private int id; 
 	protected Map map; 
@@ -199,8 +200,34 @@ public class Agent {
 	}
 	
 	public void getMove() {
+		if (intruderEntered)
+			greedy();
+		else		
+			brickAndMortar();
+		
 		influenceMap.propagate(new InfluenceNode(getDiscretePosition()[0], getDiscretePosition()[1]), 0.6, -1);
-		brickAndMortar();
+	}
+	
+	public void greedy() {
+		internalMap.setMap(map.getDiscretizedMap(5));
+		ArrayList<InfluenceNode> adjacent = influenceMap.getNeighbours(new InfluenceNode(getDiscretePosition()[0], getDiscretePosition()[1])); 
+		double[][] influence = influenceMap.getMap();
+		int[][] internal = internalMap.getMap();
+		double bestValue = -2.0; 
+		int[] bestCell = new int[2]; 
+		
+		for (InfluenceNode node : adjacent) {
+			if (internal[node.y][node.x] == 1)
+				continue;
+			
+			if (influence[node.y][node.x] > bestValue) {
+				bestValue = influence[node.y][node.x];
+				bestCell = new int[] {node.x, node.y};
+			}
+				
+		}
+		
+		moveTo(bestCell);
 	}
 	public void brickAndMortar() {
 		int[] pos = getDiscretePosition(); 

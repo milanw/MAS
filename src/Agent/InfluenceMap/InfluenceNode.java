@@ -2,8 +2,8 @@ package Agent.InfluenceMap;
 
 
 public class InfluenceNode {
-	int x;
-	int y; 
+	public int x;
+	public int y; 
 	int distance; 		//distance from source
 	double value;
 	

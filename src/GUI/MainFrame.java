@@ -274,9 +274,9 @@ public class MainFrame extends JFrame {
 		
 		spawnIntruderButton = new JButton("Spawn Intruder"); 		 
 		spawnIntruderButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
+			public void actionPerformed(ActionEvent e) {				
 				simulation.spawnIntruder();
+				Agent.intruderEntered = true;
 			}});
 
 		JCheckBox visionCheckBox = new JCheckBox("Show vision range", true);
