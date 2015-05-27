@@ -30,6 +30,7 @@ public class Agent {
     private static int defaultSize = 4; 
 	private int maxTurn;
 	private boolean onSentryTower; 
+	protected double hearingRange; 
 	protected double visionRange;
 	private int viewingAngle; 
     protected Point2D topLeft;
@@ -470,6 +471,10 @@ public class Agent {
     
     public static ArrayList<Agent> getAllAgents() {
     	return agents; 
+    }
+    
+    public double getHearingRange() {
+    	return hearingRange; 
     }
 
 
