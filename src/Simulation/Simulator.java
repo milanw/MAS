@@ -27,9 +27,10 @@ public class Simulator {
     private BufferedImage imageRotate;
 	private Map map; 
 	private ArrayList<Agent> agents;
-	private IntruderAgent intruder;
+	public static IntruderAgent intruder;
 	private boolean intruderSpawned = false;
-    private Point2D[] currentMove;
+	private int goalZoneCounter = 0;
+    
 	private double timebetweenupdates;
 	DeveloperFrame developerFrame = new DeveloperFrame(Agent.internalMap, Agent.influenceMap);
 	
@@ -126,10 +127,18 @@ public class Simulator {
 
 	//needs some cleaning up
 	public void updateSimulation() {
+		if (goalZoneCounter >= 3) {
+			stopSimulation();
+			System.out.println("intruder won");
+		}
+		
 		Agent.influenceMap.decay();
 		if (intruderSpawned) {
 			agents.add(intruder); 
 			intruderSpawned = false;
+		}
+		if (intruder != null) {
+			goalZoneCounter = map.inGoalZone(intruder) ? ++goalZoneCounter : 0;			
 		}
 		for (Agent a : agents) {
 			//a.getNextMove(timebetweenupdates);
@@ -139,7 +148,12 @@ public class Simulator {
 				System.out.println("intruder");
 			}
 			else  */
-				a.getMove();
+			if (intruder != null && a instanceof SurveillanceAgent && intruder.isInVicinity(a)) {
+				stopSimulation();
+				System.out.println("guards win");
+			}
+				
+			a.getMove();
 			
 		}
 
@@ -190,8 +204,8 @@ public class Simulator {
 		
 		//reset agent locations
 		for (Agent a : agents) {
-			a.setTopLeft(map.findEmptySpot(a.getSize()));
-			a.setBottomRight(new Point2D.Double(a.getX()+a.getSize(), a.getY()+a.getSize()));
+			//a.setTopLeft(map.findEmptySpot(a.getSize()));
+			//a.setBottomRight(new Point2D.Double(a.getX()+a.getSize(), a.getY()+a.getSize()));
 		}
 		
 		
@@ -220,4 +234,6 @@ public class Simulator {
 		intruderSpawned = true;
 		//agents.add(intruder);
 	}
+	
+	
 }

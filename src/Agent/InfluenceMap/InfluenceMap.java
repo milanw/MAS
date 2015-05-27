@@ -41,6 +41,7 @@ public class InfluenceMap {
 	
 	
 	
+	
 	public ArrayList<InfluenceNode> getNeighbours(InfluenceNode node) {
 		ArrayList<InfluenceNode> neighbours = new ArrayList<InfluenceNode>(); 
 		if (node.x+1 <map[0].length)
@@ -64,6 +65,10 @@ public class InfluenceMap {
 		return cellWidth;
 	}
 	
+	public double getInfluence(int[] pos) {
+		return map[pos[1]][pos[0]];
+	}
+	
 	public static void main(String[] args) {
 		InfluenceMap m = new InfluenceMap(100, 100);
 		m.propagate(new InfluenceNode(5,5), 0.9, 1);
@@ -73,11 +78,10 @@ public class InfluenceMap {
 		
 		for (int i = 0; i < grid.length; i++) {
 			for (int j = 0; j < grid[0].length; j++) {
-				//System.out.print(grid[i][j] + " ");
-				if (grid[i][j] > 1)
-					System.out.println(grid[i][j] + " " + i + " " + j);
+				System.out.print(grid[i][j] + " ");
+				
 			}
-			//System.out.println();
+			System.out.println();
 		}
 	}
 }

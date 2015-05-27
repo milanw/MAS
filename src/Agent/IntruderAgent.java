@@ -45,6 +45,15 @@ public class IntruderAgent extends Agent{
 		}
 	}	
 	
+	public boolean isInVicinity(Agent a) {
+		if ((Math.abs(this.getCenter().getX() -a.getCenter().getX()) + Math.abs(this.getCenter().getY() -a.getCenter().getY())) < 5)
+			return true;
+		else
+			return false;
+	}
+	
+	
+	
 
 	public ArrayList<Node> findPath(Point2D to) {
 		int[] start = getDiscretePosition();
@@ -56,9 +65,19 @@ public class IntruderAgent extends Agent{
 	}
 	
 	public int[] getDiscretePosition() {
-		int ax = (int)(topLeft.getX()+bottomRight.getX()/2.0) / internalMap.getCellWidth();
-		int ay = (int)(topLeft.getY()+bottomRight.getY()/2.0) / internalMap.getCellWidth();
+		int ax = (int)(topLeft.getX()+bottomRight.getX()/2.0) / 5;
+		int ay = (int)(topLeft.getY()+bottomRight.getY()/2.0) / 5;
 		return new int[] {ax, ay};
+		
+	}
+	
+	
+	
+	public static void main(String[] args) {
+		IntruderAgent i = new IntruderAgent(new Point2D.Double(5,5), new Point2D.Double(10, 10), new Map(200, 200, null, null));
+		System.out.println(i.getCenter());
+		System.out.println(i.getDiscretePosition()[0] + " " + i.getDiscretePosition()[1]);
+		
 		
 	}
 

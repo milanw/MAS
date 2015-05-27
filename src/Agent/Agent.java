@@ -14,6 +14,7 @@ import Agent.InfluenceMap.InfluenceNode;
 import GameObjects.GoalZone;
 import GameObjects.Marker;
 import Map.Map;
+import Simulation.Simulator;
 
 public class Agent {
 	private static int idCount = 0; 
@@ -200,15 +201,26 @@ public class Agent {
 	}
 	
 	public void getMove() {
-		if (intruderEntered)
-			greedy();
+		if (intruderEntered) {
+			//if (Simulator.intruder.isInVicinity(this))
+			//if (influenceMap.getInfluence(getDiscretePosition()) < 0.8)	{
+			if (!Simulator.intruder.isInVicinity(this)) {
+				greedy();
+			}
+			else
+				return;
+			
+		}
 		else		
 			brickAndMortar();
+		/*if(Simulator.intruder != null && !Simulator.intruder.isInVicinity(this))
+			influenceMap.propagate(new InfluenceNode(getDiscretePosition()[0], getDiscretePosition()[1]), 0.6, -1);*/
 		
 		influenceMap.propagate(new InfluenceNode(getDiscretePosition()[0], getDiscretePosition()[1]), 0.6, -1);
 	}
 	
 	public void greedy() {
+		
 		internalMap.setMap(map.getDiscretizedMap(5));
 		ArrayList<InfluenceNode> adjacent = influenceMap.getNeighbours(new InfluenceNode(getDiscretePosition()[0], getDiscretePosition()[1])); 
 		double[][] influence = influenceMap.getMap();
@@ -229,7 +241,7 @@ public class Agent {
 			}
 				
 		}
-		if (lastPosition == bestCell)
+		if (lastPosition[0] == bestCell[0] && lastPosition[1] == bestCell[1])
 			moveTo(secondBestCell);
 		else
 			moveTo(bestCell);
@@ -278,6 +290,7 @@ public class Agent {
 	}
 	
 	public void moveTo(int[] pos) {
+		lastPosition = pos;
 		int width = internalMap.getCellWidth();
 		//path.add(new Point2D.Double(pos[0]*width, pos[1]*width));
 		topLeft = new Point2D.Double(pos[0]*width, pos[1]*width);
@@ -441,6 +454,14 @@ public class Agent {
     public int getId() {
     	return id; 
     }
+    
+    
+    
+    public Point2D.Double getCenter() {
+		double x = (topLeft.getX()+bottomRight.getX())/2;
+		double y = (topLeft.getY()+bottomRight.getY())/2;
+		return new Point2D.Double(x,y);
+	}
     
     public void placeMarker(int type) {    	
     	Marker marker = new Marker(topLeft, type); 
