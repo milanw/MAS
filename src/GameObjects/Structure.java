@@ -11,7 +11,7 @@ public class Structure extends InanimateObject{
 
 	public Structure(Point2D x, Point2D y) {
 		super(x,y);
-		createDoorWindow();
+		//createDoorWindow();
 		
 	}
 	

@@ -220,7 +220,8 @@ public class Simulator {
 	}
 	
 	public void setFrame(MainFrame frame) {
-		this.frame = frame;		
+		this.frame = frame;	
+		
 	}
 	
 	public ArrayList<Agent> getAgents() {

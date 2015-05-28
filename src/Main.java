@@ -11,6 +11,7 @@ import GUI.MainFrame;
 import GameObjects.InanimateObject;
 import Map.Map;
 import Map.MapGenerator;
+import Map.MapImporter;
 import Simulation.Simulator;
 
 public class Main {
@@ -19,7 +20,8 @@ public class Main {
 	public static void main(String[] args){
 		int mapWidth = 200;
 		int mapHeight = 200;
-		map = new MapGenerator(mapWidth, mapHeight).getMap();
+		MapImporter importer = new MapImporter();
+		map = importer.importMap("pres.map"); //new MapGenerator(mapWidth, mapHeight).getMap();
 		//Map map = new Map(mapWidth, mapHeight, new ArrayList<InanimateObject>(), null);
 		InternalMap internalMap = new InternalMap(mapWidth, mapHeight); 
 		InfluenceMap influenceMap = new InfluenceMap(mapWidth, mapHeight);
@@ -40,11 +42,11 @@ public class Main {
 		agents.add(new SurveillanceAgent(position, new Point2D.Double(position.getX()+size, position.getY()+size), map));
 		position =new Point2D.Double(194, 194);
 		agents.add(new SurveillanceAgent(position, new Point2D.Double(position.getX()+size, position.getY()+size), map));
-		position = map.findEmptySpot(size);
+		position = new Point2D.Double(2, 100);
 		agents.add(new SurveillanceAgent(position, new Point2D.Double(position.getX()+size, position.getY()+size), map));
-		position = map.findEmptySpot(size);
+		position = new Point2D.Double(100, 194);
 		agents.add(new SurveillanceAgent(position, new Point2D.Double(position.getX()+size, position.getY()+size), map));
-		position = map.findEmptySpot(size);
+		position = new Point2D.Double(100, 2);
 		agents.add(new SurveillanceAgent(position, new Point2D.Double(position.getX()+size, position.getY()+size), map));
 		
 		

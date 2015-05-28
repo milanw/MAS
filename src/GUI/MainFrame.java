@@ -167,7 +167,7 @@ public class MainFrame extends JFrame {
 						"Enter map name",
 						JOptionPane.QUESTION_MESSAGE);
 
-				MapExporter mExp = new MapExporter(mapName, map); 
+				MapExporter mExp = new MapExporter(mapName, mapView.getMap()); 
 				try {
 					mExp.export();
 				} catch (IOException e1) {

@@ -246,6 +246,7 @@ public class MapViewer extends JComponent{
 			if (o != null) {
 				if (map.checkCollisions(map.getObjectRectangle(o)))
 					undoStack.push(new Map(map));
+				System.out.println("add");
 				map.addObject(o);
 			}
 			repaint(); 
@@ -282,6 +283,10 @@ public class MapViewer extends JComponent{
 		map = new Map(m); 
 		undoStack = new ArrayDeque<Map>();
 		repaint();
+	}
+	
+	public Map getMap() {
+		return map; 
 	}
 	
 	
