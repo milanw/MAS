@@ -43,13 +43,10 @@ public class SurveillanceAgent extends Agent{
     
     public void getMove() {
 		if (intruderEntered) {
-			//if (Simulator.intruder.isInVicinity(this))
+			if (isInSight(Simulator.intruder))
+				influenceMap.propagate(new InfluenceNode(Simulator.intruder.getDiscretePosition()[0], Simulator.intruder.getDiscretePosition()[1]), 0.8, 1);
 			//if (influenceMap.getInfluence(getDiscretePosition()) < 0.8)	{
-			if (!Simulator.intruder.isInVicinity(this)) {
-				greedy();
-			}
-			else
-				return;
+			greedy();
 			
 		}
 		else		

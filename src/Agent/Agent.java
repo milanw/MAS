@@ -368,6 +368,13 @@ public class Agent {
     public double getHearingRange() {
     	return hearingRange; 
     }
+    
+    public boolean isInSight(Agent a) {
+		if ((Math.abs(this.getCenter().getX() -a.getCenter().getX()) + Math.abs(this.getCenter().getY() -a.getCenter().getY())) < visionRange)
+			return true;
+		else
+			return false;
+	}
 
 
 }
