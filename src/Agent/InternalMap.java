@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import Agent.Astar.Astar;
+import Map.Map;
 
 //1 wall, , 3 explored, 4 visited
 
@@ -197,6 +198,19 @@ public class InternalMap {
 	
 	public int getCellWidth() {
 		return cellWidth; 
+	}
+	
+	public boolean explorationComplete(Map m) {
+		int[][] grid = m.getDiscretizedMap(cellWidth); 
+		
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid[0].length; j++) {
+				if (grid[i][j] != 1 && map[i][j] == 0) 
+					return false;
+			}
+		}
+		
+		return true;
 	}
 	
 	

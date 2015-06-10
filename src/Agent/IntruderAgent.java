@@ -14,6 +14,8 @@ public class IntruderAgent extends Agent{
 	private double sprintspeed = 3.0;
 	private int maxSprintTurn = 10;
     private int viewingAngle = 45;
+    //private static int defaultSize = 2;
+	
 	
 	public IntruderAgent(){
 		super();
@@ -40,7 +42,7 @@ public class IntruderAgent extends Agent{
 		}
 		
 		if (!queue.isEmpty()) {
-			Node move = queue.remove(0);
+			Node move = queue.get(0);
 			moveTo(new int[] {move.x, move.y});
 		}
 	}	
@@ -51,6 +53,31 @@ public class IntruderAgent extends Agent{
 		else
 			return false;
 	}
+	
+	/*
+	public void moveTo(int[] pos) {
+		lastPosition = pos;
+		int width = internalMap.getCellWidth();
+		
+		//topLeft = new Point2D.Double(pos[0]*width, pos[1]*width);
+		//bottomRight = new Point2D.Double(pos[0]*width+defaultSize, pos[1]*width+defaultSize);
+		Point2D center = this.getCenter();
+		double x0 = center.getX();
+		double y0 = center.getY();
+		double x1 = pos[0]*width + width/2;
+		double y1 = pos[1]*width + width/2;
+		
+		Point2D v = new Point2D.Double(x1 - x0, y1 - y0);
+		double vLength = Math.sqrt(Math.pow(v.getX(), 2) + Math.pow(v.getY(), 2));
+		Point2D u = new Point2D.Double(v.getX()/vLength, v.getY()/vLength);
+		topLeft.setLocation(topLeft.getX()+speed*u.getX(), topLeft.getY()+speed*u.getY());
+		bottomRight.setLocation(topLeft.getX()+defaultSize, topLeft.getY()+defaultSize);
+		
+		//has reached discrete position in queue?
+		if (isInPosition(pos))
+			queue.remove(0);
+		
+	}*/
 	
 	
 	

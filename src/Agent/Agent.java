@@ -25,8 +25,8 @@ public class Agent {
 	
 	protected int id; 
 	protected Map map; 
-    private double speed = 1.4;
-    private static int defaultSize = 4; 
+    protected double speed = 1.0; //1.4;
+    protected static int defaultSize = 4; 
 	private int maxTurn;
 	private boolean onSentryTower; 
 	protected double hearingRange; 
@@ -355,6 +355,14 @@ public class Agent {
 		double y = (topLeft.getY()+bottomRight.getY())/2;
 		return new Point2D.Double(x,y);
 	}
+    
+    public boolean isInPosition(int[] pos) {
+    	int[] current = this.getDiscretePosition();
+    	if (current[0] == pos[0] && current[1] == pos[1])
+    		return true;
+    	
+    	return false;
+    }
     
     public void placeMarker(int type) {    	
     	Marker marker = new Marker(topLeft, type); 

@@ -127,6 +127,8 @@ public class Simulator {
 
 	//needs some cleaning up
 	public void updateSimulation() {
+		if (Agent.internalMap.explorationComplete(map)) 
+			System.out.println("exploration complete");
 		if (goalZoneCounter >= 3) {
 			stopSimulation();
 			System.out.println("intruder won");
