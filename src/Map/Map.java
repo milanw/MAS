@@ -1,6 +1,8 @@
 package Map;
 
 import java.awt.Rectangle;
+import java.awt.Shape;
+import java.awt.geom.Arc2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
@@ -82,6 +84,32 @@ public class Map {
 			else if (a instanceof SurveillanceAgent)
 				surveillanceAgents.add((SurveillanceAgent) a); 			
 		}
+	}
+	
+	
+	public boolean checkVision() {
+		
+		for (IntruderAgent ia : intruderAgents) {
+			for (SurveillanceAgent sa : surveillanceAgents) {
+				
+				double iRange = ia.getHearingRange();
+				double sRange = sa.getHearingRange();
+				double angle = 45;
+				
+				Point2D.Double intruder = ia.getCenter();
+				Point2D.Double surveillance = sa.getCenter();
+				
+				Shape intruderView = new Arc2D.Double(intruder.getX()-iRange, intruder.getY()-iRange, 2*iRange, 2*iRange, (90 - angle/2), 45, 2);
+				Shape surveillanceView = new Arc2D.Double(surveillance.getX()-sRange, surveillance.getY()-sRange, 2*sRange, 2*sRange, (90 - angle/2), 45, 2);
+				
+				if(surveillanceView.contains(intruder))
+					System.out.println("Intruder spotted!");
+				if(intruderView.contains(surveillance))
+					System.out.println("Oh shit the cops!");
+			}
+		}
+		
+		return false;
 	}
 
 	public boolean checkAudio() {

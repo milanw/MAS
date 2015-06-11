@@ -18,6 +18,9 @@ import GUI.MapViewer;
 
 
 public class Simulator {
+	public static final double GAME_HERTZ = 5.0;	
+	public static final double TIME_BETWEEN_UPDATES = 1000000000 / GAME_HERTZ;
+	
 	private boolean simulationRunning = false;
 	private boolean simulationPaused = false;
 	private int fps = 60;
@@ -57,9 +60,7 @@ public class Simulator {
 
 	public void gameLoop() {
 		//This value would probably be stored elsewhere.
-		final double GAME_HERTZ = 5.0;
-		//Calculate how many ns each frame should take for our target game hertz.
-		final double TIME_BETWEEN_UPDATES = 1000000000 / GAME_HERTZ;
+		
 		timebetweenupdates = TIME_BETWEEN_UPDATES;
        // final double TIME_BETWEEN_UPDATES = 1000000000 ;// GAME_HERTZ;
 		//At the very most we will update the game this many times before a new render.
@@ -129,6 +130,8 @@ public class Simulator {
 	public void updateSimulation() {
 		if (Agent.internalMap.explorationComplete(map)) 
 			System.out.println("exploration complete");
+		
+		
 		if (goalZoneCounter >= 3) {
 			stopSimulation();
 			System.out.println("intruder won");
@@ -236,6 +239,9 @@ public class Simulator {
 		intruder = new IntruderAgent(topLeft, bottomRight, map); 
 		intruderSpawned = true;
 		//agents.add(intruder);
+		
+		agents.add(intruder);
+		map.setAgents(agents);
 	}
 	
 	
