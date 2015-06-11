@@ -3,6 +3,8 @@ package GUI;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Arc2D;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -59,7 +61,8 @@ public class MapViewer extends JComponent{
 	private Deque<Map> redoStack = new ArrayDeque<Map>(); 
 
 	private double factor = 2.0; 
-
+	private Shape arc;
+	
 	public MapViewer(Map map, ArrayList<Agent> agents, int width, int height) {		
 		this.map = map;
 		this.agents = agents; 
@@ -123,12 +126,40 @@ public class MapViewer extends JComponent{
 	}
 
 	public void paintVisionRange(Agent a, Graphics2D g) {
-		double range = a.getVisionRange();
+		double range = 20.0; //a.getVisionRange();
+		double angle = 45;
+		
+		double middleX = a.getCenter().getX();
+		double middleY = a.getCenter().getY();
+		
+		Point2D.Double midPoint = a.getCenter();
+		
+		double p1x = midPoint.getX() - range*Math.sin(angle);
+		double p1y = midPoint.getY() - range*Math.cos(angle);
+		
+		double p2x = midPoint.getX() + range*Math.sin(angle);
+		double p2y = midPoint.getY() - range*Math.cos(angle);
+		g.setColor(Color.BLACK);
+		
+		Point2D.Double p1 = new Point2D.Double(p1x, p1y);
+		Point2D.Double p2 = new Point2D.Double(p2x, p2y);
+		
+		Shape arc = new Arc2D.Double(scale(middleX-range), scale(middleY-range), scale(2*range), scale(2*range), (int)(90 - angle/2), 45, 2);
+		this.arc = arc;	
+		
+		Color c = new Color(1f, 0f, 0f, 0.3f);
+		g.setColor(c);
+		g.fill(arc);
+		
+		
+	}
+	
+	public void paintHearingRange(Agent a, Graphics2D g) {
+		double range = a.getHearingRange();
 		double middleX = (a.getTopLeft().getX() + a.getBottomRight().getX()) / 2.0;
 		double middleY = (a.getTopLeft().getY() + a.getBottomRight().getY()) / 2.0;
-		g.setColor(Color.BLACK);
-		//System.out.println((middleX-range) + " " +scale(middleX-range));
-		g.drawOval(scale(middleX-range), scale(middleY-range), scale(2*range), scale(2*range));		
+		g.setColor(Color.RED);
+		g.drawOval(scale(middleX-range), scale(middleY-range), scale(2*range), scale(2*range));;
 	}
 
 	/* 

@@ -138,8 +138,11 @@ public class Simulator {
 		}
 		
 		Agent.influenceMap.decay();
+		
+		//this prevents comodification exceptions
 		if (intruderSpawned) {
-			agents.add(intruder); 
+			agents.add(intruder); 			
+			map.setAgents(agents);
 			intruderSpawned = false;
 		}
 		if (intruder != null) {
@@ -238,10 +241,6 @@ public class Simulator {
 		Point2D bottomRight = new Point2D.Double(4+Agent.getSize(), 4+Agent.getSize());
 		intruder = new IntruderAgent(topLeft, bottomRight, map); 
 		intruderSpawned = true;
-		//agents.add(intruder);
-		
-		agents.add(intruder);
-		map.setAgents(agents);
 	}
 	
 	

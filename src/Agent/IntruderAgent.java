@@ -42,7 +42,7 @@ public class IntruderAgent extends Agent{
 		}
 		
 		if (!queue.isEmpty()) {
-			Node move = queue.get(0);
+			Node move = queue.remove(0);
 			moveTo(new int[] {move.x, move.y});
 		}
 	}	
