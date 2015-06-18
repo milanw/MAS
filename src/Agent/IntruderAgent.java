@@ -83,7 +83,7 @@ public class IntruderAgent extends Agent{
 	
 
 	public ArrayList<Node> findPath(Point2D to) {
-		int[] start = getDiscretePosition();
+		int[] start = getDiscretePosition2();
 		int[] goal = map.getDiscretePosition(to, 5);
 		AStarSearch a = new AStarSearch(map.getDiscretizedMap(5));
 		

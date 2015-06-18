@@ -3,6 +3,7 @@ import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.swing.JFrame;
 
@@ -137,7 +138,7 @@ public class Simulator {
 		if (Agent.internalMap.explorationComplete(map)) {
 			long time = System.currentTimeMillis() - start;
 			System.out.println(steps + "exploration complete: " + time + "ms, real wall percent: " + map.wallPercent()+ ", internal wall percent: " + Agent.internalMap.wallPercent() + ", grid size: " + Agent.internalMap.getCellWidth());
-			stopSimulation();
+			
 			
 		}
 		
@@ -147,13 +148,14 @@ public class Simulator {
 			System.out.println("intruder won");
 		}
 		
-		Agent.influenceMap.decay();
+		//Agent.influenceMap.decay();
+		Agent.influenceMap.propagate2();
 		Agent.recentMap.increment();
 		
 		//this prevents comodification exceptions
 		if (intruderSpawned) {
 			agents.add(intruder); 			
-			map.setAgents(agents);
+			//map.setAgents(agents);
 			intruderSpawned = false;
 		}
 		if (intruder != null) {
@@ -175,6 +177,9 @@ public class Simulator {
 			a.getMove();
 			
 		}
+
+		//Agent.influenceMap.propagate2();
+		
 
 		developerFrame.repaint();
 		//if (intruder != null) intruder.getMove();
@@ -248,10 +253,34 @@ public class Simulator {
 	}
 	
 	public void spawnIntruder() {
-		Point2D topLeft = new Point2D.Double(4,4); 
-		Point2D bottomRight = new Point2D.Double(4+Agent.getSize(), 4+Agent.getSize());
+		Point2D topLeft =  findSpawnPoint();//new Point2D.Double(150,4); 
+		Point2D bottomRight = new Point2D.Double(topLeft.getX()+Agent.getSize(), topLeft.getY()+Agent.getSize());
 		intruder = new IntruderAgent(topLeft, bottomRight, map); 
 		intruderSpawned = true;
+	}
+	
+	public Point2D findSpawnPoint() {
+		Point2D point = new Point2D.Double();
+		Random rnd = new Random();
+		boolean horizontal = rnd.nextBoolean(); 
+		boolean side = rnd.nextBoolean();
+		
+		
+		if (horizontal) {
+			if (side) 
+				point.setLocation(rnd.nextInt(map.getWidth()), 4);			
+			else 
+				point.setLocation(rnd.nextInt(map.getWidth()), 194);
+		}
+		else {
+			if (side) 
+				point.setLocation(4, rnd.nextInt(map.getHeight()));			
+			else 
+				point.setLocation(194, rnd.nextInt(map.getHeight()));
+			
+		}
+		//System.out.println(point);
+		return point;
 	}
 	
 	
