@@ -8,21 +8,23 @@ import java.util.ArrayList;
 
 public class InfluenceMap {
 	private static double POSITIVE_DECAY = 0.9;
-	private static double NEGATIVE_DECAY = 0.8; 
+	private static double NEGATIVE_DECAY = 0.9; 
 	private int width;
 	private int height; 
 	private double[][] positiveMap; 
 	private double[][] negativeMap;
 	private double[][] map; 
 	
+	
 	private int cellWidth = 5;
 
-	public InfluenceMap(int width, int height) {
-		this.width = width/cellWidth;
-		this.height = height/cellWidth; 
+	public InfluenceMap(int w, int h) {
+		this.width = w/cellWidth;
+		this.height = h/cellWidth; 
 		this.positiveMap = new double[this.height][this.width];
 		this.negativeMap = new double[this.height][this.width];
 		this.map = new double[this.height][this.width];
+		
 	}
 
 	
@@ -30,7 +32,7 @@ public class InfluenceMap {
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[0].length; j++) {
 				negativeMap[i][j] *= NEGATIVE_DECAY;
-				positiveMap[i][j] *= POSITIVE_DECAY;
+				//positiveMap[i][j] *= POSITIVE_DECAY;
 				map[i][j] = positiveMap[i][j] + negativeMap[i][j];
 			}			
 		}
@@ -46,6 +48,7 @@ public class InfluenceMap {
 					negativeMap[i][j] = Math.max(-1.0, negativeMap[i][j]);
 				}
 				else {
+					positiveMap[i][j] = 0; //POSITIVE_DECAY;
 					positiveMap[i][j] += Math.pow(propagationConstant, distance);
 					positiveMap[i][j] = Math.min(1.0, positiveMap[i][j]);
 				}
@@ -73,6 +76,17 @@ public class InfluenceMap {
 		return neighbours;
 	}
 	
+	public ArrayList<InfluenceNode> getSurrounding(InfluenceNode node, int distance) {
+		ArrayList<InfluenceNode> surrounding = new ArrayList<InfluenceNode>();
+		for (int i = Math.max(0, node.y-distance); i < Math.min(node.y+distance, map.length); i++) {
+			for (int j = Math.max(0, node.x-distance); j < Math.min(node.x+distance, map[0].length); j++) {
+				surrounding.add(new InfluenceNode(j, i, map[i][j]));
+			}
+		}
+		
+		return surrounding; 
+	}
+	
 	
 	
 	public double[][] getMap() {
@@ -95,9 +109,23 @@ public class InfluenceMap {
 		return negativeMap;
 	}
 	
+	public InfluenceNode getBiggest() {
+		double biggest = Double.MIN_VALUE;
+		InfluenceNode best = new InfluenceNode(0,0);
+		for (int i = 0; i < map.length; i++) {
+			for (int j = 0; j < map[0].length; j++) {
+				if (map[i][j] > biggest) {
+					biggest = map[i][j];
+					best = new InfluenceNode(j,i);
+				}
+			}
+		}
+		return best; 
+	}
+	
 	public static void main(String[] args) {
 		InfluenceMap m = new InfluenceMap(100, 100);
-		m.propagate(new InfluenceNode(5,5), 0.9, 1);
+		m.propagate(new InfluenceNode(0,0), 0.9, 1);
 		//m.propagate2(new Node(10,10));
 		
 		double[][] grid = m.getPositiveMap(); 

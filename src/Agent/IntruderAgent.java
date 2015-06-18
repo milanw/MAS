@@ -91,11 +91,19 @@ public class IntruderAgent extends Agent{
 		
 	}
 	
+	
 	public int[] getDiscretePosition() {
 		int ax = (int)(topLeft.getX()+bottomRight.getX()/2.0) / 5;
 		int ay = (int)(topLeft.getY()+bottomRight.getY()/2.0) / 5;
 		return new int[] {ax, ay};
 		
+	}
+	
+	public int[] getDiscretePosition2() {
+		int x = (int)topLeft.getX() / internalMap.getCellWidth(); 
+		int y = (int)topLeft.getY() / internalMap.getCellWidth();
+		
+		return new int[] {x, y};		
 	}
 	
 	

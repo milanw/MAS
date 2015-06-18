@@ -111,5 +111,9 @@ public class Structure extends InanimateObject{
     public int getSize() {
     	return defaultSize; 
     }
+    
+    public static int getDefaultSize() {
+    	return defaultSize;
+    }
 
 }

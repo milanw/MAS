@@ -12,7 +12,7 @@ import GameObjects.Structure;
 public class MapGenerator {
 	private ArrayList<InanimateObject> map = new ArrayList<InanimateObject>();
 	private GoalZone goalZone;
-	private int structureAmount = 15;
+	private int structureAmount = 4;
 	private int sentrytowerAmount = 4;
 	private int height;
 	private int width;
@@ -49,7 +49,7 @@ public class MapGenerator {
 		return map;
 	}
 	
-	public void addStructures(){
+	/*public void addStructures(){
 		int samount = structureAmount;
 		while(0<samount){
 			double x = 2+Math.random()*width-2;
@@ -86,6 +86,44 @@ public class MapGenerator {
 			}
 	
 		}
+	} */
+	
+	public void addStructures(){
+		int samount = structureAmount;
+		//System.out.println("sentryamount = "+ samount);
+		while(0<samount){
+		double x = 2+Math.random()*width-2;
+		double y = 2+Math.random()*height-2;
+		double nx = x + (Structure.getDefaultSize());
+		double ny = y + (Structure.getDefaultSize());
+		while(nx>width || ny>height){
+			x = 2+Math.random()*width-2;
+			y = 2+Math.random()*height-2;
+			nx = x + (Structure.getDefaultSize());
+			ny = y + (Structure.getDefaultSize());
+		}
+
+		Point2D.Double topleft = new Point2D.Double(x, y);
+		Point2D.Double bottomright = new Point2D.Double(nx, ny);
+		Point2D.Double topright = new Point2D.Double(nx, y);
+		Point2D.Double bottomleft = new Point2D.Double(x, ny);
+		Point2D.Double middlePoint = new Point2D.Double(nx-x,ny-y);
+		if(emptySpot(topleft) && emptySpot(bottomright) && emptySpot(topright)&&emptySpot(bottomleft)&&emptySpot(middlePoint)){
+			Structure s = new Structure(topleft, bottomright);
+			boolean m = false;
+			for(int j = 0;j<map.size();j++){
+				if(s.isInside(map.get(j).getTopLeft()) == true){
+					m = true;
+				}
+			}
+			if(m == false){
+				map.add(s);
+				samount--;
+				//System.out.println("sentyamount = " + samount);
+			}
+		}
+		}
+
 	}
 	
 	public void addSentryTowers(){

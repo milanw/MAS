@@ -11,6 +11,7 @@ import Agent.Astar.Astar;
 import Agent.Astar.Node;
 import Agent.InfluenceMap.InfluenceMap;
 import Agent.InfluenceMap.InfluenceNode;
+import Agent.InfluenceMap.RecentMap;
 import GameObjects.GoalZone;
 import GameObjects.Marker;
 import Map.Map;
@@ -21,6 +22,7 @@ public class Agent {
 	private static ArrayList<Agent> agents = new ArrayList<Agent>();
 	public static InternalMap internalMap;
 	public static InfluenceMap influenceMap;
+	public static RecentMap recentMap; 
 	
 	
 	protected int id; 

@@ -4,7 +4,10 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
 
+import Agent.Astar.AStarSearch;
+import Agent.Astar.Node;
 import Agent.InfluenceMap.InfluenceNode;
+import GameObjects.GoalZone;
 import Map.Map;
 import Simulation.Simulator;
 
@@ -12,6 +15,8 @@ public class SurveillanceAgent extends Agent{
     public boolean onSentryTower;
     public int viewingAngle = 45;
     private boolean explorationFinished = false;
+    private static boolean intruderDetected = false;
+    private static int[] lastIntruderPos; 
 	
 
 	public SurveillanceAgent(){
@@ -43,10 +48,30 @@ public class SurveillanceAgent extends Agent{
     
     public void getMove() {
 		if (intruderEntered) {
-			if (isInSight(Simulator.intruder))
-				influenceMap.propagate(new InfluenceNode(Simulator.intruder.getDiscretePosition()[0], Simulator.intruder.getDiscretePosition()[1]), 0.8, 1);
+			internalMap.setMap(map.getDiscretizedMap(5));
+			if (isInSight(Simulator.intruder)) {
+				influenceMap.propagate(new InfluenceNode(Simulator.intruder.getDiscretePosition2()[0], Simulator.intruder.getDiscretePosition2()[1]), 0.95, 1);
+				intruderDetected = true;
+				int[] goal = new int[] {Simulator.intruder.getDiscretePosition()[0], Simulator.intruder.getDiscretePosition()[1]};
+				AStarSearch a = new AStarSearch(map.getDiscretizedMap(5));	
+				int[] start = getDiscretePosition();
+				queue = a.findPath(new Node(start[0], start[1]), new Node(goal[0], goal[1]));
+			}
 			//if (influenceMap.getInfluence(getDiscretePosition()) < 0.8)	{
-			greedy();
+			//greedy3();
+			if (intruderDetected) {
+				if (!queue.isEmpty()) {
+					Node move = queue.remove(0);
+					moveTo(new int[] {move.x, move.y});
+				}
+				else {
+					
+					greedy();
+				}
+			}
+			
+			else 
+				leastTravelled();
 			
 		}
 		else		
@@ -54,12 +79,17 @@ public class SurveillanceAgent extends Agent{
 		/*if(Simulator.intruder != null && !Simulator.intruder.isInVicinity(this))
 			influenceMap.propagate(new InfluenceNode(getDiscretePosition()[0], getDiscretePosition()[1]), 0.6, -1);*/
 		
-		influenceMap.propagate(new InfluenceNode(getDiscretePosition()[0], getDiscretePosition()[1]), 0.6, -1);
+		influenceMap.propagate(new InfluenceNode(getDiscretePosition()[0], getDiscretePosition()[1]), 0.5, -1);
 	}
+    
+    public void leastTravelled() {
+    	int[] destination = recentMap.findBest(getDiscretePosition()); 	
+    	moveTo(destination);    	
+    }
 	
 	public void greedy() {
 		
-		internalMap.setMap(map.getDiscretizedMap(5));
+		
 		ArrayList<InfluenceNode> adjacent = influenceMap.getNeighbours(new InfluenceNode(getDiscretePosition()[0], getDiscretePosition()[1])); 
 		double[][] influence = influenceMap.getMap();
 		int[][] internal = internalMap.getMap();
@@ -67,11 +97,13 @@ public class SurveillanceAgent extends Agent{
 		int[] bestCell = new int[2]; 
 		int[] secondBestCell = new int[2]; 
 		
+		
 		for (InfluenceNode node : adjacent) {
 			
 			if (internal[node.y][node.x] == 1)
 				continue;
 			
+			//System.out.print(influence[node.y][node.x] + " ");
 			if (influence[node.y][node.x] > bestValue) {
 				bestValue = influence[node.y][node.x];
 				secondBestCell = bestCell;
@@ -83,7 +115,13 @@ public class SurveillanceAgent extends Agent{
 			moveTo(secondBestCell);
 		else
 			moveTo(bestCell);
+		
+		//System.out.println("\n" + bestValue);
 	}
+	
+	
+	
+	
 	public void brickAndMortar() {
 		int[] pos = getDiscretePosition(); 
 		detectWalls(pos);

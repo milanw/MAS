@@ -236,7 +236,27 @@ public class Map {
 		Rectangle agentRect= getAgentRectangle(a);
 
 		return goalRect.intersects(agentRect);
-
+	}
+	
+	public double wallPercent() {
+		double wall = 0;
+		for (InanimateObject o : gameObjects) {
+			wall += (o.getHeight()*o.getWidth()); 
+		}
+		return (wall/(width*height)) *100;
+		
+	}
+	
+	public double discreteWallPercent(int s) {
+		int[][] map = getDiscretizedMap(s);
+		double wall = 0;
+		for (int i = 0; i < map.length; i++) {
+			for (int j = 0; j < map[0].length; j++) {
+				if (map[i][j] == 1)
+					wall += 1; 
+			}
+		}
+		return (wall/(map.length*map[0].length)) *100;
 	}
 }
 

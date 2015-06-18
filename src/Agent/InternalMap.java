@@ -213,5 +213,16 @@ public class InternalMap {
 		return true;
 	}
 	
+	public double wallPercent() {
+		double wall = 0;
+		for (int i = 0; i < map.length; i++) {
+			for (int j = 0; j < map[0].length; j++) {
+				if (map[i][j] == 1 || map[i][j] == 0)
+					wall += 1; 
+			}
+		}
+		return (wall/(map.length*map[0].length)) *100;
+	}
+	
 	
 }

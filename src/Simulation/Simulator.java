@@ -33,6 +33,8 @@ public class Simulator {
 	public static IntruderAgent intruder;
 	private boolean intruderSpawned = false;
 	private int goalZoneCounter = 0;
+	private long start;
+	private int steps = 0;
     
 	private double timebetweenupdates;
 	DeveloperFrame developerFrame = new DeveloperFrame(Agent.internalMap, Agent.influenceMap);
@@ -46,6 +48,7 @@ public class Simulator {
 	
 
 	public void startSimulation() {
+		start = System.currentTimeMillis();
 		map = frame.getMap();
 		map.resetMarkers();
 		simulationRunning = true; 
@@ -89,6 +92,7 @@ public class Simulator {
 					//System.out.println("Time = " + TIME_BETWEEN_UPDATES);
 					lastUpdateTime += TIME_BETWEEN_UPDATES;
 					updateCount++;
+					
 				}
 
 				//If for some reason an update takes forever, we don't want to do an insane number of catchups.
@@ -105,7 +109,7 @@ public class Simulator {
 				//Update the frames we got.
 				int thisSecond = (int) (lastUpdateTime / 1000000000);
 				if (thisSecond > lastSecondTime) {
-					//ystem.out.println("NEW SECOND " + thisSecond + " " + frameCount);
+					//System.out.println("NEW SECOND " + thisSecond + " " + frameCount);
 					fps = frameCount;
 					frameCount = 0;
 					lastSecondTime = thisSecond;
@@ -124,20 +128,27 @@ public class Simulator {
 				}
 			}
 		}
+		
 	}
 
 	//needs some cleaning up
 	public void updateSimulation() {
-		if (Agent.internalMap.explorationComplete(map)) 
-			System.out.println("exploration complete");
+		steps++;
+		if (Agent.internalMap.explorationComplete(map)) {
+			long time = System.currentTimeMillis() - start;
+			System.out.println(steps + "exploration complete: " + time + "ms, real wall percent: " + map.wallPercent()+ ", internal wall percent: " + Agent.internalMap.wallPercent() + ", grid size: " + Agent.internalMap.getCellWidth());
+			stopSimulation();
+			
+		}
 		
 		
 		if (goalZoneCounter >= 3) {
-			stopSimulation();
+			//stopSimulation();
 			System.out.println("intruder won");
 		}
 		
 		Agent.influenceMap.decay();
+		Agent.recentMap.increment();
 		
 		//this prevents comodification exceptions
 		if (intruderSpawned) {
@@ -157,7 +168,7 @@ public class Simulator {
 			}
 			else  */
 			if (intruder != null && a instanceof SurveillanceAgent && intruder.isInVicinity(a)) {
-				stopSimulation();
+				//stopSimulation();
 				System.out.println("guards win");
 			}
 				
