@@ -148,8 +148,8 @@ public class Simulator {
 			System.out.println("intruder won");
 		}
 		
-		//Agent.influenceMap.decay();
-		Agent.influenceMap.propagate2();
+		Agent.influenceMap.decay();
+		
 		Agent.recentMap.increment();
 		
 		//this prevents comodification exceptions
