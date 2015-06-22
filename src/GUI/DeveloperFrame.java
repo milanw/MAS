@@ -11,6 +11,8 @@ import Agent.InfluenceMap.InfluenceMap;
 public class DeveloperFrame extends JFrame {
 	private InternalMap internalMap; 
 	private InfluenceMap influenceMap; 
+	private InternalMapComponent component; 
+	private InfluenceMapComponent influenceComponent;
 
 	public DeveloperFrame(InternalMap internalMap, InfluenceMap influenceMap) {
 		this.influenceMap = influenceMap; 
@@ -24,13 +26,19 @@ public class DeveloperFrame extends JFrame {
 
 		//map view
 		JPanel panel = new JPanel();
-		InternalMapComponent component = new InternalMapComponent(internalMap);
-		InfluenceMapComponent influenceComponent = new InfluenceMapComponent(influenceMap);
+		component = new InternalMapComponent(internalMap);
+		influenceComponent = new InfluenceMapComponent(influenceMap);
 		component.setPreferredSize(new Dimension(300, 300));
 		influenceComponent.setPreferredSize(new Dimension(300, 300));
 		panel.add(component);
 		panel.add(influenceComponent);
 		this.getContentPane().add(panel);
 		this.setVisible(true);
+	}
+	
+	public void reset(InfluenceMap inf, InternalMap in) {
+		component.reset(in);
+		influenceComponent.reset(inf);
+		repaint();
 	}
 }

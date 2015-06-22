@@ -318,6 +318,11 @@ public class MainFrame extends JFrame {
 	public Map getMap() {
 		return map;
 	}
+	
+	public void reset(ArrayList<Agent> agents) {
+		mapView.reset(agents);
+		repaint();
+	}
 
     public MapViewer getMapViewer() { return mapView; }
 	/*

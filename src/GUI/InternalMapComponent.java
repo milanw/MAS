@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import javax.swing.JComponent;
 
 import Agent.InternalMap;
+import Agent.InfluenceMap.InfluenceMap;
 
 public class InternalMapComponent extends JComponent {
 	private InternalMap map; 
@@ -37,5 +38,9 @@ public class InternalMapComponent extends JComponent {
 		g2d.drawString("Explored", 10, 240);
 		g2d.setColor(Color.BLUE);
 		g2d.drawString("Visited", 10, 260);
+	}
+	
+	public void reset(InternalMap in) {
+		map = in; 
 	}
 }

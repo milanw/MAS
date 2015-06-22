@@ -395,5 +395,10 @@ public class MapViewer extends JComponent{
         GraphicsDevice gd = ge.getDefaultScreenDevice();
         return gd.getDefaultConfiguration();
     }
+    
+    public void reset(ArrayList<Agent> a) {
+    	agents = a;
+    	repaint();
+    }
 }
 

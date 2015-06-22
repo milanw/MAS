@@ -8,10 +8,12 @@ import java.util.Random;
 import javax.swing.JFrame;
 
 import Agent.Agent;
+import Agent.InternalMap;
 import Agent.IntruderAgent;
 import Agent.SurveillanceAgent;
 import Agent.InfluenceMap.InfluenceMap;
 import Agent.InfluenceMap.InfluenceNode;
+import Agent.InfluenceMap.RecentMap;
 import GUI.DeveloperFrame;
 import GUI.MainFrame;
 import Map.Map;
@@ -225,12 +227,20 @@ public class Simulator {
 	
 	public void stopSimulation() {
 		simulationRunning = false;
+		Agent.internalMap = new InternalMap(map.getWidth(), map.getHeight()); 
+		Agent.influenceMap = new InfluenceMap(map.getWidth(), map.getHeight());
+		Agent.recentMap = new RecentMap(map.getWidth(), map.getHeight(), map.getDiscretizedMap(5));
+		developerFrame.reset(Agent.influenceMap, Agent.internalMap);
+		
 		
 		//reset agent locations
-		for (Agent a : agents) {
-			//a.setTopLeft(map.findEmptySpot(a.getSize()));
-			//a.setBottomRight(new Point2D.Double(a.getX()+a.getSize(), a.getY()+a.getSize()));
+		ArrayList<Agent> newAgents = new ArrayList<Agent>();
+		for (int i = 0; i < agents.size(); i++) {
+			Point2D position = map.findEmptySpot(4);
+			newAgents.add(new SurveillanceAgent(position, new Point2D.Double(position.getX()+Agent.getSize(), position.getY()+Agent.getSize()), map));
 		}
+		agents = newAgents;
+		frame.reset(newAgents);
 		
 		
 	}

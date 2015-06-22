@@ -45,4 +45,8 @@ private InfluenceMap map;
 	    	
 	    return c; 
 	}
+	
+	public void reset(InfluenceMap inf) {
+		map = inf; 
+	}
 }
